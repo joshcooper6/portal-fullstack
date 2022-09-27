@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Cookies from "universal-cookie";
+import logo from '../assets/logo.png';
 const cookies = new Cookies();
 
 export default function Account(props: any) {
@@ -90,7 +91,7 @@ export default function Account(props: any) {
           })
       };
 
-      const fs = "border rounded-xl p-6 text-xl focus:bg-blue-500 focus:text-white w-full";
+      const fs = "border rounded-xl md:p-6 p-4 text-xl focus:bg-blue-500 w-full active:shadow-lg";
       
       const buttonToggle = (e: any) => {
         e.preventDefault();
@@ -98,9 +99,13 @@ export default function Account(props: any) {
       };
 
       return (
-        <div className="flex flex-col min-h-screen min-w-screen align-center text-center justify-center">
-          <div className="flex flex-col gap-2 max-w-2xl self-center w-3/4 border p-6 rounded-xl">
-            <p className='font-bold text-8xl tracking-tighter uppercase text-left'>{formStatus.title}</p>
+        <div className="flex flex-col min-h-screen min-w-screen align-center text-center justify-center ">
+          <div className="flex flex-col  gap-2 max-w-2xl self-center w-3/4 border p-6 rounded-xl shadow-xl">
+
+            <div className="flex flex-row-reverse justify-between w-full p-6 gap-2">
+              <p className='font-bold lg:text-8xl self-center md:text-6xl text-5xl tracking-tighter uppercase text-left'>{formStatus.title}</p>
+              <img src={logo} alt="UCL logo" className="invert w-1/3 h-1/2" />
+            </div>
             <form className='flex flex-col self-center gap-2 w-full'>
               <input tabIndex={1} onChange={hc} type="text" name="username" placeholder="Username" className={fs} />
               <input tabIndex={2} onChange={hc} type="password" name="password" placeholder="Password" className={fs} />
