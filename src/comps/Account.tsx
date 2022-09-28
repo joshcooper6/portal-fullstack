@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -100,12 +100,13 @@ export default function Account(props: any) {
 
       return (
         <div className="flex flex-col min-h-screen min-w-screen align-center text-center justify-center ">
-          <div className="flex flex-col  gap-2 max-w-2xl self-center w-3/4 border p-6 rounded-xl shadow-xl">
+          <div className="flex flex-col gap-2 max-w-2xl self-center w-3/4 border p-6 rounded-xl shadow-xl">
 
-            <div className="flex flex-row-reverse justify-between w-full p-6 gap-2">
-              <p className='font-bold lg:text-8xl self-center md:text-6xl text-5xl tracking-tighter uppercase text-left'>{formStatus.title}</p>
+            <div className="flex flex-row-reverse justify-between self-center p-6 gap-2">
+              <p className='font-bold self-center md:text-6xl text-5xl tracking-tighter uppercase text-left'>{formStatus.title}</p>
               <img src={logo} alt="UCL logo" className="invert w-1/3 h-1/2" />
             </div>
+
             <form className='flex flex-col self-center gap-2 w-full'>
               <input tabIndex={1} onChange={hc} type="text" name="username" placeholder="Username" className={fs} />
               <input tabIndex={2} onChange={hc} type="password" name="password" placeholder="Password" className={fs} />
@@ -113,7 +114,10 @@ export default function Account(props: any) {
               {serverMsg.length > 0 && <p className="font-bold">{serverMsg}</p>}
               <button tabIndex={4} onClick={buttonToggle} className={fs}>{formStatus.button}</button>
             </form>
+
           </div>
+
+          { cookies.get('session-token') && <Navigate to="/auth" /> }
         </div>
       );
 }

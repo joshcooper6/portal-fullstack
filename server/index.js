@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 const auth = require('./auth');
 const Cookies = require('universal-cookie');
 const CookieSession = require('./models/CookieSession');
+const Food = require("./models/FoodInventory");
+const { query } = require("express");
 const cookies = new Cookies();
 
 app.use(express.urlencoded({ extended: true }));
@@ -43,7 +45,10 @@ app.post('/register', async (req, res) => {
             const token = jwt.sign(
               {
                 userId: user._id,
-                username: user.username
+                username: user.username,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName
               },
               "RANDOM-TOKEN",
               { expiresIn: "24h" }
@@ -87,6 +92,9 @@ app.post("/login", async (request, response) => {
                         {
                           userId: user._id,
                           username: user.username,
+                          email: user.email,
+                          firstName: user.firstName,
+                          lastName: user.lastName
                         },
                         "RANDOM-TOKEN",
                         { expiresIn: "24h" }
@@ -114,10 +122,67 @@ app.post("/login", async (request, response) => {
         }) 
 });
 
+app.get('/foodInventory', async (request, response) => {
+  response.send({connect: true, message: 'time to send your food!'})
+  console.log(request.body)
+});
+
+app.post('/foodInventory', async (request, response) => {
+  const data = request.body;
+  response.send({message: 'Use /createFood or /updateFood instead.'})
+
+  // await Food.create({
+  //   id: data.id,
+  //   name: data.name,
+  //   vendor: data.vendor,
+  //   group: data.group
+  // }).then(() => {
+  //   response.send({success: true, message: 'Food has been added to DB!'})
+  // }).catch((err) => {
+  //   response.send({success: false, message: 'It looks like this item exists or the data has not been filled out.', err})
+  // })
+
+  // await Food.updateMany({ vendor: 'crafted' }, { afternoon: false }).then(() => {
+  //   response.send({ success: true, message: 'All items have been updated!'})
+  // }).catch((err) => {
+  //   response.send({success: false, message: 'Could not update', err})
+  // })
+});
+
+app.post('/createFood', async (req, res) => {
+      const data = req.body;
+  
+      await Food.create({
+      id: data.id,
+      name: data.name,
+      vendor: data.vendor,
+      group: data.group
+    }).then(() => {
+      res.send({success: true, message: 'Food has been added to DB!'})
+    }).catch((err) => {
+      res.send({success: false, message: 'It looks like this item exists or the data has not been filled out.', err})
+    })
+});
+
+app.post('/updateFood', async (req, res) => {
+
+    const query = req.body.query;
+    const changeThis = req.body.changeThis;
+
+    console.log(query, changeThis)
+
+    await Food.updateMany(query, changeThis).then(() => {
+      res.send({ success: true, message: 'All items have been updated!'})
+    }).catch((err) => {
+      res.send({success: false, message: 'Could not update', err})
+    })
+
+});
+
 app.get("/auth", auth, async (request, response) => {
 
 });
-  
+
 
 app.listen(PORT, () => {
     console.log(`Server is connected to port ${PORT}`)
