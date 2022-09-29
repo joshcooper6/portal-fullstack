@@ -12,6 +12,9 @@ const CookieSession = require('./models/CookieSession');
 const Food = require("./models/FoodInventory");
 const { query } = require("express");
 const cookies = new Cookies();
+const dayString = require('./dayString');
+const timeString = require('./timeString');
+const SERVER_DATE = new Date();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,7 +24,10 @@ dbConnect();
 
 app.get('/', (req, res) => {
   res.send({
-    message: 'hello'
+    message: 'Accessing initial time data',
+    date: SERVER_DATE.toString(),
+    timeOfDay: timeString(SERVER_DATE),
+    dayOfWeek: dayString(SERVER_DATE)
   });
 });
 
