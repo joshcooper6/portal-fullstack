@@ -34,6 +34,13 @@ app.get('/', async (req, res) => {
   });
 });
 
+app.get('/removesomething', async (req, res) => {
+
+  res.send({
+   message: 'okay',
+  });
+});
+
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
@@ -185,7 +192,15 @@ app.post('/createFood', async (req, res) => {
       id: data.id,
       name: data.name,
       vendor: data.vendor,
-      group: data.group
+      group: data.group,
+      sunday: data.sunday,
+      monday: data.monday,
+      tuesday: data.tuesday,
+      wednesday: data.tuesday,
+      wednesday: data.wednesday,
+      thursday: data.thursday,
+      friday: data.friday,
+      saturday: data.saturday
     }).then(() => {
       res.send({success: true, message: 'Food has been added to DB!'})
     }).catch((err) => {
