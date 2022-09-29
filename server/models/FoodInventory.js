@@ -16,6 +16,7 @@ const FoodSchema = new Mongoose.Schema({
     },
     "positions": {
         type: Object,
+        default: {},
         required: [true, "Please provide group/subgroup/listPosition for this element."]
     },
     "morning": {

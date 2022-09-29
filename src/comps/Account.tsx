@@ -60,7 +60,7 @@ export default function Account(props: any) {
         }; 
 
         if (x.message === 'invalid-information') {
-          quickMsgChange('Account is invalid! Please try again...')
+          quickMsgChange('Information is invalid! Please try again...')
         };
 
         if (x.message === 'user-not-found') {

@@ -34,6 +34,16 @@ app.get('/', async (req, res) => {
   });
 });
 
+app.get('/getFood', async (req, res) => {
+  res.send({
+    message: 'food-loaded',
+    date: SERVER_DATE.toString(),
+    day: DAY_OF_WEEK,
+    time: TIME_OF_DAY,
+    food: await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
+  });
+});
+
 app.get('/removeFromAllFood', async (req, response) => {
 
   const query = req.body.query;
@@ -191,7 +201,6 @@ app.post('/createFood', async (req, res) => {
         sunday: data.sunday,
         monday: data.monday,
         tuesday: data.tuesday,
-        wednesday: data.tuesday,
         wednesday: data.wednesday,
         thursday: data.thursday,
         friday: data.friday,
