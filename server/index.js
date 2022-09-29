@@ -15,6 +15,8 @@ const cookies = new Cookies();
 const dayString = require('./dayString');
 const timeString = require('./timeString');
 const SERVER_DATE = new Date();
+const DAY_OF_WEEK = dayString(SERVER_DATE);
+const TIME_OF_DAY = timeString(SERVER_DATE);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -22,12 +24,13 @@ app.use(cors());
 
 dbConnect();
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   res.send({
-    message: 'Accessing initial time data',
+    message: 'food-loaded',
     date: SERVER_DATE.toString(),
-    timeOfDay: timeString(SERVER_DATE),
-    dayOfWeek: dayString(SERVER_DATE)
+    day: DAY_OF_WEEK,
+    time: TIME_OF_DAY,
+    food: await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
   });
 });
 
