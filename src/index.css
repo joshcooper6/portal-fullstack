@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.transition_ease {
+  transition: 3s ease;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
