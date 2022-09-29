@@ -19,6 +19,12 @@ app.use(cors());
 
 dbConnect();
 
+app.get('/', (req, res) => {
+  res.send({
+    message: 'hello'
+  });
+});
+
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
@@ -123,13 +129,27 @@ app.post("/login", async (request, response) => {
 });
 
 app.get('/foodInventory', async (request, response) => {
-  response.send({connect: true, message: 'time to send your food!'})
-  console.log(request.body)
+  response.send({connect: true, message: 'time to send your food!'});
+  console.log(request.body);
+});
+
+app.post('/changeUserInfo', async (req, response) => {
+  const tgt = req.body.tgt;
+  const update = req.body.update;
+
+  await User.findOneAndUpdate(tgt, update, { returnOriginal: false }).then((res) => {
+    response.send({success: true, message: 'Updated successfully!', res})
+  }).catch((err) => {
+    console.log('ERROR AT AWAIT', err)
+    response.send({success: false, message: 'Something went wrong', err})
+  })
+  
+  console.log(req.body, tgt, update)
 });
 
 app.post('/foodInventory', async (request, response) => {
   const data = request.body;
-  response.send({message: 'Use /createFood or /updateFood instead.'})
+  response.send({message: 'Use /createFood or /updateFood instead.'});
 
   // await Food.create({
   //   id: data.id,
@@ -165,14 +185,12 @@ app.post('/createFood', async (req, res) => {
 });
 
 app.post('/updateFood', async (req, res) => {
-
     const query = req.body.query;
     const changeThis = req.body.changeThis;
-
-    console.log(query, changeThis)
+    console.log(query, changeThis);
 
     await Food.updateMany(query, changeThis).then(() => {
-      res.send({ success: true, message: 'All items have been updated!'})
+      res.send({success: true, message: 'All items have been updated!'})
     }).catch((err) => {
       res.send({success: false, message: 'Could not update', err})
     })
