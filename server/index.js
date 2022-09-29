@@ -15,8 +15,8 @@ const cookies = new Cookies();
 const dayString = require('./dayString');
 const timeString = require('./timeString');
 const SERVER_DATE = new Date();
-const DAY_OF_WEEK = dayString(SERVER_DATE);
-const TIME_OF_DAY = timeString(SERVER_DATE);
+const DAY_OF_WEEK = 'saturday';
+const TIME_OF_DAY = timeString(SERVER_DATE, 11);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -34,11 +34,24 @@ app.get('/', async (req, res) => {
   });
 });
 
-app.get('/removesomething', async (req, res) => {
+app.get('/removeFromAllFood', async (req, response) => {
 
-  res.send({
-   message: 'okay',
-  });
+  const query = req.body.query;
+  console.log(query);
+
+  await Food.updateMany({}, { $unset: query })
+    .then((res) => {
+      response.send({
+        message: 'Updated',
+        res
+       });
+    })
+    .catch((err) => {
+      response.send({
+        message: 'Someting went wrong',
+        err
+      })
+    })
 });
 
 app.use((req, res, next) => {
@@ -166,41 +179,24 @@ app.post('/changeUserInfo', async (req, response) => {
 app.post('/foodInventory', async (request, response) => {
   const data = request.body;
   response.send({message: 'Use /createFood or /updateFood instead.'});
-
-  // await Food.create({
-  //   id: data.id,
-  //   name: data.name,
-  //   vendor: data.vendor,
-  //   group: data.group
-  // }).then(() => {
-  //   response.send({success: true, message: 'Food has been added to DB!'})
-  // }).catch((err) => {
-  //   response.send({success: false, message: 'It looks like this item exists or the data has not been filled out.', err})
-  // })
-
-  // await Food.updateMany({ vendor: 'crafted' }, { afternoon: false }).then(() => {
-  //   response.send({ success: true, message: 'All items have been updated!'})
-  // }).catch((err) => {
-  //   response.send({success: false, message: 'Could not update', err})
-  // })
 });
 
 app.post('/createFood', async (req, res) => {
       const data = req.body;
   
       await Food.create({
-      id: data.id,
-      name: data.name,
-      vendor: data.vendor,
-      group: data.group,
-      sunday: data.sunday,
-      monday: data.monday,
-      tuesday: data.tuesday,
-      wednesday: data.tuesday,
-      wednesday: data.wednesday,
-      thursday: data.thursday,
-      friday: data.friday,
-      saturday: data.saturday
+        id: data.id,
+        name: data.name,
+        vendor: data.vendor,
+        sunday: data.sunday,
+        monday: data.monday,
+        tuesday: data.tuesday,
+        wednesday: data.tuesday,
+        wednesday: data.wednesday,
+        thursday: data.thursday,
+        friday: data.friday,
+        saturday: data.saturday,
+        positions: data.positions
     }).then(() => {
       res.send({success: true, message: 'Food has been added to DB!'})
     }).catch((err) => {
@@ -213,8 +209,8 @@ app.post('/updateFood', async (req, res) => {
     const changeThis = req.body.changeThis;
     console.log(query, changeThis);
 
-    await Food.updateMany(query, changeThis).then(() => {
-      res.send({success: true, message: 'All items have been updated!'})
+    await Food.updateMany(query, changeThis).then((results) => {
+      res.send({success: true, message: 'All items have been updated!', results})
     }).catch((err) => {
       res.send({success: false, message: 'Could not update', err})
     })

@@ -1,5 +1,4 @@
 const dayString = (insertdate) => {
-    let a;
     const DATE = insertdate;
     const TODAY = DATE.getDay();
   

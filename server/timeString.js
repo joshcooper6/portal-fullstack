@@ -1,11 +1,9 @@
-const timeString = (insertdate) => {
-    const TIME = insertdate.toLocaleTimeString();
-    const MORNING = TIME.includes('AM');
-    const AFTERNOON = TIME.includes('PM');
-    
-    if (MORNING) {
+const timeString = (insertdate, afternoonCutoff) => {
+    const TIME = insertdate.getHours();
+
+    if (TIME < afternoonCutoff) {
         return 'morning'
-    } else if (AFTERNOON) {
+    } else if (TIME >= afternoonCutoff) {
         return 'afternoon'
     };
 };

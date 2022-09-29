@@ -14,9 +14,9 @@ const FoodSchema = new Mongoose.Schema({
         type: String,
         required: [true, 'Please prov"id"e a "vendor"!']
     },
-    "group": {
-        type: String,
-        required: [true, 'Please prov"id"e a "group"ing from inventory sheet!']
+    "positions": {
+        type: Object,
+        required: [true, "Please provide group/subgroup/listPosition for this element."]
     },
     "morning": {
         type: Boolean,
