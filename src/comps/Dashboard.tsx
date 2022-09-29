@@ -74,7 +74,7 @@ return(<>
                 })}
             </form> */}
             
-            <div className="flex flex-col gap-2 w-10/12 self-center">
+            <div className="flex flex-col gap-2 max-w-lg w-10/12 self-center">
                 {numsNeeded.map((obj: any) => {
                     return <TextToInput key={obj.id} setNumsNeeded={setNumsNeeded} id={obj.id} value={obj.name} />
                 })}
