@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import TextToInput from "./TextToInput";
 import LogoutButton from "./LogoutButton";
+import NumCounter from "./NumCounter";
 const cookies = new Cookies();
 
 export default function Dashboard(props: any) {
@@ -53,10 +54,20 @@ export default function Dashboard(props: any) {
         getFood();
     }, []);
 
+    const [repNums, setRepNums] = useState(false);
+
+
 return(<>
         <div className="flex gap-4 mt-4 mb-4 flex-col min-h-screen min-w-screen justify-center align-center">
 
-            <h1 className="text-5xl md:text-4xl lg:text-5xl self-center uppercase font-bold tracking-tight">Welcome {user?.firstName}!</h1>
+            <h1 className="text-4xl md:text-5xl self-center uppercase text-center font-bold tracking-tight">Welcome {user?.firstName}!</h1>
+
+            <LogoutButton 
+                styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl w-2/5'} 
+            />
+
+            <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Current Info</h2>
+
 
             <h2 className="text-lg text-center self-center">
                 You are known to the world as <b>{user.username}</b>.
@@ -73,17 +84,31 @@ return(<>
                 return <li key={foodItem.id} id={foodItem.id}>{foodItem.name}</li>
                 })}
             </form> */}
+
+            <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Lead Tasks</h2>
             
-            <div className="flex flex-col gap-2 max-w-lg w-10/12 self-center">
-                {numsNeeded.map((obj: any) => {
-                    return <TextToInput key={obj.id} setNumsNeeded={setNumsNeeded} id={obj.id} value={obj.name} />
-                })}
-            </div>
+            <button onClick={() => setRepNums(!repNums)} className="p-4 tracking-widest uppercase bg-blue-100 rounded-xl border w-2/5 self-center">Food Numbers</button>
 
+            {repNums && <>
+                <div className="flex flex-col gap-2 max-w-lg w-9/12 self-center">
+                    {numsNeeded.map((obj: any) => {
+                        return <>
+                        <div className="flex gap-2">
+                            <TextToInput 
+                                    key={obj.id} 
+                                    setNumsNeeded={setNumsNeeded} 
+                                    numsNeeded={numsNeeded}
+                                    id={obj.id}
+                                    value={obj.name} 
+                                />
+                        </div>
+    
+                        </>
+                        
+                    })}
+                </div>
+            </>}
 
-            <LogoutButton 
-                styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl w-2/5'} 
-            />
 
         </div>
         

@@ -5,7 +5,8 @@ module.exports = {
     './src/comps/Account.tsx',
     './src/comps/Dashboard.tsx',
     './src/comps/LogoutButton.tsx',
-    './src/comps/TextToInput.tsx'
+    './src/comps/TextToInput.tsx',
+    './src/comps/NumCounter.tsx'
   ],
   theme: {
     extend: {},
