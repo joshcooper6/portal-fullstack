@@ -4,6 +4,8 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import TextToInput from "./TextToInput";
 import LogoutButton from "./LogoutButton";
+import logo from '../assets/logo.png';
+
 import NumCounter from "./NumCounter";
 const cookies = new Cookies();
 
@@ -119,6 +121,8 @@ export default function Dashboard(props: any) {
             })
         });
 
+        alert('Database updated!');
+
         setTimeout(() => {
             setChangeRotating(false)
         }, 300);
@@ -130,16 +134,15 @@ export default function Dashboard(props: any) {
 return(<>
         <div className="flex gap-4 mt-4 mb-4 flex-col min-h-screen min-w-screen justify-center align-center">
 
-            <h1 className="text-4xl md:text-5xl self-center uppercase text-center font-bold tracking-tight">Welcome {user?.firstName}!</h1>
+            <div className="flex gap-4 flex-col lg:flex-row max-w-xl self-center justify-between align-center">
+                {/* <img src={logo} alt="UCL logo" className="invert self-center text-center w-5/12 lg:w-2/12" />  */}
+                <h1 className="text-5xl self-center uppercase text-center font-bold tracking-tight">Welcome {user?.firstName}!</h1>
+            </div>
+  
+            {/* <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Current Info</h2> */}
 
-            <LogoutButton 
-                styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl w-2/5'} 
-            />
 
-            <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Current Info</h2>
-
-
-            <h2 className="text-lg text-center self-center">
+            <h2 className="text-lg text-center self-center pl-4 pr-4">
                 You are known to the world as <b>{user.username}</b>.
                 <br />
                 {user.email.length > 0 ? <>
@@ -151,7 +154,6 @@ return(<>
                 Your current account role is <b>{user.role}</b>.
             </h2>
 
-
             <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Lead Tasks</h2>
             
             <button 
@@ -161,9 +163,10 @@ return(<>
                     uppercase 
                     ${repNums ? 'bg-red-200' : 'bg-blue-100'} 
                     rounded-xl 
-                    border w-2/5 
+                    border w-4/5
+                    max-w-lg
                     self-center`}>
-                        {repNums ? 'Hide Numbers' : 'Food Numbers'}
+                        {repNums ? 'Hide Food Numbers' : 'Report Food Numbers'}
             </button>
 
             <button 
@@ -171,7 +174,7 @@ return(<>
                     if (user.role === 'Admin') {
                         setChangeRotating(!changeRotating); setRepNums(false)
                     } else {
-                        console.log('You are not authorized, sir.')
+                        alert('This action is only availble to management.')
                     }
                 }}
 
@@ -180,13 +183,14 @@ return(<>
                     uppercase 
                     ${changeRotating ? 'bg-red-200' : 'bg-blue-100'} 
                     rounded-xl 
-                    border w-2/5 
+                    max-w-lg
+                    border w-4/5 
                     self-center`}>
-                        {changeRotating ? 'Hide Numbers' : 'Update Rotating Numbers'}
+                        {changeRotating ? 'Hide Rotating Items' : 'Update Rotating Items'}
             </button>
 
             {repNums && <>
-                <div className="flex flex-col gap-6 max-w-lg w-9/12 self-center">
+                <div className="flex flex-col gap-6 max-w-lg w-4/5 self-center">
 
                     {numsNeeded.length <= 0 ? <>
                         <h1 className="text-center uppercase font-bold">There are no numbers to report today!</h1>
@@ -215,7 +219,7 @@ return(<>
 
                 <h1 className="text-center self-center uppercase text-3xl font-bold tracking-tight">Update Rotating Food</h1>
 
-                <div className="flex flex-col w-7/12 gap-6 justify-center align-center self-center">
+                <div className="flex flex-col w-4/5 max-w-lg gap-6 justify-center align-center self-center">
                     {rotatingNums.map((obj: any) => {
                             return <>
                             <div className="flex flex-col gap-2">
@@ -231,10 +235,15 @@ return(<>
                             </>
                     })}
 
-                    <button onClick={handlePost} className="p-4 border rounded-xl">Update</button>
+                    <button onClick={handlePost} className="p-3 bg-green-100 font-light uppercase tracking-widest text-xl border rounded-xl">Update</button>
             </div>
             
             </>}
+
+
+          <LogoutButton 
+                styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl max-w-lg w-4/5'} 
+            />
 
         </div>
         

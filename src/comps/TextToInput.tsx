@@ -4,11 +4,14 @@ export default function TextToInput(props: any) {
     const [showInp, setShowInp] = useState(false);
     const [val, setVal] = useState(props.value);
     const [counted, setCounted] = useState({
-        front: '0',
-        back: '0',
+        front: 0,
+        back: 0,
+        counterTally: 0
     });
 
-    const total = (eval(`${counted.front} + ${counted.back}`));
+    const total = (eval(`${counted.front} + ${counted.back} + ${counted.counterTally}`));
+
+    const [showManual, setShowManual] = useState(false);
 
     const setNumsNeeded = props.setNumsNeeded;
     const numsNeeded = props.numsNeeded;
@@ -66,7 +69,6 @@ export default function TextToInput(props: any) {
             font-light  
             tracking-widest
             transition_ease
-            scale-110
             w-full
         `,
         voidStyles: `
@@ -80,7 +82,6 @@ export default function TextToInput(props: any) {
             hover:cursor-pointer
             transition_ease
             w-full
-            hover:scale-110
         `
     }
 
@@ -90,12 +91,14 @@ export default function TextToInput(props: any) {
         if (tgt.length > 0) {
             setCounted((prev: any) => ({
                 ...prev,
-                [e.target.id]: tgt
+                [e.target.id]: tgt,
+                counterTally: 0
             }))
         } else {
             setCounted((prev: any) => ({
                 ...prev,
-                [e.target.id]: 0
+                [e.target.id]: 0,
+                counterTally: 0
             }))
         };
     };
@@ -112,7 +115,28 @@ export default function TextToInput(props: any) {
                 return <option key={currentOp} value={currentOp}>{currentOp}</option>
             })}
         </>);
-    }
+    };
+
+    const increment = (e: any) => {
+        setCounted((prev: any) => ({
+            ...prev,
+            counterTally: eval(prev.counterTally + 1)
+        }))
+    };
+
+    const decrement = (e: any) => {
+        if (total > 0) {
+            setCounted((prev: any) => ({
+                ...prev,
+                counterTally: eval(`${prev.counterTally} - 1`)
+            }))
+        } else {
+            setCounted((prev: any) => ({
+                ...prev,
+                counterTally: 0
+            }))
+        };
+    };
 
     return (<>
     <div className='flex flex-col p-4 gap-4 shadow-lg bg-opacity-40 rounded-xl border'>
@@ -138,12 +162,17 @@ export default function TextToInput(props: any) {
         </>}
 
         {props.hiddenTally ? <></> : <>
-            <div className='flex w-full justify-between gap-2 self-center'>
+            <div className='flex w-full flex-wrap justify-between gap-2 self-center'>
                 <div className='flex h-full gap-3'>
                     <p className='self-center text-3xl font-thin'>Front</p>
                     <select id="front" onChange={changeNums} className='self-center h-fit border p-4 rounded-xl'>
                         {renderOps()}
                     </select>
+                </div>
+
+                <div className='flex h-full gap-3 self-center '>
+                    {/* <p className='self-center text-3xl font-thin'>Total</p> */}
+                    <h2 className='text-4xl min-w-sm font-thin text-center self-center'>{total}</h2>
                 </div>
 
                 <div className='flex h-full gap-3 self-center'>
@@ -153,10 +182,19 @@ export default function TextToInput(props: any) {
                     </select>
                 </div>
 
-                <div className='flex h-full gap-3 self-center '>
-                    {/* <p className='self-center text-3xl font-thin'>Total</p> */}
-                    <h2 className='text-4xl min-w-sm font-thin text-center self-center'>{total}</h2>
+                {showManual && <><div className='flex w-full flex-row-reverse h-16 gap-2'>
+                    <button onClick={increment} className='self-center text-center w-4/5 border rounded-lg h-full uppercase font-bold text-3xl bg-green-300 text-white'>
+                    +</button>
+
+                    <button onClick={decrement} className='self-center text-center w-1/5 border rounded-lg h-full p-1 uppercase font-bold text-2xl bg-red-300 text-white'>
+                    -</button>
                 </div>
+                
+                </> }
+
+                <button onClick={() => {setShowManual(!showManual)}} className='w-full font-thin border rounded-xl p-2'>
+                    { showManual ? '^' : 'Click for tap counter' }
+                </button>
 
             </div>
         </>}
