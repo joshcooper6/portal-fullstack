@@ -92,6 +92,7 @@ app.post('/register', async (req, res) => {
                 userId: user._id,
                 username: user.username,
                 email: user.email,
+                role: user.role,
                 firstName: user.firstName,
                 lastName: user.lastName
               },
@@ -138,6 +139,7 @@ app.post("/login", async (request, response) => {
                           userId: user._id,
                           username: user.username,
                           email: user.email,
+                          role: user.role,
                           firstName: user.firstName,
                           lastName: user.lastName
                         },
@@ -218,12 +220,19 @@ app.post('/updateFood', async (req, res) => {
     const changeThis = req.body.changeThis;
     console.log(query, changeThis);
 
-    await Food.updateMany(query, changeThis).then((results) => {
+    await Food.updateMany(query, changeThis, { returnOriginal: false }).then((results) => {
       res.send({success: true, message: 'All items have been updated!', results})
     }).catch((err) => {
       res.send({success: false, message: 'Could not update', err})
     })
+});
 
+app.get('/rotating', async (request, response) => {
+  await Food.find({ rotating: true }).then((rez) => {
+    response.send({success: true, response: rez})
+  }).catch((err) => {
+    response.send({success: false, response: err})
+  })
 });
 
 app.get("/auth", auth, async (request, response) => {

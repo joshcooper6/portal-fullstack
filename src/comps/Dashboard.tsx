@@ -11,14 +11,36 @@ export default function Dashboard(props: any) {
 
     const token = cookies.get("session-token");
     const [numsNeeded, setNumsNeeded] = useState([]);
+    const [repNums, setRepNums] = useState(false);
+    const [changeRotating, setChangeRotating] = useState(false);
+
+    let result: string[] = [];
     const [user, setUser] = useState({
         firstName: "",
         lastName: "",
+        role: "",
         username: "",
         email: "",
         exp: ""
     });
+
+    const [rotatingNums, setRotatingNums] = useState([]);
+
+    const renderFinal = (array: any, final: any, user: any) => {
+        array.forEach((item: any) => {
+            final.push(`${item.name} = ${item.currentTotal || 0}`)
+        });
     
+        final.push(`Reported by ${user.firstName}`);
+    
+        console.log('RESULT', final);
+        console.log('NUMSNEEDED', array);
+    };
+    
+    useEffect(() => {
+        renderFinal(numsNeeded, result, user);
+    }, [numsNeeded]);
+     
     const getFood = () => {
         const foodConfig = {
             method: 'get',
@@ -32,7 +54,29 @@ export default function Dashboard(props: any) {
             .catch((err) => {
                 console.log(err)
         })
+    };  
+
+    const getRotatingNums = () => {
+        const config = {
+            method: 'get',
+            url: 'http://localhost:5000/rotating'
+        };
+
+        axios(config)
+            .then((res) => {
+                setRotatingNums(res.data.response)
+            })
+            .catch((err) => {
+                console.log(err)
+        });
     };
+
+    const getFromServer = () => {
+        getFood();
+        getRotatingNums();
+    };
+
+    console.log('ROTATING', rotatingNums);
 
     useEffect(() => {
         const configuration = {
@@ -51,10 +95,36 @@ export default function Dashboard(props: any) {
                 console.log('Something went wrong', error)
             });
 
-        getFood();
+        getFromServer();
     }, []);
 
-    const [repNums, setRepNums] = useState(false);
+    const handlePost = (e: any) => {
+        rotatingNums.forEach((number: any) => {
+            const config = {
+                method: 'post',
+                url: 'http://localhost:5000/updateFood',
+                data: {
+                    query: { id: number.id },
+                    changeThis: { name: number.name }
+                }
+            };
+    
+            axios(config)
+                .then((res) => {
+                    console.log('UPDATING ROTATING NUMS', res);
+                    getFromServer();
+                })
+                .catch((err) => {
+                    console.log('something went wrong updating', err)
+            })
+        });
+
+        setTimeout(() => {
+            setChangeRotating(false)
+        }, 300);
+    };
+
+
 
 
 return(<>
@@ -77,38 +147,94 @@ return(<>
                 </> : <>
                     You have not added an email on file yet.
                 </>}
+                <br />
+                Your current account role is <b>{user.role}</b>.
             </h2>
-            
-            {/* <form className="flex flex-col self-center justify-center align-center">
-                {numsNeeded.map((foodItem: any) => {
-                return <li key={foodItem.id} id={foodItem.id}>{foodItem.name}</li>
-                })}
-            </form> */}
+
 
             <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Lead Tasks</h2>
             
-            <button onClick={() => setRepNums(!repNums)} className="p-4 tracking-widest uppercase bg-blue-100 rounded-xl border w-2/5 self-center">Food Numbers</button>
+            <button 
+                onClick={() => {setRepNums(!repNums); setChangeRotating(false)}} 
+                className={`p-4 
+                    tracking-widest 
+                    uppercase 
+                    ${repNums ? 'bg-red-200' : 'bg-blue-100'} 
+                    rounded-xl 
+                    border w-2/5 
+                    self-center`}>
+                        {repNums ? 'Hide Numbers' : 'Food Numbers'}
+            </button>
+
+            <button 
+                onClick={() => {
+                    if (user.role === 'Admin') {
+                        setChangeRotating(!changeRotating); setRepNums(false)
+                    } else {
+                        console.log('You are not authorized, sir.')
+                    }
+                }}
+
+                className={`p-4 
+                    tracking-widest 
+                    uppercase 
+                    ${changeRotating ? 'bg-red-200' : 'bg-blue-100'} 
+                    rounded-xl 
+                    border w-2/5 
+                    self-center`}>
+                        {changeRotating ? 'Hide Numbers' : 'Update Rotating Numbers'}
+            </button>
 
             {repNums && <>
-                <div className="flex flex-col gap-2 max-w-lg w-9/12 self-center">
-                    {numsNeeded.map((obj: any) => {
-                        return <>
-                        <div className="flex gap-2">
-                            <TextToInput 
-                                    key={obj.id} 
-                                    setNumsNeeded={setNumsNeeded} 
-                                    numsNeeded={numsNeeded}
-                                    id={obj.id}
-                                    value={obj.name} 
-                                />
-                        </div>
-    
-                        </>
-                        
-                    })}
-                </div>
-            </>}
+                <div className="flex flex-col gap-6 max-w-lg w-9/12 self-center">
 
+                    {numsNeeded.length <= 0 ? <>
+                        <h1 className="text-center uppercase font-bold">There are no numbers to report today!</h1>
+                    </> : <>
+                        {numsNeeded.map((obj: any) => {
+                            return <>
+                            <div className="flex flex-col gap-">
+                                <TextToInput 
+                                        key={obj.id} 
+                                        setNumsNeeded={setNumsNeeded} 
+                                        numsNeeded={numsNeeded}
+                                        id={obj.id}
+                                        value={obj.name} 
+                                    />
+                            </div>
+                            </>
+                        })}
+                    </>}
+                    
+
+                </div>
+            </>
+            }
+
+            {changeRotating && <>
+
+                <h1 className="text-center self-center uppercase text-3xl font-bold tracking-tight">Update Rotating Food</h1>
+
+                <div className="flex flex-col w-7/12 gap-6 justify-center align-center self-center">
+                    {rotatingNums.map((obj: any) => {
+                            return <>
+                            <div className="flex flex-col gap-2">
+                                <TextToInput 
+                                        key={obj._id} 
+                                        setNumsNeeded={setRotatingNums} 
+                                        numsNeeded={rotatingNums}
+                                        id={obj.id}
+                                        value={obj.name} 
+                                        hiddenTally
+                                    />
+                            </div>
+                            </>
+                    })}
+
+                    <button onClick={handlePost} className="p-4 border rounded-xl">Update</button>
+            </div>
+            
+            </>}
 
         </div>
         

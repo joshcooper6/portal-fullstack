@@ -19,32 +19,58 @@ const FoodSchema = new Mongoose.Schema({
         default: {},
         required: [true, "Please provide group/subgroup/listPosition for this element."]
     },
-    "morning": {
+    "rotating":{
         type: Boolean,
-    },
-    "afternoon": {
-        type: Boolean,
+        default: false
     },
     "sunday": {
         type: Object,
+        default: {
+            morning: false,
+            afternoon: false
+        }
     },
     "monday": {
         type: Object,
+        default: {
+            morning: false,
+            afternoon: false
+        }
     },
     "tuesday": {
         type: Object,
+        default: {
+            morning: false,
+            afternoon: false
+        }
     },
     "wednesday": {
         type: Object,
+        default: {
+            morning: false,
+            afternoon: false
+        }
     },
     "thursday": {
         type: Object,
+        default: {
+            morning: false,
+            afternoon: false
+        }
     },
     "friday": {
         type: Object,
+        default: {
+            morning: false,
+            afternoon: false
+        }
     },
     "saturday": {
         type: Object,
+        default: {
+            morning: false,
+            afternoon: false
+        }
     },
 }, {
     timestamps: true

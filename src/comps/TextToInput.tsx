@@ -21,8 +21,6 @@ export default function TextToInput(props: any) {
         setVal(e.target.value);
     };
 
-    console.log(numsNeeded)
-
     useEffect(() => {
         setNumsNeeded((prev:any) => 
         prev.map((object:any) => {
@@ -69,7 +67,7 @@ export default function TextToInput(props: any) {
             tracking-widest
             transition_ease
             scale-110
-            w-3/5
+            w-full
         `,
         voidStyles: `
             text-center 
@@ -81,7 +79,7 @@ export default function TextToInput(props: any) {
             rounded
             hover:cursor-pointer
             transition_ease
-            w-3/5
+            w-full
             hover:scale-110
         `
     }
@@ -100,10 +98,27 @@ export default function TextToInput(props: any) {
                 [e.target.id]: 0
             }))
         };
+    };
+
+    const renderOps = () => {
+        let ops = [];
+
+        for (let i = 0; i < 99; i++) {
+            ops.push(i)
+        };
+
+        return (<>
+            {ops.map((currentOp) => {
+                return <option key={currentOp} value={currentOp}>{currentOp}</option>
+            })}
+        </>);
     }
 
     return (<>
-    
+    <div className='flex flex-col p-4 gap-4 shadow-lg bg-opacity-40 rounded-xl border'>
+
+        {props.hiddenTally && <h1 className='text-2xl font-thin'>Currently changing <b>{props.id}</b>:</h1>}
+
         {showInp ? <>
             <input
                 type="text"
@@ -122,10 +137,30 @@ export default function TextToInput(props: any) {
          </span>
         </>}
 
-        <div className='flex w-1/3 gap-2 text-xl' id={props.id} key={props.id}>
-            <input onChange={changeNums} placeholder="Front" id="front" className='w-1/3 border h-full rounded-lg text-black self-center text-center' type="number"></input>
-            <input onChange={changeNums} placeholder="Back" className='w-1/3 border rounded-xl h-full text-black self-center text-center' id="back" type="number"></input>
-            <p className='w-1/5 h-fit text-5xl font-thin text-center self-center'>{total}</p>
-        </div>
+        {props.hiddenTally ? <></> : <>
+            <div className='flex w-full justify-between gap-2 self-center'>
+                <div className='flex h-full gap-3'>
+                    <p className='self-center text-3xl font-thin'>Front</p>
+                    <select id="front" onChange={changeNums} className='self-center h-fit border p-4 rounded-xl'>
+                        {renderOps()}
+                    </select>
+                </div>
+
+                <div className='flex h-full gap-3 self-center'>
+                    <p className='self-center text-3xl font-thin'>Back</p>
+                    <select id="back" onChange={changeNums} className='self-center h-fit border p-4 rounded-xl'>
+                        {renderOps()}
+                    </select>
+                </div>
+
+                <div className='flex h-full gap-3 self-center '>
+                    {/* <p className='self-center text-3xl font-thin'>Total</p> */}
+                    <h2 className='text-4xl min-w-sm font-thin text-center self-center'>{total}</h2>
+                </div>
+
+            </div>
+        </>}
+
+    </div>
     </>);
 };
