@@ -37,27 +37,32 @@ export default function UpdRotating(props: any) {
     };
 
     return(<>
-            <button 
-                onClick={() => {
-                    if (user.role === 'Admin') {
-                        setChangeRotating(!changeRotating); 
-                    } else {
-                        alert('This action is only availble to management.')
-                    }
-                }}
 
-                className={`p-4 
-                    tracking-widest 
-                    uppercase 
-                    ${changeRotating ? 'bg-red-200' : 'bg-blue-100'} 
-                    rounded-xl 
-                    max-w-lg
-                    border w-4/5 
-                    self-center`}>
-                        {changeRotating ? 'Hide Rotating Items' : 'Update Rotating Items'}
-            </button>
+        {(user.role === 'Admin') && <>
+                <button 
+                    onClick={() => {
+                        if (user.role === 'Admin') {
+                            setChangeRotating(!changeRotating); 
+                        } else {
+                            alert('This action is only availble to management.')
+                        }
+                    }}
 
-            { changeRotating && <>
+                    className={`p-4 
+                        tracking-widest 
+                        uppercase 
+                        ${changeRotating ? 'bg-red-200' : 'bg-blue-100'} 
+                        rounded-xl 
+                        max-w-lg
+                        border w-4/5 
+                        self-center`}>
+                            {changeRotating ? 'Hide Rotating Items' : 'Update Rotating Items'}
+                </button>
+            </>
+        }
+
+
+        { changeRotating && <>
 
                     <h1 className="text-center self-center uppercase text-3xl font-bold tracking-tight">Update Rotating Food</h1>
 
@@ -82,5 +87,6 @@ export default function UpdRotating(props: any) {
 
                 </> 
             }
+            
     </>)
 };

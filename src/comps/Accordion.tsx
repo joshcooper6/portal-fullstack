@@ -39,10 +39,36 @@ export default function Accordion(props: any) {
             } else {
                 alert('You can only delete your own posts.')
             }
-
-        console.log(user.includes(currUser.username))
     };
 
+    const dayString = (insertdate: any) => {
+        const DATE = new Date(insertdate);
+        const TODAY = DATE.getDay();
+      
+        switch(TODAY) {
+          case 0:
+            return 'sunday';
+            break;
+          case 1:
+            return 'monday';
+            break;
+          case 2:
+            return 'tuesday';
+            break;
+          case 3:
+            return 'wednesday';
+            break;
+          case 4:
+            return 'thursday';
+            break;
+          case 5:
+            return 'friday';
+            break;
+          case 6:
+            return 'saturday';
+            break;
+        }
+      };
 
     return(<>
         <div className="accordion self-center max-w-xl lg:w-full w-4/5">
@@ -53,8 +79,8 @@ export default function Accordion(props: any) {
                     onClick={() => setIsActive(!isActive)}
                 >
                 
-                    <div className={`uppercase font-light p-4 border text-center w-full rounded-xl ${isActive && 'bg-green-100'}`}>
-                        Report by <span className="font-bold text-blue-600">{user}</span> on <span className="text-blue-700">{date}</span> at {time}
+                    <div className={`uppercase font-light p-4 border text-center w-full rounded-xl ${isActive && 'bg-green-100'} hover:cursor-pointer`}>
+                        Report by <span className="font-bold text-blue-600">{user}</span><br /> on <span className="text-blue-700"> {dayString(date)} {date}</span> at {time}
                     </div>
 
                 </div>
