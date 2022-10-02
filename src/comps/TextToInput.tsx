@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function TextToInput(props: any) {
     const [showInp, setShowInp] = useState(false);
@@ -15,6 +16,7 @@ export default function TextToInput(props: any) {
 
     const setNumsNeeded = props.setNumsNeeded;
     const numsNeeded = props.numsNeeded;
+    const user = props.user;
 
     const handleClick = () => {
         setShowInp(!showInp)
@@ -36,17 +38,28 @@ export default function TextToInput(props: any) {
     );
     }, [val]);
 
+
     useEffect(() => {
         setNumsNeeded((prev:any) => 
-        prev.map((object:any) => {
-            if(object.id === props.id) {
-                return {...object, currentTotal: total }
-            };
-            
-            return object;
-        })
-    );
+            prev.map((object:any) => {
+                if(object.id === props.id) {
+                    return {...object, currentTotal: total }
+                };
+                
+                return object;
+            })
+        );
     }, [counted]);
+
+
+
+    // { 
+    //     name: object.name,
+    //     currentTotal: total, 
+    //     reportedBy: user.firstName,
+    //     dateReported: x,
+    //     timeReported: y
+    // }
 
     const tw = {
         styles: `
@@ -175,7 +188,7 @@ export default function TextToInput(props: any) {
                     <h2 className='text-4xl min-w-sm font-thin text-center self-center'>{total}</h2>
                 </div>
 
-                <div className='flex h-full gap-3 self-center'>
+                <div className='flex h-full gap-3 self-center flex-row-reverse'>
                     <p className='self-center text-3xl font-thin'>Back</p>
                     <select id="back" onChange={changeNums} className='self-center h-fit border p-4 rounded-xl'>
                         {renderOps()}

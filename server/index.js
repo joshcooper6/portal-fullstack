@@ -10,6 +10,7 @@ const auth = require('./auth');
 const Cookies = require('universal-cookie');
 const CookieSession = require('./models/CookieSession');
 const Food = require("./models/FoodInventory");
+const Report = require("./models/Report");
 const { query } = require("express");
 const cookies = new Cookies();
 const dayString = require('./dayString');
@@ -42,6 +43,49 @@ app.get('/getFood', async (req, res) => {
     time: TIME_OF_DAY,
     food: await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
   });
+});
+
+app.post('/sendNumbers', async (req, res) => {
+  const request = req.body;
+  const numbers = request.numbers;
+  const reportedBy = request.reportedBy;
+  const dateReported = request.dateReported;
+  const timeReported = request.timeReported;
+
+    await Report.create({
+      date: dateReported,
+      time: timeReported,
+      user: reportedBy,
+      numsReported: numbers
+    }).then((affirm) => {
+      console.log('Food reported submitted', affirm)
+      res.send({
+        success: true, 
+        affirm
+      })
+    }).catch((err) => {
+      console.log('Food could not be submitted', err)
+      res.send({
+        success: false,
+        err
+      })
+    });
+});
+
+app.get('/getReports', async (req, response) => {
+  const reports = await Report.find({}, {}, {returnOriginal: false}).then((res) => {
+    response.send({
+      success: true,
+      message: 'reports-loaded',
+      res
+    })
+  }).catch((err) => {
+    response.send({
+      success: false,
+      message: 'reports-not-loaded',
+      err
+    })
+  })
 });
 
 app.get('/removeFromAllFood', async (req, response) => {

@@ -5,7 +5,7 @@ import axios from "axios";
 import TextToInput from "./TextToInput";
 import LogoutButton from "./LogoutButton";
 import logo from '../assets/logo.png';
-
+import Accordion from './Accordion';
 import NumCounter from "./NumCounter";
 const cookies = new Cookies();
 
@@ -14,7 +14,14 @@ export default function Dashboard(props: any) {
     const token = cookies.get("session-token");
     const [numsNeeded, setNumsNeeded] = useState([]);
     const [repNums, setRepNums] = useState(false);
+    const [confirmPost, setConfirmPost] = useState(false);
     const [changeRotating, setChangeRotating] = useState(false);
+    const [reports, setReports] = useState([
+        { date: '', time: '', user: '', numsReported: [] }
+    ]);
+    const [showReports, setShowReports] = useState(false);
+    
+    let ordered = reports.reverse();
 
     let result: string[] = [];
     const [user, setUser] = useState({
@@ -73,12 +80,28 @@ export default function Dashboard(props: any) {
         });
     };
 
+    const getReports = () => {
+        const config = {
+            method: 'get',
+            url: 'http://localhost:5000/getReports'
+        };
+
+        axios(config)
+            .then((response) => {
+                setReports(response.data.res)
+            })
+            .catch((err) => {
+                console.log(err)
+        });
+    };
+
     const getFromServer = () => {
         getFood();
         getRotatingNums();
+        getReports();
     };
 
-    console.log('ROTATING', rotatingNums);
+    console.log('REPORTS', reports);
 
     useEffect(() => {
         const configuration = {
@@ -128,7 +151,37 @@ export default function Dashboard(props: any) {
         }, 300);
     };
 
+    const postNums = () => {
+        const date = new Date();
+        const x = date.toLocaleDateString();
+        const y = date.toLocaleTimeString();
 
+        const config = {
+            method: 'post',
+            url: 'http://localhost:5000/sendNumbers',
+            data: {
+                numbers: numsNeeded,
+                reportedBy: `${user.firstName} / ${user.username}`,
+                dateReported: x,
+                timeReported: y
+            }
+        };
+
+        axios(config)
+            .then((res) => {
+                console.log('Post numbers successfully', res)
+                alert('Numbers reported successfully!')
+            })
+            .catch((err) => {
+                console.log('Posting nums went wrong', err)
+            });
+
+        setTimeout(() => {
+            setRepNums(false);
+            setConfirmPost(false);
+            getFromServer();
+        }, 300)
+    };
 
 
 return(<>
@@ -189,6 +242,22 @@ return(<>
                         {changeRotating ? 'Hide Rotating Items' : 'Update Rotating Items'}
             </button>
 
+            <button 
+                onClick={() => {
+                    setShowReports(!showReports)
+                }}
+
+                className={`p-4 
+                    tracking-widest 
+                    uppercase 
+                    ${showReports ? 'bg-red-200' : 'bg-blue-100'} 
+                    rounded-xl 
+                    max-w-lg
+                    border w-4/5 
+                    self-center`}>
+                        {showReports ? 'Hide Food Reports' : 'Show Food Reports'}
+            </button>
+
             {repNums && <>
                 <div className="flex flex-col gap-6 max-w-lg w-4/5 self-center">
 
@@ -204,18 +273,30 @@ return(<>
                                         numsNeeded={numsNeeded}
                                         id={obj.id}
                                         value={obj.name} 
+                                        user={user}
                                     />
                             </div>
                             </>
                         })}
                     </>}
-                    
+
+                    <div className="flex flex-col gap-2 w-full justify-center align-center">
+                        <button className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider" onClick={() => setConfirmPost(!confirmPost)}>Ready to Report</button>
+
+                        {confirmPost && <>
+                            <div className="flex w-full gap-2">
+                                <button className="w-1/2 bg-green-100 p-4 rounded-xl border uppercase font-light tracking-wider" onClick={postNums}>Confirm</button>
+                                <button className="w-1/2 bg-red-100 p-4 rounded-xl border uppercase font-light tracking-wider" onClick={() => setConfirmPost(false)}>Deny</button>
+                            </div>
+                        </>}
+
+                    </div>
 
                 </div>
             </>
             }
 
-            {changeRotating && <>
+            { changeRotating && <>
 
                 <h1 className="text-center self-center uppercase text-3xl font-bold tracking-tight">Update Rotating Food</h1>
 
@@ -238,9 +319,16 @@ return(<>
                     <button onClick={handlePost} className="p-3 bg-green-100 font-light uppercase tracking-widest text-xl border rounded-xl">Update</button>
             </div>
             
+            </> }
+
+            
+            {showReports && <>
+                {ordered.map((report: any) => {
+                    return <Accordion key={`${report.user}/${report.date}/${report.time}`} user={report.user} date={report.date} time={report.time} numsReported={report.numsReported} />
+                })}
             </>}
 
-
+        
           <LogoutButton 
                 styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl max-w-lg w-4/5'} 
             />
