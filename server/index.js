@@ -17,7 +17,7 @@ const dayString = require('./dayString');
 const timeString = require('./timeString');
 const AdminMsg = require("./models/MsgsFromAdmin");
 const SERVER_DATE = new Date();
-const DAY_OF_WEEK = 'saturday';
+const DAY_OF_WEEK = dayString(SERVER_DATE);
 const TIME_OF_DAY = timeString(SERVER_DATE, 11);
 
 app.use(express.urlencoded({ extended: true }));
@@ -26,24 +26,31 @@ app.use(cors());
 
 dbConnect();
 
+app.get('/numbers', auth, async (req,res) => {
+  res.send('working')
+});
+
 app.get('/', async (req, res) => {
   res.send({
     message: 'food-loaded',
     date: SERVER_DATE.toString(),
     day: DAY_OF_WEEK,
     time: TIME_OF_DAY,
-    food: await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
+    target: await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
   });
 });
 
 app.get('/getFood', async (req, res) => {
-  res.send({
-    message: 'food-loaded',
-    date: SERVER_DATE.toString(),
-    day: DAY_OF_WEEK,
-    time: TIME_OF_DAY,
-    food: await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
-  });
+  let sentReport = await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
+    .then((sendingTheseNums) => {
+      res.send({
+        message: 'food-loaded',
+        date: SERVER_DATE.toString(),
+        day: DAY_OF_WEEK,
+        time: TIME_OF_DAY,
+        target: sendingTheseNums
+      });
+    })
 });
 
 app.post('/sendNumbers', async (req, res) => {
@@ -78,13 +85,13 @@ app.get('/getReports', async (req, response) => {
     response.send({
       success: true,
       message: 'reports-loaded',
-      res
+      target: res
     })
   }).catch((err) => {
     response.send({
       success: false,
       message: 'reports-not-loaded',
-      err
+      target: err
     })
   })
 });
@@ -108,7 +115,7 @@ app.get('/getAdminMsg', async (REQUEST, RESPONSE) =>  {
 
 app.post('/deleteReport', async (request, res) => {
   const data = request.body;
-  console.log(request)
+
   await Report.deleteOne({ date: data.date, time: data.time, numsReported: data.numsReported }, { returnOriginal: false } )
     .then((success) => {
       res.send({
@@ -309,9 +316,9 @@ app.post('/updateFood', async (req, res) => {
 
 app.get('/rotating', async (request, response) => {
   await Food.find({ rotating: true }).then((rez) => {
-    response.send({success: true, response: rez})
+    response.send({success: true, target: rez})
   }).catch((err) => {
-    response.send({success: false, response: err})
+    response.send({success: false, target: err})
   })
 });
 
