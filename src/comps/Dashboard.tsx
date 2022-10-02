@@ -9,6 +9,7 @@ import Accordion from './Accordion';
 import NumCounter from "./NumCounter";
 import { render } from "@testing-library/react";
 const cookies = new Cookies();
+import NumsContext from "../context/NumsContext";
 
 export default function Dashboard(props: any) {
 
@@ -26,7 +27,7 @@ export default function Dashboard(props: any) {
         firstName: '',
         username: ''
     });
-    
+
     const [rotatingNums, setRotatingNums] = useState([]);
     let result: string[] = [];
     const [user, setUser] = useState({
@@ -244,7 +245,7 @@ export default function Dashboard(props: any) {
 
 return(<>
         <div className="flex gap-4 mt-4 mb-4 flex-col min-h-screen min-w-screen justify-center align-center">
-
+        <NumsContext.Provider value={{ numsNeeded, setNumsNeeded, rotatingNums, setRotatingNums, user, setUser, reports, setReports, message, setMessage }}>
             <div className="flex gap-4 flex-col lg:flex-row max-w-xl self-center justify-between align-center">
                 {/* <img src={logo} alt="UCL logo" className="invert self-center text-center w-5/12 lg:w-2/12" />  */}
                 <h1 className="text-5xl self-center uppercase text-center font-bold tracking-tight">Welcome {user?.firstName}!</h1>
@@ -419,7 +420,7 @@ return(<>
           <LogoutButton 
                 styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl max-w-lg w-4/5'} 
             />
-
+        </NumsContext.Provider>
         </div>
         
         {(!cookies.get('session-token')) && <Navigate to="/" />}
