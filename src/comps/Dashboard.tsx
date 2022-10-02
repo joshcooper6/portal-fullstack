@@ -12,6 +12,10 @@ export default function Dashboard(props: any) {
     const [numsNeeded, setNumsNeeded] = useState([]);
     const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
     const [rotatingNums, setRotatingNums] = useState([]);
+    const [todaysNums, setTodaysNums] = useState({
+        morning: [],
+        afternoon: []
+    });
 
     const [user, setUser] = useState({
         firstName: "",
@@ -132,7 +136,9 @@ export default function Dashboard(props: any) {
         reports,
         setReports,
         message,
-        setMessage
+        setMessage,
+        todaysNums, 
+        setTodaysNums
     };
     
      

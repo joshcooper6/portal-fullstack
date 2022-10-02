@@ -13,6 +13,14 @@ export default function Accordion(props: any) {
     const getFromServer = props.getFromServer;
     const numsReported = props.numsReported;
 
+    const timeOfDay = () => {
+        if (time.includes('PM')) {
+            return 'afternoon'
+        } else if (time.includes('AM')) {
+            return 'morning'
+        }
+    };
+
     const deletePost = () => {  
             if (user.includes(currUser.username) || currUser.role === 'Admin') {
                 const config = {

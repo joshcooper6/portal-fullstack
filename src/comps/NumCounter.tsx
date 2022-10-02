@@ -5,12 +5,8 @@ import TextToInput from './TextToInput';
 
 export default function NumCounter(props: any) {
 
-    const { getFromServer, setNumsNeeded, numsNeeded, user, rotatingNums } = useContext(NumsContext);
+    const { getFromServer, setNumsNeeded, numsNeeded, user, rotatingNums, todaysNums, setTodaysNums } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
-    const [todaysNums, setTodaysNums] = useState({
-        morning: [],
-        afternoon: []
-    });
 
     const [confirmPost, setConfirmPost] = useState(false);
 
@@ -111,7 +107,7 @@ export default function NumCounter(props: any) {
 
                     <div className='w-full gap-2 flex self-center justify-center align-center'>
                         <button className='w-1/2 border rounded-xl p-4 bg-blue-500 font-bold text-white uppercase' onClick={() => { setNumsNeeded(todaysNums.morning) }}>AM Numbers</button>
-                        <button className="w-1/2 p-4 border rounded-xl bg-purple-500 text-white font-bold uppercase" onClick={() => { setNumsNeeded(todaysNums.afternoon) }}>PM Numbers</button>
+                        <button className="w-1/2 p-4 border rounded-xl bg-slate-100 text-blue-500 font-bold uppercase" onClick={() => { setNumsNeeded(todaysNums.afternoon) }}>PM Numbers</button>
                     </div>
 
                     {numsNeeded.length <= 0 ? <>
