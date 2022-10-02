@@ -7,9 +7,9 @@ import LogoutButton from "./LogoutButton";
 import logo from '../assets/logo.png';
 import Accordion from './Accordion';
 import NumCounter from "./NumCounter";
+import NumsContext from "../context/NumsContext";
 import { render } from "@testing-library/react";
 const cookies = new Cookies();
-import NumsContext from "../context/NumsContext";
 
 export default function Dashboard(props: any) {
 
