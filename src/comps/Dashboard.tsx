@@ -7,9 +7,8 @@ import LogoutButton from "./LogoutButton";
 import logo from '../assets/logo.png';
 import Accordion from './Accordion';
 import NumCounter from "./NumCounter";
-import { render } from "@testing-library/react";
-const cookies = new Cookies();
 import NumsContext from "../context/NumsContext";
+const cookies = new Cookies();
 
 export default function Dashboard(props: any) {
 
@@ -270,19 +269,8 @@ return(<>
             </h2>
 
             {/* <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Lead Tasks</h2> */}
-            
-            <button 
-                onClick={() => {setRepNums(!repNums); setChangeRotating(false); setShowReports(false)}} 
-                className={`p-4 
-                    tracking-widest 
-                    uppercase 
-                    ${repNums ? 'bg-red-200' : 'bg-blue-100'} 
-                    rounded-xl 
-                    border w-4/5
-                    max-w-lg
-                    self-center`}>
-                        {repNums ? 'Hide Food Numbers' : 'Report Food Numbers'}
-            </button>
+
+            <NumCounter />
 
             <button 
                 onClick={() => {
@@ -319,44 +307,6 @@ return(<>
                     self-center`}>
                         {showReports ? 'Hide Food Reports' : 'Show Food Reports'}
             </button>
-
-            {repNums && <>
-                <div className="flex flex-col gap-6 max-w-lg w-4/5 self-center">
-
-                    {numsNeeded.length <= 0 ? <>
-                        <h1 className="text-center uppercase font-bold text-5xl mt-2">No numbers to report today!</h1>
-                    </> : <>
-                        {numsNeeded.map((obj: any) => {
-                            return <>
-                            <div key={`${obj._id}/${obj.id}`} className="flex flex-col gap-">
-                                <TextToInput
-                                        key={obj._id} 
-                                        setNumsNeeded={setNumsNeeded} 
-                                        numsNeeded={numsNeeded}
-                                        id={obj.id}
-                                        value={obj.name} 
-                                        user={user}
-                                    />
-                            </div>
-                            </>
-                        })}
-                    </>}
-
-                    <div className="flex flex-col gap-2 w-full justify-center align-center">
-                        <button className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider" onClick={() => setConfirmPost(!confirmPost)}>Ready to Report</button>
-
-                        {confirmPost && <>
-                            <div className="flex w-full gap-2">
-                                <button className="w-1/2 bg-green-100 p-4 rounded-xl border uppercase font-light tracking-wider" onClick={postNums}>Confirm</button>
-                                <button className="w-1/2 bg-red-100 p-4 rounded-xl border uppercase font-light tracking-wider" onClick={() => setConfirmPost(false)}>Deny</button>
-                            </div>
-                        </>}
-
-                    </div>
-
-                </div>
-            </>
-            }
 
             { changeRotating && <>
 
