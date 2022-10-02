@@ -5,28 +5,9 @@ import TextToInput from './TextToInput';
 
 export default function NumCounter(props: any) {
 
-    const { setNumsNeeded, numsNeeded, user, setChangeRotating, setShowReports } = useContext(NumsContext);
+    const { getFromServer, setNumsNeeded, numsNeeded, user, rotatingNums } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
     const [confirmPost, setConfirmPost] = useState(false);
-
-    const getFood = async () => {
-        const foodConfig = {
-            method: 'get',
-            url: 'http://localhost:5000/getFood'
-        };
-
-        axios(foodConfig)
-            .then((res) => {
-                setNumsNeeded(res.data.target);
-
-                if (res.data.message === 'food-loaded') {
-                    console.log(`Numbers for ${res.data.day} ${res.data.time} have loaded successfully.`)
-                };
-            })
-            .catch((err) => {
-                console.log(err)
-        })
-    };  
 
     const postNums = () => {
         const date = new Date();
@@ -48,6 +29,7 @@ export default function NumCounter(props: any) {
             .then((res) => {
                 console.log('Post numbers successfully', res)
                 alert('Numbers reported successfully!')
+                getFromServer().then(() => { 'With new numbers, app has been updated.' })
             })
             .catch((err) => {
                 console.log('Posting nums went wrong', err)
@@ -59,13 +41,9 @@ export default function NumCounter(props: any) {
         }, 300)
     };
 
-    useEffect(() => {
-        getFood().then(() => { console.log('Food has been recieved in component') })
-    }, []);
-
     return (<>
             <button 
-                onClick={() => {setRepNums(!repNums); setChangeRotating(false); setShowReports(false)}} 
+                onClick={() => {setRepNums(!repNums) }} 
                 className={`p-4 
                     tracking-widest 
                     uppercase 

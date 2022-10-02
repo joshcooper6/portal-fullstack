@@ -5,3 +5,7 @@ export { default as LogoutButton } from './LogoutButton';
 export { default as TextToInput } from './TextToInput';
 export { default as NumCounter } from './NumCounter';
 export { default as Accordion } from './Accordion';
+export { default as UpdRotating } from './UpdRotating';
+export { default as Reports } from './Reports';
+export { default as Broadcast } from './Broadcast';
+export { default as Header } from './Header';

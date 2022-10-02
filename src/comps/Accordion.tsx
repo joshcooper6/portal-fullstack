@@ -14,32 +14,31 @@ export default function Accordion(props: any) {
     const getFromServer = props.getFromServer;
     const numsReported = props.numsReported;
 
-    const deletePost = () => {
-        if (user.includes(currUser.username) || currUser.role === 'Admin') {
-            const config = {
-                method: 'post',
-                url: 'http://localhost:5000/deleteReport',
-                data: {
-                    _id: _id,
-                    date: date,
-                    time: time,
-                    user: user,
-                    numsReported: numsReported
-                }
-            };
-
-            axios(config)
-                .then((RESPONSE) => {
-                    console.log('Delete success', RESPONSE)
-                    getFromServer();
-                })
-                .catch((error) => {
-                    console.log('Delete error', error)
-                })
-        } else {
-            alert('You can only delete your own posts.')
-        }
-
+    const deletePost = () => {  
+            if (user.includes(currUser.username) || currUser.role === 'Admin') {
+                const config = {
+                    method: 'post',
+                    url: 'http://localhost:5000/deleteReport',
+                    data: {
+                        _id: _id,
+                        date: date,
+                        time: time,
+                        user: user,
+                        numsReported: numsReported
+                    }
+                };
+    
+                axios(config)
+                    .then((RESPONSE) => {
+                        console.log('Delete success', RESPONSE)
+                        getFromServer();
+                    })
+                    .catch((error) => {
+                        console.log('Delete error', error)
+                    })
+            } else {
+                alert('You can only delete your own posts.')
+            }
 
         console.log(user.includes(currUser.username))
     };
@@ -60,15 +59,27 @@ export default function Accordion(props: any) {
 
                 </div>
 
-                {isActive && <div className="text-2xl font-light p-4 flex flex-col">
-                    {numsReported.map((number:any) => {
-                        return <p className="m-1" key={number._id}>{number.name} = {number.currentTotal}</p>
-                    })}
+                { isActive && <div className="text-2xl font-light p-4 flex flex-col">
 
-                    {(user.includes(currUser.username) || currUser.role === 'Admin') && <>
-                        <button onClick={deletePost} className="self-center p-4 border rounded-lg bg-red-800 text-white w-full m-4">Delete this Report</button>
-                    </>}
-                </div>}
+                        {numsReported.length > 0 ? <>
+                            {numsReported.map((number:any) => {
+                                return <p className="m-1" key={number._id}>{number.name} = {number.currentTotal}</p>
+                            })}
+                        </> : <>
+                            It appears there were no numbers included with this report.
+                        </>}
+
+                        {(user.includes(currUser.username) || currUser.role === 'Admin') && <>
+                            <button onClick={() => {
+                                const a = `WARNING: Are you sure you want to delete this? There's no retrieving this data afterwards.`
+
+                                if (window.confirm(a) == true) {
+                                    deletePost()
+                                };
+                            }} className=" self-center p-2 border w-11/12 m-4 rounded-lg opacity-50 hover:opacity-100 active:opacity-100 bg-red-800 text-white ">Delete this Report</button>
+                        </>}
+                    </div> 
+                }
 
             </div>
 </div>
