@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function Accordion(props: any) {
 
@@ -7,8 +8,42 @@ export default function Accordion(props: any) {
 
     const user = props.user;
     const date = props.date;
+    const _id = props._id;
     const time = props.time;
+    const currUser = props.currUser;
+    const getFromServer = props.getFromServer;
     const numsReported = props.numsReported;
+
+    const deletePost = () => {
+        if (user.includes(currUser.username) || currUser.role === 'Admin') {
+            const config = {
+                method: 'post',
+                url: 'http://localhost:5000/deleteReport',
+                data: {
+                    _id: _id,
+                    date: date,
+                    time: time,
+                    user: user,
+                    numsReported: numsReported
+                }
+            };
+
+            axios(config)
+                .then((RESPONSE) => {
+                    console.log('Delete success', RESPONSE)
+                    getFromServer();
+                })
+                .catch((error) => {
+                    console.log('Delete error', error)
+                })
+        } else {
+            alert('You can only delete your own posts.')
+        }
+
+
+        console.log(user.includes(currUser.username))
+    };
+
 
     return(<>
         <div className="accordion self-center max-w-xl lg:w-full w-4/5">
@@ -25,10 +60,14 @@ export default function Accordion(props: any) {
 
                 </div>
 
-                {isActive && <div className="text-2xl font-light p-4">
+                {isActive && <div className="text-2xl font-light p-4 flex flex-col">
                     {numsReported.map((number:any) => {
                         return <p className="m-1" key={number._id}>{number.name} = {number.currentTotal}</p>
                     })}
+
+                    {(user.includes(currUser.username) || currUser.role === 'Admin') && <>
+                        <button onClick={deletePost} className="self-center p-4 border rounded-lg bg-red-800 text-white w-full m-4">Delete this Report</button>
+                    </>}
                 </div>}
 
             </div>

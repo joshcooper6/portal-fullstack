@@ -15,6 +15,7 @@ const { query } = require("express");
 const cookies = new Cookies();
 const dayString = require('./dayString');
 const timeString = require('./timeString');
+const AdminMsg = require("./models/MsgsFromAdmin");
 const SERVER_DATE = new Date();
 const DAY_OF_WEEK = 'saturday';
 const TIME_OF_DAY = timeString(SERVER_DATE, 11);
@@ -86,6 +87,40 @@ app.get('/getReports', async (req, response) => {
       err
     })
   })
+});
+
+app.post('/sendAdminMsg', async (REQUEST, RESPONSE) =>  {
+  const data = REQUEST.body;
+
+  await AdminMsg.findByIdAndUpdate({ _id: '63391b9dc62e4902b0981ebd' }, { msg: data.msg, username: data.username, firstName: data.firstName }, {returnOriginal: false})
+    .then((results) => {
+      console.log(results)
+    })
+});
+
+app.get('/getAdminMsg', async (REQUEST, RESPONSE) =>  {
+  const data = REQUEST.body;
+
+  const msg = await AdminMsg.findById({ _id: '63391b9dc62e4902b0981ebd' })
+
+  RESPONSE.send({ msg: msg.msg, firstName: msg.firstName, username: msg.username })
+});
+
+app.post('/deleteReport', async (request, res) => {
+  const data = request.body;
+  console.log(request)
+  await Report.deleteOne({ date: data.date, time: data.time, numsReported: data.numsReported }, { returnOriginal: false } )
+    .then((success) => {
+      res.send({
+        success: true, 
+        response: success
+      })
+    }).catch((error) => {
+      res.send({
+        success: false,
+        response: error
+      })
+    });
 });
 
 app.get('/removeFromAllFood', async (req, response) => {
@@ -251,7 +286,8 @@ app.post('/createFood', async (req, res) => {
         thursday: data.thursday,
         friday: data.friday,
         saturday: data.saturday,
-        positions: data.positions
+        positions: data.positions,
+        rotating: data.rotating
     }).then(() => {
       res.send({success: true, message: 'Food has been added to DB!'})
     }).catch((err) => {

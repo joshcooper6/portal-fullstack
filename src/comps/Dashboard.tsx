@@ -7,6 +7,7 @@ import LogoutButton from "./LogoutButton";
 import logo from '../assets/logo.png';
 import Accordion from './Accordion';
 import NumCounter from "./NumCounter";
+import { render } from "@testing-library/react";
 const cookies = new Cookies();
 
 export default function Dashboard(props: any) {
@@ -16,13 +17,15 @@ export default function Dashboard(props: any) {
     const [repNums, setRepNums] = useState(false);
     const [confirmPost, setConfirmPost] = useState(false);
     const [changeRotating, setChangeRotating] = useState(false);
-    const [reports, setReports] = useState([
-        { date: '', time: '', user: '', numsReported: [] }
-    ]);
-    const [showReports, setShowReports] = useState(false);
-    
-    let ordered = reports.reverse();
-
+    const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
+    const [showReports, setShowReports] = useState(false);    
+    const [message, setMessage] = useState({
+        currentInput: '',
+        broadcast: '',
+        firstName: '',
+        username: ''
+    })
+    const [rotatingNums, setRotatingNums] = useState([]);
     let result: string[] = [];
     const [user, setUser] = useState({
         firstName: "",
@@ -33,22 +36,30 @@ export default function Dashboard(props: any) {
         exp: ""
     });
 
-    const [rotatingNums, setRotatingNums] = useState([]);
+    // const renderSubGroups = (tgt: String) => {
+    //    return numsNeeded.filter((item: any) => { return item.positions.subgroup === tgt})
+    // };
 
-    const renderFinal = (array: any, final: any, user: any) => {
-        array.forEach((item: any) => {
-            final.push(`${item.name} = ${item.currentTotal || 0}`)
-        });
+    // const artisan1 = renderSubGroups('artisan1');
+    // const artisan2 = renderSubGroups('artisan2');
+    // const misc1 = renderSubGroups('misc1');
+    // const misc2 = renderSubGroups('misc2');
+    // const squash = renderSubGroups('squash');
+    // const quiche = renderSubGroups('quiche');
+    // const empanadas = renderSubGroups('empanadas');
+    // const glutenFree = renderSubGroups('glutenFree');
+    // const crafted = renderSubGroups('crafted');
+
+    // const renderFinal = (array: any, final: any, user: any) => {
+    //     array.forEach((item: any) => {
+    //         final.push(`${item.name} = ${item.currentTotal || 0}`)
+    //     });
     
-        final.push(`Reported by ${user.firstName}`);
+    //     final.push(`Reported by ${user.firstName}`);
     
-        console.log('RESULT', final);
-        console.log('NUMSNEEDED', array);
-    };
-    
-    useEffect(() => {
-        renderFinal(numsNeeded, result, user);
-    }, [numsNeeded]);
+    //     console.log('RESULT', final);
+    //     console.log('NUMSNEEDED', array);
+    // };
      
     const getFood = () => {
         const foodConfig = {
@@ -94,34 +105,14 @@ export default function Dashboard(props: any) {
                 console.log(err)
         });
     };
+    
 
     const getFromServer = () => {
         getFood();
         getRotatingNums();
         getReports();
+        getMsg();
     };
-
-    console.log('REPORTS', reports);
-
-    useEffect(() => {
-        const configuration = {
-            method: "get",
-            url: "http://localhost:5000/auth",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-
-        axios(configuration)
-            .then((result) => {
-                setUser(result.data.user);
-            })
-            .catch((error) => {
-                console.log('Something went wrong', error)
-            });
-
-        getFromServer();
-    }, []);
 
     const handlePost = (e: any) => {
         rotatingNums.forEach((number: any) => {
@@ -183,6 +174,69 @@ export default function Dashboard(props: any) {
         }, 300)
     };
 
+    const getMsg = () => {
+        const config = {
+            method: 'get',
+            url: 'http://localhost:5000/getAdminMsg'
+        };
+
+        axios(config)
+        .then((succ) => {
+            setMessage((prev: any) => ({
+                ...prev,
+                broadcast: succ.data.msg,
+                username: succ.data.username,
+                firstName: succ.data.firstName
+            }))
+        })
+        .catch((err) => {
+            console.log('error', err)
+        })
+    };
+
+    const postMsg = () => {
+        const config = {
+            method: 'post',
+            url: 'http://localhost:5000/sendAdminMsg',
+            data: {
+                msg: message.currentInput,
+                username: user.username,
+                firstName: user.firstName 
+            }
+        };
+
+        axios(config)
+        .then((succ) => {
+            console.log('SUCCESS', succ)
+        })
+        .catch((err) => {
+            console.log('error', err)
+        })
+    };
+
+    useEffect(() => {
+        const configuration = {
+            method: "get",
+            url: "http://localhost:5000/auth",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        axios(configuration)
+            .then((result) => {
+                setUser(result.data.user);
+            })
+            .catch((error) => {
+                console.log('Something went wrong', error)
+            });
+
+        getFromServer();
+    }, []);    
+    
+    // useEffect(() => {
+    //     renderFinal(numsNeeded, result, user);
+    // }, [numsNeeded]);
 
 return(<>
         <div className="flex gap-4 mt-4 mb-4 flex-col min-h-screen min-w-screen justify-center align-center">
@@ -194,6 +248,9 @@ return(<>
   
             {/* <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Current Info</h2> */}
 
+            <h2
+                className="text-center text-xl italic"
+            >Message from {message.firstName}: {message.broadcast}</h2>
 
             <h2 className="text-lg text-center self-center pl-4 pr-4">
                 You are known to the world as <b>{user.username}</b>.
@@ -207,10 +264,10 @@ return(<>
                 Your current account role is <b>{user.role}</b>.
             </h2>
 
-            <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Lead Tasks</h2>
+            {/* <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Lead Tasks</h2> */}
             
             <button 
-                onClick={() => {setRepNums(!repNums); setChangeRotating(false)}} 
+                onClick={() => {setRepNums(!repNums); setChangeRotating(false); setShowReports(false)}} 
                 className={`p-4 
                     tracking-widest 
                     uppercase 
@@ -225,7 +282,7 @@ return(<>
             <button 
                 onClick={() => {
                     if (user.role === 'Admin') {
-                        setChangeRotating(!changeRotating); setRepNums(false)
+                        setChangeRotating(!changeRotating); setRepNums(false); setShowReports(false);
                     } else {
                         alert('This action is only availble to management.')
                     }
@@ -244,7 +301,7 @@ return(<>
 
             <button 
                 onClick={() => {
-                    setShowReports(!showReports)
+                    setShowReports(!showReports); setChangeRotating(false); setRepNums(false);
                 }}
 
                 className={`p-4 
@@ -266,9 +323,9 @@ return(<>
                     </> : <>
                         {numsNeeded.map((obj: any) => {
                             return <>
-                            <div className="flex flex-col gap-">
-                                <TextToInput 
-                                        key={obj.id} 
+                            <div key={`${obj._id}/${obj.id}`} className="flex flex-col gap-">
+                                <TextToInput
+                                        key={obj._id} 
                                         setNumsNeeded={setNumsNeeded} 
                                         numsNeeded={numsNeeded}
                                         id={obj.id}
@@ -303,7 +360,7 @@ return(<>
                 <div className="flex flex-col w-4/5 max-w-lg gap-6 justify-center align-center self-center">
                     {rotatingNums.map((obj: any) => {
                             return <>
-                            <div className="flex flex-col gap-2">
+                            <div key={obj.id}  className="flex flex-col gap-2">
                                 <TextToInput 
                                         key={obj._id} 
                                         setNumsNeeded={setRotatingNums} 
@@ -323,10 +380,38 @@ return(<>
 
             
             {showReports && <>
-                {ordered.map((report: any) => {
-                    return <Accordion key={`${report.user}/${report.date}/${report.time}`} user={report.user} date={report.date} time={report.time} numsReported={report.numsReported} />
+                {reports.slice().reverse().map((report: any) => {
+                    return <Accordion getFromServer={getFromServer} key={`${report.user}/${report.date}/${report.time}`} user={report.user} date={report.date} time={report.time} numsReported={report.numsReported} _id={report._id} currUser={user} />
                 })}
             </>}
+
+            {user.role === 'Admin' && 
+            
+                <form onSubmit={(e: any) => { e.preventDefault() }} className="flex w-8/12 self-center justify-center align-center">
+                    <input 
+                    value={message.currentInput} 
+                    onChange={(e: any) => {
+                        setMessage((prev:any) => ({
+                            ...prev,
+                            currentInput: e.target.value
+                        }))
+                    }} 
+                    type="text" 
+                    placeholder="Enter your message here..."
+                    className="border p-4 self-center custom_b1 bg-slate-50 font-light text-xl w-full" />
+                    <button onClick={(e:any) => {
+                        setMessage((prev:any) => ({
+                            ...prev,
+                            broadcast: prev.currentInput,
+                            currentInput: ''
+                        }))
+
+                        postMsg();
+                    }} className="border custom_b2 w-1/2 bg-blue-50 uppercase font-light tracking-tight">Broadcast</button>
+                </form>
+
+            }
+
 
         
           <LogoutButton 

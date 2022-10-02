@@ -40,3 +40,18 @@
 .transition_ease {
   transition: 3s ease;
 }
+
+.custom_b1 {
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    overflow-x: auto;
+}
+
+.custom_b2 {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 2em;
+  border-bottom-right-radius: 2em;
+}
