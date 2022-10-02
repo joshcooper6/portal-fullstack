@@ -7,6 +7,11 @@ export default function NumCounter(props: any) {
 
     const { getFromServer, setNumsNeeded, numsNeeded, user, rotatingNums } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
+    const [todaysNums, setTodaysNums] = useState({
+        morning: [],
+        afternoon: []
+    });
+
     const [confirmPost, setConfirmPost] = useState(false);
 
     const postNums = () => {
@@ -41,6 +46,51 @@ export default function NumCounter(props: any) {
         }, 300)
     };
 
+    const getMorning = async () => {
+        const foodConfig = {
+            method: 'get',
+            url: 'http://localhost:5000/getMorningFood'
+        };
+
+        axios(foodConfig)
+            .then((res:any) => {
+                const data = res.data;
+                setTodaysNums((prev:any) => ({
+                    ...prev,
+                    morning: data.target
+                }))
+            })
+            .catch((err) => {
+                console.log(err);
+        })
+    };  
+
+    const getAfternoon = async () => {
+        const foodConfig = {
+            method: 'get',
+            url: 'http://localhost:5000/getAfternoonFood'
+        };
+
+        axios(foodConfig)
+            .then((res:any) => {
+                const data = res.data;
+                setTodaysNums((prev:any) => ({
+                    ...prev,
+                    afternoon: data.target
+                }))
+            })
+            .catch((err) => {
+                console.log(err);
+        })
+    };  
+
+    useEffect(() => {
+        getMorning().then(() => {
+            console.log('Morning numbers loaded. Loading afternoon now.')
+            getAfternoon().then(() => { console.log('Afternoon numbers loaded now.') })
+        });
+    }, []);
+
     return (<>
             <button 
                 onClick={() => {setRepNums(!repNums) }} 
@@ -54,10 +104,15 @@ export default function NumCounter(props: any) {
                     self-center`}>
                         {repNums ? 'Hide Food Numbers' : 'Report Food Numbers'}
             </button>
-        
+
 
             { repNums && <>
                 <div className="flex flex-col gap-6 max-w-lg w-4/5 self-center">
+
+                    <div className='w-full gap-2 flex self-center justify-center align-center'>
+                        <button className='w-1/2 border rounded-xl p-4 bg-blue-500 font-bold text-white uppercase' onClick={() => { setNumsNeeded(todaysNums.morning) }}>AM Numbers</button>
+                        <button className="w-1/2 p-4 border rounded-xl bg-purple-500 text-white font-bold uppercase" onClick={() => { setNumsNeeded(todaysNums.afternoon) }}>PM Numbers</button>
+                    </div>
 
                     {numsNeeded.length <= 0 ? <>
 

@@ -11,39 +11,10 @@ export default function Reports(props: any) {
         setShowReports(!showReports);
     };
 
-    const dayString = (insertdate: any) => {
-        const DATE = insertdate;
-        const TODAY = DATE.getDay();
-      
-        switch(TODAY) {
-          case 0:
-            return 'sunday';
-            break;
-          case 1:
-            return 'monday';
-            break;
-          case 2:
-            return 'tuesday';
-            break;
-          case 3:
-            return 'wednesday';
-            break;
-          case 4:
-            return 'thursday';
-            break;
-          case 5:
-            return 'friday';
-            break;
-          case 6:
-            return 'saturday';
-            break;
-        }
-      };
-
     const styles = {
         button: `p-4 tracking-widest uppercase rounded-xl max-w-lg border w-4/5 self-center
         ${showReports ? 'bg-red-200' : 'bg-blue-100'}`,
-    }
+    };
 
     return(<>
             <button onClick={buttonClick} className={styles.button}>

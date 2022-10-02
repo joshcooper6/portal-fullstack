@@ -3,7 +3,6 @@ import axios from "axios";
 
 export default function Accordion(props: any) {
 
-    const reports = props.reps;
     const [isActive, setIsActive] = useState(false);
 
     const user = props.user;

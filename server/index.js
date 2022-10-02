@@ -53,6 +53,34 @@ app.get('/getFood', async (req, res) => {
     })
 });
 
+
+app.get('/getMorningFood', async (req, res) => {
+  let sentReport = await Food.find({ [`${DAY_OF_WEEK}.morning`] : true })
+    .then((sendingTheseNums) => {
+      res.send({
+        message: 'food-loaded',
+        date: SERVER_DATE.toString(),
+        day: DAY_OF_WEEK,
+        time: 'morning',
+        target: sendingTheseNums
+      });
+    })
+});
+
+app.get('/getAfternoonFood', async (req, res) => {
+  let sentReport = await Food.find({ [`${DAY_OF_WEEK}.afternoon`] : true })
+    .then((sendingTheseNums) => {
+      res.send({
+        message: 'food-loaded',
+        date: SERVER_DATE.toString(),
+        day: DAY_OF_WEEK,
+        time: 'afternoon',
+        target: sendingTheseNums
+      });
+    })
+});
+
+
 app.post('/sendNumbers', async (req, res) => {
   const request = req.body;
   const numbers = request.numbers;

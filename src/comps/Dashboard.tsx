@@ -9,17 +9,10 @@ const cookies = new Cookies();
 export default function Dashboard(props: any) {
 
     const token = cookies.get("session-token");
-
     const [numsNeeded, setNumsNeeded] = useState([]);
     const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
-    const [message, setMessage] = useState({
-        currentInput: '',
-        broadcast: '',
-        firstName: '',
-        username: ''
-    });
-
     const [rotatingNums, setRotatingNums] = useState([]);
+
     const [user, setUser] = useState({
         firstName: "",
         lastName: "",
@@ -27,6 +20,13 @@ export default function Dashboard(props: any) {
         username: "",
         email: "",
         exp: ""
+    });
+
+    const [message, setMessage] = useState({
+        currentInput: '',
+        broadcast: '',
+        firstName: '',
+        username: ''
     });
 
     const getFood = async () => {
@@ -38,7 +38,7 @@ export default function Dashboard(props: any) {
         axios(foodConfig)
             .then((res) => {
                 setNumsNeeded(res.data.target);
-
+                console.log(res.data)
                 if (res.data.message === 'food-loaded') {
                     console.log(`Numbers for ${res.data.day} ${res.data.time} have loaded successfully.`)
                 };
@@ -134,6 +134,7 @@ export default function Dashboard(props: any) {
         message,
         setMessage
     };
+    
      
 return(<>
         <div className="flex gap-4 mt-4 mb-4 flex-col min-h-screen min-w-screen justify-center align-center">
