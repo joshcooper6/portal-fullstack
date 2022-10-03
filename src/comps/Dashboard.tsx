@@ -3,7 +3,7 @@ import Cookies from "universal-cookie";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import NumsContext from "../context/NumsContext";
-import { Header, LogoutButton, Broadcast, NumCounter, UpdRotating, Reports } from './';
+import { Header, LogoutButton, Broadcast, NumCounter, UpdRotating, Reports, TeaInventory } from './';
 const cookies = new Cookies();
 
 export default function Dashboard(props: any) {
@@ -150,6 +150,7 @@ return(<>
                 <UpdRotating />
                 <Reports />
                 <Broadcast />
+                <TeaInventory />
                 <LogoutButton 
                         styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl max-w-lg w-4/5'} 
                     />

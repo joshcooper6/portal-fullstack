@@ -11,7 +11,9 @@ module.exports = {
     './src/comps/UpdRotating.tsx',
     './src/comps/Reports.tsx',
     './src/comps/Broadcast.tsx',
-    './src/comps/Header.tsx'
+    './src/comps/Header.tsx',
+    './src/comps/TeaInventory.tsx'
+
   ],
   theme: {
     extend: {},
