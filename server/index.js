@@ -16,6 +16,7 @@ const cookies = new Cookies();
 const dayString = require('./dayString');
 const timeString = require('./timeString');
 const AdminMsg = require("./models/MsgsFromAdmin");
+const Tea = require("./models/Tea");
 const SERVER_DATE = new Date();
 const DAY_OF_WEEK = dayString(SERVER_DATE);
 const TIME_OF_DAY = timeString(SERVER_DATE, 11);
@@ -78,6 +79,31 @@ app.get('/getAfternoonFood', async (req, res) => {
         target: sendingTheseNums
       });
     })
+});
+
+app.post('/createTea', async(req, res) => {
+  const request = req.body;
+
+  await Tea.create({
+    id: request.id,
+    name: request.name,
+    meetsContainer: request.meetsContainer,
+    meetsBackupBag: request.meetsBackupBag,
+    amountInBackupBag: request.amountInBackupBag,
+    amountInBackupContainer: request.amountInBackupContainer
+  }).then((success) => {
+    res.send({
+      success: true,
+      message: 'Tea created',
+      target: success
+    })
+  }).catch((err) => {
+    res.send({
+      success: false,
+      message: 'This tea already exists',
+      target: err
+    })
+  })
 });
 
 
