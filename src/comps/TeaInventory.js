@@ -34,11 +34,11 @@ export default function TeaInventory(props) {
 
     const formStyles = {
         container: `min-w-screen flex flex-col`,
-        header: `text-left text-4xl p-6 uppercase font-thin self-center`,
-        elements: `w-full text-center p-4 border rounded-xl`,
-        form: `flex flex-col w-full items-center self-center gap-2 p-4`,
-        button: `p-4 border rounded-xl w-11/12 self-center p-6 font-light uppercase text-2xl bg-blue-500 max-w-md text-white`,
-        trello: `p-4 border rounded-xl w-11/12 self-center p-6 font-light uppercase text-2xl bg-blue-200 text-center max-w-md text-black`,
+        header: `text-left text-4xl p-6 uppercase font-thin self-center max-w-lg`,
+        elements: `w-full uppercase text-2xl font-light tracking-widest text-center hover:cursor-pointer p-4 border rounded-xl max-w-lg`,
+        form: `flex flex-col w-full items-center self-center gap-2 p-4 max-w-lg`,
+        button: `mt-4 p-4 border rounded-xl w-11/12 self-center p-6 font-light uppercase text-2xl bg-blue-500 max-w-md text-white max-w-lg`,
+        trello: `p-4 border rounded-xl w-11/12 self-center p-6 font-light uppercase text-2xl bg-blue-200 text-center max-w-lg text-black`,
     };
 
     async function copy(text) {
@@ -142,7 +142,7 @@ export default function TeaInventory(props) {
         if (nextweek.length > 0) {
             setFinalMsg((prev) => ({
                 ...prev,
-                nextweek: `We will want to keep an eye on ${nextweek.map((tea) => tea.name).join(', and ')} for next week.`
+                nextweek: `We will want to keep an eye on ${nextweek.map((tea) => tea.name).join(', and ')} for the next week.`
             }));
         } else {
             setFinalMsg((prev) => ({
@@ -176,6 +176,7 @@ export default function TeaInventory(props) {
                     rounded-xl 
                     border w-4/5
                     max-w-lg
+                    mb-4
                     self-center`}>
                         {showComp ? 'Hide Tea Inventory' : 'Report Tea Inventory'}
             </button>
@@ -220,7 +221,7 @@ export default function TeaInventory(props) {
 
                     { step.three && <>
                         
-                        <p className="text-xl self-center text-center p-6">
+                        <p className="text-xl self-center text-center p-6 max-w-lg">
                         {toBeCopied}
                         </p>
 
