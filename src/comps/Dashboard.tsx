@@ -33,6 +33,8 @@ export default function Dashboard(props: any) {
         username: ''
     });
 
+    const [tea, setTea] = useState([]);
+
     const getFood = async () => {
         const foodConfig = {
             method: 'get',
@@ -46,6 +48,22 @@ export default function Dashboard(props: any) {
                 if (res.data.message === 'food-loaded') {
                     console.log(`Numbers for ${res.data.day} ${res.data.time} have loaded successfully.`)
                 };
+            })
+            .catch((err) => {
+                console.log(err);
+        })
+    };  
+
+    const getTea = async () => {
+        const foodConfig = {
+            method: 'get',
+            url: 'http://localhost:5000/getTea'
+        };
+
+        axios(foodConfig)
+            .then((res) => {
+                setTea(res.data.target);
+                console.log(res.data.target);
             })
             .catch((err) => {
                 console.log(err);
@@ -84,6 +102,7 @@ export default function Dashboard(props: any) {
         getRotatingNums().then(() => { console.log('Rotating numbers have been adjusted.') });
         getReports().then(() => { console.log('Reports have been loaded successfuly.') })
         getMsg().then(() => { console.log('Broadcasted message has been updated.') })
+        getTea().then(() => { console.log('Tea has been updated.') })
     };
 
     const getMsg = async () => {
@@ -138,7 +157,9 @@ export default function Dashboard(props: any) {
         message,
         setMessage,
         todaysNums, 
-        setTodaysNums
+        setTodaysNums,
+        tea,
+        setTea
     };
     
      

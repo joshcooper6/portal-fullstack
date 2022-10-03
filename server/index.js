@@ -81,6 +81,25 @@ app.get('/getAfternoonFood', async (req, res) => {
     })
 });
 
+app.get('/getTea', async(req, res) => {
+  const request = req.body;
+
+  await Tea.find({})
+    .then((success) => {
+      res.send({
+        success: true,
+        message: 'All tea has been loaded',
+        target: success
+      })
+    }).catch((err) => {
+      res.send({
+        success: false,
+        message: 'Something went wrong loading all tea',
+        target: err
+      });
+    })
+});
+
 app.post('/createTea', async(req, res) => {
   const request = req.body;
 
