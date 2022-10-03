@@ -9,3 +9,4 @@ export { default as UpdRotating } from './UpdRotating';
 export { default as Reports } from './Reports';
 export { default as Broadcast } from './Broadcast';
 export { default as Header } from './Header';
+export { default as TeaInventory } from './TeaInventory';

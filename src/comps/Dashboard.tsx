@@ -3,7 +3,7 @@ import Cookies from "universal-cookie";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import NumsContext from "../context/NumsContext";
-import { Header, LogoutButton, Broadcast, NumCounter, UpdRotating, Reports } from './';
+import { Header, LogoutButton, Broadcast, NumCounter, UpdRotating, Reports, TeaInventory } from './';
 const cookies = new Cookies();
 
 export default function Dashboard(props: any) {
@@ -33,6 +33,8 @@ export default function Dashboard(props: any) {
         username: ''
     });
 
+    const [tea, setTea] = useState([]);
+
     const getFood = async () => {
         const foodConfig = {
             method: 'get',
@@ -46,6 +48,22 @@ export default function Dashboard(props: any) {
                 if (res.data.message === 'food-loaded') {
                     console.log(`Numbers for ${res.data.day} ${res.data.time} have loaded successfully.`)
                 };
+            })
+            .catch((err) => {
+                console.log(err);
+        })
+    };  
+
+    const getTea = async () => {
+        const foodConfig = {
+            method: 'get',
+            url: 'http://localhost:5000/getTea'
+        };
+
+        axios(foodConfig)
+            .then((res) => {
+                setTea(res.data.target);
+                console.log(res.data.target);
             })
             .catch((err) => {
                 console.log(err);
@@ -84,6 +102,7 @@ export default function Dashboard(props: any) {
         getRotatingNums().then(() => { console.log('Rotating numbers have been adjusted.') });
         getReports().then(() => { console.log('Reports have been loaded successfuly.') })
         getMsg().then(() => { console.log('Broadcasted message has been updated.') })
+        getTea().then(() => { console.log('Tea has been updated.') })
     };
 
     const getMsg = async () => {
@@ -138,21 +157,25 @@ export default function Dashboard(props: any) {
         message,
         setMessage,
         todaysNums, 
-        setTodaysNums
+        setTodaysNums,
+        tea,
+        setTea
     };
     
      
 return(<>
         <div className="flex gap-4 mt-4 mb-4 flex-col min-h-screen min-w-screen justify-center align-center">
             <NumsContext.Provider value={provVals}>
-                <Header />
+                <Header />                
+                <LogoutButton 
+                        styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl max-w-lg w-4/5'} 
+                />
                 <NumCounter />
                 <UpdRotating />
                 <Reports />
-                <Broadcast />
-                <LogoutButton 
-                        styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl max-w-lg w-4/5'} 
-                    />
+                <Broadcast />              
+                <TeaInventory />
+
             </NumsContext.Provider>
         </div>
         

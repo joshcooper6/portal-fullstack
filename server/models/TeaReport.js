@@ -1,5 +1,5 @@
 const Mongoose = require('mongoose')
-const ReportSchema = new Mongoose.Schema({
+const TeaReportSchema = new Mongoose.Schema({
     date: {
         type: String,
         required: [true, 'Please enter todays date']
@@ -12,15 +12,27 @@ const ReportSchema = new Mongoose.Schema({
         type: String,
         required: [true, 'Please enter user name']
     },
-    numsReported: {
+    teaResults: {
         type: Array,
         default: [],
         required: [true, 'Please send the numbers']
+    },
+    needed: {
+        type: Array,
+        default: []
+    },
+    nextWeek: {
+        type: Array,
+        default: []
+    },
+    msgRendered: {
+        type: String,
+        default: ""
     }
 }, 
 {
     timestamps: true
 })
 
-const Report = Mongoose.model("Report", ReportSchema)
-module.exports = Report     
+const TeaReport = Mongoose.model("TeaReport", TeaReportSchema)
+module.exports = TeaReport     
