@@ -20,10 +20,9 @@ export default function TeaInventory(props) {
     });
 
     const toBeCopied = `${finalMsg.needed}\n${finalMsg.nextweek}\n${finalMsg.users}`;
-    
     const second = tea.filter(tea => tea.meetsBackupBag === false);
-    const needed = tea.filter((tea) => (tea.meetsBackupBag === false) && (tea.meetsContainer === false))
-    const nextweek = tea.filter((tea) => (tea.meetsBackupBag === false) && (tea.meetsContainer === true))
+    const needed = tea.filter((tea) => (tea.meetsBackupBag === false) && (tea.meetsContainer === false));
+    const nextweek = tea.filter((tea) => (tea.meetsBackupBag === false) && (tea.meetsContainer === true));
 
     const hc = (e) => {
         setTea((prev) => 
@@ -137,7 +136,7 @@ export default function TeaInventory(props) {
                 postTeaReport();
             })
         };
-    }, [step])
+    }, [step]);
 
     return(<>
 

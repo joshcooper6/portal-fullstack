@@ -162,19 +162,20 @@ app.post('/finalReport', async(req,res) => {
     needed: request.needed,
     nextWeek: request.nextWeek,
     msgRendered: request.msgRendered
-  }).then((success) => {
+  })
+  .then((success) => {
     res.send({
       success: true,
       message: 'Tea report has been created!',
       target: success
-    }).catch((err) => {
+    })})
+    .catch((err) => {
       res.send({
         success: false,
         message: 'Something went wrong reporting tea',
         target: err
       })
     })
-  })
 });
 
 app.post('/sendNumbers', async (req, res) => {
