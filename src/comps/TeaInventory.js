@@ -12,6 +12,14 @@ export default function TeaInventory(props) {
         two: false,
         three: false
     });
+
+    const [finalMsg, setFinalMsg] = useState({
+        needed: '',
+        nextweek: '',
+        users: '@aliciaminer @brianagill1 @kateglasnovich'
+    });
+
+    const toBeCopied = `${finalMsg.needed}\n${finalMsg.nextweek}\n${finalMsg.users}`;
     
     const second = tea.filter(tea => tea.meetsBackupBag === false);
     const needed = tea.filter((tea) => (tea.meetsBackupBag === false) && (tea.meetsContainer === false))
@@ -48,43 +56,127 @@ export default function TeaInventory(props) {
     const secondRender = second.map((tea) => {
         return <h1 className={`${tea.meetsContainer && 'bg-green-100'}`} onClick={hc2}>{tea.name}</h1>
     });
+ 
+    const submitAll = async () => {
+        tea.forEach((tea) => {
+            const config = {
+                method: 'post',
+                url: 'http://localhost:5000/reportTea',
+                data: {
+                    name: tea.name,
+                    meetsContainer: tea.meetsContainer,
+                    meetsBackupBag: tea.meetsBackupBag
+                }
+            };
+    
+            axios(config)
+                .then((res) => {
+                    console.log('Updated tea results in database', res);
+                })
+                .catch((err) => {
+                    console.log('something went wrong updating', err)
+            })
+        });
+    };
+
+    const postTeaReport = async () => {
+        const config = {
+            method: 'post',
+            url: 'http://localhost:5000/finalReport',
+            data: {
+                user: user.username,
+                teaResults: tea,
+                needed: needed,
+                nextWeek: nextweek,
+                msgRendered: toBeCopied
+            }
+        };
+
+        axios(config)
+            .then((res) => {
+                console.log('Tea report added to DB', res);
+            })
+            .catch((err) => {
+                console.log('something went wrong adding to tea db', err)
+        })
+    };
+
+    const renderFinalMsg = () => {
+
+        if (needed.length > 0) {
+            setFinalMsg((prev) => ({
+                ...prev,
+                needed: `We will need to order ${needed.map((tea) => tea.name).join(', and ')}!`
+            }));
+        } else {
+            setFinalMsg((prev) => ({
+                ...prev,
+                needed: `We will not need to order anything this week.`
+            }));
+        };
+
+        if (nextweek.length > 0) {
+            setFinalMsg((prev) => ({
+                ...prev,
+                nextweek: `We will want to keep an eye on ${nextweek.map((tea) => tea.name).join(', and ')} for next week.`
+            }));
+        } else {
+            setFinalMsg((prev) => ({
+                ...prev,
+                nextweek: `There are no other teas that meet the criteria for ordering.`
+            }));
+        };
+
+    };
+
+    useEffect(() => {
+        renderFinalMsg();
+
+        if (step.three === true) {
+            submitAll().then(() => {
+                postTeaReport();
+            })
+        };
+    }, [step])
 
     return(<>
 
-
-        {step.one && <>
+        { step.one && <>
             
             <h1>Which have a backup bag present?</h1>
+
             {firstRender}
+
             <button onClick={(e) => setStep((prev) => ({
                 ...prev,
                 one: false,
                 two: true
             }))}>Activate Next Step</button>
         
-        </>}
+        </> }
 
-        {step.two && <>
+        { step.two && <>
             
             <h1>Which have a 3/4 of a backup container present?</h1>
+
             {secondRender}
-            <button onClick={(e) => setStep((prev) => ({
-                ...prev,
-                two: false,
-                three: true
-            }))}>Render Final</button>
+
+            <button onClick={(e) => {
+
+                setStep((prev) => ({
+                    ...prev,
+                    two: false,
+                    three: true
+                }));
+
+
+            }}>Render Final</button>
         
-        </>}
+        </> }
 
-        {step.three && <>
+        { step.three && <>
             
-            Needed: { needed.map((tea) => {
-                return <h1>{tea.name}</h1>
-            }) }
-
-            Next Week: { nextweek.map((tea) => {
-                return <h1>{tea.name}</h1>
-            }) }
+            {toBeCopied}
 
             <button onClick={(e) => setStep((prev) => ({
                 ...prev,
@@ -92,7 +184,7 @@ export default function TeaInventory(props) {
                 one: true
             }))}>Restart</button>
         
-        </>}
+        </> }
 
     </>)
 };

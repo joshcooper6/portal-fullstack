@@ -17,6 +17,7 @@ const dayString = require('./dayString');
 const timeString = require('./timeString');
 const AdminMsg = require("./models/MsgsFromAdmin");
 const Tea = require("./models/Tea");
+const TeaReport = require("./models/TeaReport");
 const SERVER_DATE = new Date();
 const DAY_OF_WEEK = dayString(SERVER_DATE);
 const TIME_OF_DAY = timeString(SERVER_DATE, 11);
@@ -128,13 +129,11 @@ app.post('/createTea', async(req, res) => {
 app.post('/reportTea', async(req, res) => {
   const request = req.body;
 
-  const query = { id: request.id }
+  const query = { name: request.name }
   const target = {
     meetsContainer: request.meetsContainer,
     meetsBackupBag: request.meetsBackupBag,
-    amountInBackupBag: request.amountInBackupBag,
-    amountInBackupContainer: request.amountInBackupContainer
-  }
+  };
 
   await Tea.findOneAndUpdate(query, target, { returnOriginal: false })
     .then((success) => {
@@ -152,6 +151,31 @@ app.post('/reportTea', async(req, res) => {
     })
 });
 
+app.post('/finalReport', async(req,res) => {
+  const request = req.body;
+
+  await TeaReport.create({
+    date: SERVER_DATE,
+    time: SERVER_DATE.toLocaleTimeString(),
+    user: request.user,
+    teaResults: request.teaResults,
+    needed: request.needed,
+    nextWeek: request.nextWeek,
+    msgRendered: request.msgRendered
+  }).then((success) => {
+    res.send({
+      success: true,
+      message: 'Tea report has been created!',
+      target: success
+    }).catch((err) => {
+      res.send({
+        success: false,
+        message: 'Something went wrong reporting tea',
+        target: err
+      })
+    })
+  })
+});
 
 app.post('/sendNumbers', async (req, res) => {
   const request = req.body;
