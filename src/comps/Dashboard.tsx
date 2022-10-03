@@ -166,15 +166,16 @@ export default function Dashboard(props: any) {
 return(<>
         <div className="flex gap-4 mt-4 mb-4 flex-col min-h-screen min-w-screen justify-center align-center">
             <NumsContext.Provider value={provVals}>
-                {/* <Header /> */}
-                {/* <NumCounter />
-                <UpdRotating />
-                <Reports />
-                <Broadcast /> */}
-                <TeaInventory />
+                <Header />                
                 <LogoutButton 
                         styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl max-w-lg w-4/5'} 
-                    />
+                />
+                <NumCounter />
+                <UpdRotating />
+                <Reports />
+                <Broadcast />              
+                <TeaInventory />
+
             </NumsContext.Provider>
         </div>
         
