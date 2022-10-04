@@ -14,6 +14,7 @@ const Report = require("./models/Report");
 const { query } = require("express");
 const cookies = new Cookies();
 const dayString = require('./dayString');
+const path = require('path');
 const timeString = require('./timeString');
 const AdminMsg = require("./models/MsgsFromAdmin");
 const Tea = require("./models/Tea");
@@ -22,11 +23,15 @@ const SERVER_DATE = new Date();
 const DAY_OF_WEEK = dayString(SERVER_DATE);
 const TIME_OF_DAY = timeString(SERVER_DATE, 11);
 
+app.use(express.static(path.join(__dirname, '../build')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-
 dbConnect();
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build'));
+});
 
 // app.get('/numbers', auth, async (req,res) => {
 //   res.send('working')
@@ -126,7 +131,7 @@ app.post('/createTea', async(req, res) => {
   })
 });
 
-app.post('/reportTea', async(req, res) => {
+app.post('/reportTea',  async(req, res) => {
   const request = req.body;
 
   const query = { name: request.name }
@@ -448,10 +453,14 @@ app.get('/rotating', async (request, response) => {
 });
 
 app.get("/auth", auth, async (request, response) => {
-
+  
 });
-
 
 app.listen(PORT, () => {
     console.log(`Server is connected to port ${PORT}`)
 });
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
+

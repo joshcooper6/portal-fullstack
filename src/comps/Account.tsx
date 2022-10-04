@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { PATH } from "../confgs";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Cookies from "universal-cookie";
 import logo from '../assets/logo.png';
@@ -36,7 +37,7 @@ export default function Account(props: any) {
     
       const config = {
         method: 'post',
-        url: `http://localhost:5000/${formStatus.path}`,
+        url: `${PATH}/${formStatus.path}`,
         data: formData
       };
 

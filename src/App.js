@@ -1,15 +1,14 @@
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import { Account, Dashboard } from './comps';
-import { ProtectedRoutes } from './comps';
 
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<Account />} />
-        <Route path="/auth" element={<Dashboard />} />
+          <Route path="/" element={<Account />} />
+          <Route path="/auth" element={<Dashboard />} />
       </Routes>
     </>
   );

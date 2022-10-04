@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import NumsContext from "../context/NumsContext"
 import axios from 'axios';
 import OpenApp from 'react-open-app';
+import { PATH } from "../confgs";
 
 export default function TeaInventory(props) {
     
@@ -85,7 +86,7 @@ export default function TeaInventory(props) {
         tea.forEach((tea) => {
             const config = {
                 method: 'post',
-                url: 'http://localhost:5000/reportTea',
+                url: `${PATH}/reportTea`,
                 data: {
                     name: tea.name,
                     meetsContainer: tea.meetsContainer,
@@ -106,7 +107,7 @@ export default function TeaInventory(props) {
     const postTeaReport = async () => {
         const config = {
             method: 'post',
-            url: 'http://localhost:5000/finalReport',
+            url: `${PATH}/finalReport`,
             data: {
                 user: user.username,
                 teaResults: tea,

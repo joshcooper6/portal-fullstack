@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext } from "react";
 import NumsContext from "../context/NumsContext";
+import { PATH } from "../confgs";
 
 export default function Broadcast(props: any) {
 
@@ -9,7 +10,7 @@ export default function Broadcast(props: any) {
     const postMsg = () => {
         const config = {
             method: 'post',
-            url: 'http://localhost:5000/sendAdminMsg',
+            url: `${PATH}/sendAdminMsg`,
             data: {
                 msg: message.currentInput,
                 username: user.username,
