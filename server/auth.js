@@ -17,6 +17,6 @@ const auth = async (req, res, next) => {
             error: new Error("Invalid request!"),
           });
     }
-}
+};
 
 module.exports = auth
