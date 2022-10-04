@@ -165,7 +165,7 @@ export default function Dashboard(props: any) {
     
      
 return(<>
-        <div className="flex gap-4 mt-4 mb-4 flex-col min-h-screen min-w-screen justify-center align-center">
+        <div className="flex gap-2 flex-col min-h-screen min-w-screen justify-center align-center">
             <NumsContext.Provider value={provVals}>
                 <ProtectedRoutes component={Header} blue={'blue'} />       
                 <LogoutButton 
