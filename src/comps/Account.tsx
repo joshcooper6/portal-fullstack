@@ -74,7 +74,7 @@ export default function Account(props: any) {
             path: "/",
           });
 
-          window.location.href="/auth";
+          window.location.href="/dashboard";
         };
       };
     
@@ -118,7 +118,7 @@ export default function Account(props: any) {
 
           </div>
 
-          { cookies.get('session-token') && <Navigate to="/auth" /> }
+          { cookies.get('session-token') && <Navigate to="/dashboard" /> }
         </div>
       );
 }

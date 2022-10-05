@@ -180,7 +180,6 @@ return(<>
             </NumsContext.Provider>
         </div>
         
-        {(cookies.get('session-token')) && <Navigate to="/auth" />}
         {(!cookies.get('session-token')) && <Navigate to="/" />}
     </>)
 }

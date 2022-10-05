@@ -22,16 +22,18 @@ const TeaReport = require("./models/TeaReport");
 const SERVER_DATE = new Date();
 const DAY_OF_WEEK = dayString(SERVER_DATE);
 const TIME_OF_DAY = timeString(SERVER_DATE, 11);
+const router = express.Router();
+
+
+const token = cookies.get('session-token');
 
 app.use(express.static(path.join(__dirname, '../build')));
+// app.use(express.static("build"));
+// app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 dbConnect();
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build'));
-});
 
 // app.get('/numbers', auth, async (req,res) => {
 //   res.send('working')
@@ -453,7 +455,7 @@ app.get('/rotating', async (request, response) => {
 });
 
 app.get("/auth", auth, async (request, response) => {
-  
+   
 });
 
 app.listen(PORT, () => {
@@ -461,6 +463,6 @@ app.listen(PORT, () => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
 });
 
