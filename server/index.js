@@ -22,14 +22,9 @@ const TeaReport = require("./models/TeaReport");
 const SERVER_DATE = new Date();
 const DAY_OF_WEEK = dayString(SERVER_DATE);
 const TIME_OF_DAY = timeString(SERVER_DATE, 11);
-const router = express.Router();
 
-
-const token = cookies.get('session-token');
-
-app.use(express.static(path.join(__dirname, '../build')));
-// app.use(express.static("build"));
-// app.use(bodyParser.json());
+// app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static("build"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
