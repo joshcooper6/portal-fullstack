@@ -11,10 +11,10 @@ const auth = async (req, res, next) => {
           const user = await decodedToken;
           console.log('USER', user)
           next();
-          res.send({ success: true, user: user })
+          res.send({ success: true, user: user });
     } catch (error) {
-        res.status(401).json({
-            error: new Error("Invalid request!"),
+        res.send({
+            error: error,
           });
     }
 };

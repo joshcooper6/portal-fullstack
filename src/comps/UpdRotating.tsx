@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import NumsContext from "../context/NumsContext";
 import axios from "axios";
 import TextToInput from "./TextToInput";
+import { PATH } from "../confgs";
 
 export default function UpdRotating(props: any) {
 
@@ -12,7 +13,7 @@ export default function UpdRotating(props: any) {
         rotatingNums.forEach((number: any) => {
             const config = {
                 method: 'post',
-                url: 'http://localhost:5000/updateFood',
+                url: `${PATH}/updateFood`,
                 data: {
                     query: { id: number.id },
                     changeThis: { name: number.name }

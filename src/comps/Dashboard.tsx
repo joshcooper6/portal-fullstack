@@ -4,6 +4,9 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import NumsContext from "../context/NumsContext";
 import { ProtectedRoutes } from '../comps';
+import { Routes, Route } from "react-router-dom";
+import TestPage from "./TestPage";
+import { PATH } from "../confgs";
 import { Header, LogoutButton, Broadcast, NumCounter, UpdRotating, Reports, TeaInventory } from './';
 const cookies = new Cookies();
 
@@ -39,7 +42,7 @@ export default function Dashboard(props: any) {
     const getFood = async () => {
         const foodConfig = {
             method: 'get',
-            url: 'http://localhost:5000/getFood'
+            url: `${PATH}/getFood`
         };
 
         axios(foodConfig)
@@ -58,7 +61,7 @@ export default function Dashboard(props: any) {
     const getTea = async () => {
         const foodConfig = {
             method: 'get',
-            url: 'http://localhost:5000/getTea'
+            url: `${PATH}/getTea`
         };
 
         axios(foodConfig)
@@ -74,7 +77,7 @@ export default function Dashboard(props: any) {
     const getRotatingNums = async () => {
         const config = {
             method: 'get',
-            url: 'http://localhost:5000/rotating'
+            url: `${PATH}/rotating`
         };
 
         axios(config)
@@ -85,7 +88,7 @@ export default function Dashboard(props: any) {
     const getReports = async () => {
         const config = {
             method: 'get',
-            url: 'http://localhost:5000/getReports'
+            url: `${PATH}/getReports`
         };
 
         axios(config)
@@ -109,7 +112,7 @@ export default function Dashboard(props: any) {
     const getMsg = async () => {
         const config = {
             method: 'get',
-            url: 'http://localhost:5000/getAdminMsg'
+            url: `${PATH}/getAdminMsg`
         };
 
         axios(config)
@@ -129,7 +132,7 @@ export default function Dashboard(props: any) {
     useEffect(() => {
         const configuration = {
             method: "get",
-            url: "http://localhost:5000/auth",
+            url: `${PATH}/auth`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -167,15 +170,13 @@ export default function Dashboard(props: any) {
 return(<>
         <div className="flex gap-2 flex-col min-h-screen min-w-screen justify-center align-center">
             <NumsContext.Provider value={provVals}>
-                <ProtectedRoutes component={Header} blue={'blue'} />       
-                <LogoutButton 
-                        styles={'text-white uppercase tracking-widest self-center bg-blue-500 p-4 rounded-xl max-w-lg w-4/5'} 
-                />
-                <ProtectedRoutes component={NumCounter} />
-                <ProtectedRoutes component={UpdRotating} />
-                <ProtectedRoutes component={Reports} />
-                <ProtectedRoutes component={Broadcast} />
-                <ProtectedRoutes component={TeaInventory} />
+                <Header />
+                <LogoutButton />
+                <NumCounter />
+                <UpdRotating />
+                <Reports />
+                <Broadcast />
+                <TeaInventory />
             </NumsContext.Provider>
         </div>
         
