@@ -130,22 +130,35 @@ export default function Dashboard(props: any) {
     };
 
     useEffect(() => {
-        const configuration = {
-            method: "get",
-            url: `${PATH}/auth`,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+        // const configuration = {
+        //     method: "get",
+        //     url: `${PATH}/auth`,
+        //     headers: {
+        //         Authorization: `Bearer ${token}`,
+        //     },
+        // };
+
+        // axios(configuration)
+        //     .then((result) => {
+        //         setUser(result.data.user);
+        //         getFromServer();
+        //     })
+        //     .catch((error) => {
+        //         console.log('Something went wrong', error);
+        //     });
+
+        const config = {
+            method: `get`,
+            url: `/getAuth`
         };
 
-        axios(configuration)
-            .then((result) => {
-                setUser(result.data.user);
-                getFromServer();
+        axios(config)
+            .then((rez) => {
+                console.log('SUCCESS', rez.data)
             })
-            .catch((error) => {
-                console.log('Something went wrong', error);
-            });
+            .catch((err) => {
+                console.log('Someting went wrong', err)
+            })
     }, []);    
 
     const provVals = {

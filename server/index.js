@@ -2,6 +2,7 @@ const dbConnect = require("./db");
 const express = require("express");
 const app = express();
 const cors = require('cors');
+const axios = require('axios');
 let PORT = process.env.PORT || 5000; 
 const bcrypt = require("bcrypt");
 const User = require("./models/User");
@@ -22,31 +23,23 @@ const TeaReport = require("./models/TeaReport");
 const SERVER_DATE = new Date();
 const DAY_OF_WEEK = dayString(SERVER_DATE);
 const TIME_OF_DAY = timeString(SERVER_DATE, 11);
-const router = express.Router();
 
-
-const token = cookies.get('session-token');
-
-app.use(express.static(path.join(__dirname, '../build')));
-// app.use(express.static("build"));
+// app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static("build"));
 // app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 dbConnect();
 
-// app.get('/numbers', auth, async (req,res) => {
-//   res.send('working')
-// });
-
 app.get('/', async (req, res) => {
-  res.send({
-    message: 'food-loaded',
-    date: SERVER_DATE.toString(),
-    day: DAY_OF_WEEK,
-    time: TIME_OF_DAY,
-    target: await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
-  });
+  // res.send({
+  //   message: 'food-loaded',
+  //   date: SERVER_DATE.toString(),
+  //   day: DAY_OF_WEEK,
+  //   time: TIME_OF_DAY,
+  //   target: await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
+  // });
 });
 
 app.get('/getFood', async (req, res) => {
@@ -387,11 +380,6 @@ app.post("/login", async (request, response) => {
         }) 
 });
 
-app.get('/foodInventory', async (request, response) => {
-  response.send({connect: true, message: 'time to send your food!'});
-  console.log(request.body);
-});
-
 app.post('/changeUserInfo', async (req, response) => {
   const tgt = req.body.tgt;
   const update = req.body.update;
@@ -404,11 +392,6 @@ app.post('/changeUserInfo', async (req, response) => {
   })
   
   console.log(req.body, tgt, update)
-});
-
-app.post('/foodInventory', async (request, response) => {
-  const data = request.body;
-  response.send({message: 'Use /createFood or /updateFood instead.'});
 });
 
 app.post('/createFood', async (req, res) => {
@@ -455,7 +438,26 @@ app.get('/rotating', async (request, response) => {
 });
 
 app.get("/auth", auth, async (request, response) => {
-   
+
+});
+
+
+app.get("/getAuth", async (request, response) => {
+  const configuration = {
+      method: "get",
+      url: `/auth`,
+    };
+
+    const token = cookies.get('session-token');
+    response.setHeader('Authorization', token)
+
+    axios(configuration)
+      .then((result) => {
+        response.send( result.data.user )
+      })
+      .catch((error) => {
+        console.log('Something went wrong', error)
+      })
 });
 
 app.listen(PORT, () => {
