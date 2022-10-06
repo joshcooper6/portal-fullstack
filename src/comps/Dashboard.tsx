@@ -7,6 +7,7 @@ import { ProtectedRoutes } from '../comps';
 import { Routes, Route } from "react-router-dom";
 import TestPage from "./TestPage";
 import { PATH } from "../confgs";
+import logo from '../assets/logo.png';
 import { Header, LogoutButton, Broadcast, NumCounter, UpdRotating, Reports, TeaInventory } from './';
 const cookies = new Cookies();
 
@@ -14,6 +15,7 @@ export default function Dashboard(props: any) {
 
     const token = cookies.get("session-token");
     const [numsNeeded, setNumsNeeded] = useState([]);
+    const [greeting, setGreeting] = useState('');
     const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
     const [rotatingNums, setRotatingNums] = useState([]);
     const [todaysNums, setTodaysNums] = useState({
@@ -148,6 +150,18 @@ export default function Dashboard(props: any) {
             });
     }, []);    
 
+    useEffect(() => {
+        const config = {
+            method: 'get',
+            url: 'https://www.greetingsapi.com/random'
+        };
+
+        axios(config)
+            .then((res) => {
+                console.log('Random greeting', res.data)
+            })
+    }, []);
+
     const provVals = {
         getFromServer,
         numsNeeded,
@@ -168,15 +182,21 @@ export default function Dashboard(props: any) {
     
      
 return(<>
-        <div className="flex gap-2 flex-col min-h-screen min-w-screen justify-center align-center">
+        <div className="flex gap-2 flex-col min-h-screen min-w-screen">
             <NumsContext.Provider value={provVals}>
-                <Header />
+
+                <div className="w-screen bg-blue-500 p-10 flex justify-around">
+                    <img src={logo} alt="ucl logo" className="h-20" />
+                    <h1></h1>
+                </div> 
+
+                {/* <Header />
                 <LogoutButton />
                 <NumCounter />
                 <UpdRotating />
                 <Reports />
                 <Broadcast />
-                <TeaInventory />
+                <TeaInventory /> */}
             </NumsContext.Provider>
         </div>
         
