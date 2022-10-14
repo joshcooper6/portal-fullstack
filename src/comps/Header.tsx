@@ -28,9 +28,9 @@ export default function Header(props: any) {
   
             {/* <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Current Info</h2> */}
 
-            <h2 className="text-center text-xl italic">
+            {/* <h2 className="text-center text-xl italic">
                 Message from {message.firstName}: {message.broadcast}
-            </h2>
+            </h2> */}
 
             <h2 className="text-lg text-center self-center pl-4 pr-4 tracking-tight">
                 You are known to the world as <b>{user.username}</b>.

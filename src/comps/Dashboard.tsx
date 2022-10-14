@@ -14,6 +14,7 @@ export default function Dashboard(props: any) {
 
     const token = cookies.get("session-token");
     const [numsNeeded, setNumsNeeded] = useState([]);
+    // add reports to admin only
     const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
     const [rotatingNums, setRotatingNums] = useState([]);
     const [todaysNums, setTodaysNums] = useState({
@@ -105,7 +106,7 @@ export default function Dashboard(props: any) {
 
         getRotatingNums().then(() => { console.log('Rotating numbers have been adjusted.') });
         getReports().then(() => { console.log('Reports have been loaded successfuly.') })
-        getMsg().then(() => { console.log('Broadcasted message has been updated.') })
+        // getMsg().then(() => { console.log('Broadcasted message has been updated.') })
         getTea().then(() => { console.log('Tea has been updated.') })
     };
 
@@ -175,7 +176,7 @@ return(<>
                 <NumCounter />
                 <UpdRotating />
                 <Reports />
-                <Broadcast />
+                {/* <Broadcast /> */}
                 <TeaInventory />
             </NumsContext.Provider>
         </div>
