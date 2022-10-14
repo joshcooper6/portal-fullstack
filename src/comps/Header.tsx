@@ -21,8 +21,9 @@ export default function Header(props: any) {
     return(<>
             <div className="flex gap-4 flex-col lg:flex-row max-w-xl self-center justify-between align-center">
                 {/* <img src={logo} alt="UCL logo" className="invert self-center text-center w-5/12 lg:w-2/12" />  */}
-                <h1 className="text-5xl self-center uppercase text-center font-bold tracking-tight">
-                    Welcome {user?.firstName}!
+                <h1 className="text-6xl text-center uppercase font-bold tracking-tight">
+                    Welcome  
+                    <span className="text-blue-500"> {user?.firstName}!</span>
                 </h1>
             </div>
   

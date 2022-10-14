@@ -40,9 +40,7 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/getAll', async (req, res) => {
-  res.send('hey')
-
-
+  res.send('hey');
 });
 
 app.get('/getFood', async (req, res) => {
@@ -224,22 +222,22 @@ app.get('/getReports', async (req, response) => {
   })
 });
 
-app.post('/sendAdminMsg', async (REQUEST, RESPONSE) =>  {
-  const data = REQUEST.body;
+// app.post('/sendAdminMsg', async (REQUEST, RESPONSE) =>  {
+//   const data = REQUEST.body;
 
-  await AdminMsg.findByIdAndUpdate({ _id: '63391b9dc62e4902b0981ebd' }, { msg: data.msg, username: data.username, firstName: data.firstName }, {returnOriginal: false})
-    .then((results) => {
-      console.log(results)
-    })
-});
+//   await AdminMsg.findByIdAndUpdate({ _id: '63391b9dc62e4902b0981ebd' }, { msg: data.msg, username: data.username, firstName: data.firstName }, {returnOriginal: false})
+//     .then((results) => {
+//       console.log(results)
+//     })
+// });
 
-app.get('/getAdminMsg', async (REQUEST, RESPONSE) =>  {
-  const data = REQUEST.body;
+// app.get('/getAdminMsg', async (REQUEST, RESPONSE) =>  {
+//   const data = REQUEST.body;
 
-  const msg = await AdminMsg.findById({ _id: '63391b9dc62e4902b0981ebd' })
+//   const msg = await AdminMsg.findById({ _id: '63391b9dc62e4902b0981ebd' })
 
-  RESPONSE.send({ msg: msg.msg, firstName: msg.firstName, username: msg.username })
-});
+//   RESPONSE.send({ msg: msg.msg, firstName: msg.firstName, username: msg.username })
+// });
 
 app.post('/deleteReport', async (request, res) => {
   const data = request.body;
