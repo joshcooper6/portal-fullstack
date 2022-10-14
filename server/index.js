@@ -59,7 +59,7 @@ app.get('/getFood', async (req, res) => {
         time: TIME_OF_DAY,
         target: sendingTheseNums
       });
-    })
+    });
 });
 
 
