@@ -49,45 +49,45 @@ app.get('/getAll', async (req, res) => {
     })
 });
 
-app.get('/getFood', async (req, res) => {
-  let sentReport = await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
-    .then((sendingTheseNums) => {
-      res.send({
-        message: 'food-loaded',
-        date: SERVER_DATE.toString(),
-        day: DAY_OF_WEEK,
-        time: TIME_OF_DAY,
-        target: sendingTheseNums
-      });
-    });
-});
+// app.get('/getFood', async (req, res) => {
+//   let sentReport = await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
+//     .then((sendingTheseNums) => {
+//       res.send({
+//         message: 'food-loaded',
+//         date: SERVER_DATE.toString(),
+//         day: DAY_OF_WEEK,
+//         time: TIME_OF_DAY,
+//         target: sendingTheseNums
+//       });
+//     });
+// });
 
 
-app.get('/getMorningFood', async (req, res) => {
-  let sentReport = await Food.find({ [`${DAY_OF_WEEK}.morning`] : true })
-    .then((sendingTheseNums) => {
-      res.send({
-        message: 'food-loaded',
-        date: SERVER_DATE.toString(),
-        day: DAY_OF_WEEK,
-        time: 'morning',
-        target: sendingTheseNums
-      });
-    })
-});
+// app.get('/getMorningFood', async (req, res) => {
+//   let sentReport = await Food.find({ [`${DAY_OF_WEEK}.morning`] : true })
+//     .then((sendingTheseNums) => {
+//       res.send({
+//         message: 'food-loaded',
+//         date: SERVER_DATE.toString(),
+//         day: DAY_OF_WEEK,
+//         time: 'morning',
+//         target: sendingTheseNums
+//       });
+//     })
+// });
 
-app.get('/getAfternoonFood', async (req, res) => {
-  let sentReport = await Food.find({ [`${DAY_OF_WEEK}.afternoon`] : true })
-    .then((sendingTheseNums) => {
-      res.send({
-        message: 'food-loaded',
-        date: SERVER_DATE.toString(),
-        day: DAY_OF_WEEK,
-        time: 'afternoon',
-        target: sendingTheseNums
-      });
-    })
-});
+// app.get('/getAfternoonFood', async (req, res) => {
+//   let sentReport = await Food.find({ [`${DAY_OF_WEEK}.afternoon`] : true })
+//     .then((sendingTheseNums) => {
+//       res.send({
+//         message: 'food-loaded',
+//         date: SERVER_DATE.toString(),
+//         day: DAY_OF_WEEK,
+//         time: 'afternoon',
+//         target: sendingTheseNums
+//       });
+//     })
+// });
 
 app.get('/getTea', async(req, res) => {
   const request = req.body;
@@ -282,18 +282,18 @@ app.get('/removeFromAllFood', async (req, response) => {
     })
 });
 
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-    );
-    next();
-  });
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader(
+//       "Access-Control-Allow-Headers",
+//       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+//     );
+//     res.setHeader(
+//       "Access-Control-Allow-Methods",
+//       "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+//     );
+//     next();
+//   });
 
 app.post('/register', async (req, res) => {
     const data = req.body;

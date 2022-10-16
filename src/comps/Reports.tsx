@@ -6,7 +6,7 @@ import { PATH } from "../confgs";
 
 export default function Reports(props: any) {
 
-    const { getFromServer, setChangeRotating, setRepNums, user } = useContext(NumsContext);
+    const { user } = useContext(NumsContext);
     const [showReports, setShowReports] = useState(false);    
     const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
 
@@ -46,7 +46,7 @@ export default function Reports(props: any) {
                             return <>
 
                                 <Accordion 
-                                    getFromServer={getFromServer} 
+                                    getFromServer={getReports} 
                                     key={`${report.user}/${report.date}/${report.time}`} 
                                     user={report.user}
                                     date={report.date} 

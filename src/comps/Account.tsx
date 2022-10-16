@@ -73,8 +73,6 @@ export default function Account(props: any) {
           cookies.set("session-token", x.token, {
             path: "/",
           });
-
-          window.location.href="/dashboard";
         };
       };
     
@@ -85,7 +83,6 @@ export default function Account(props: any) {
           .then((res) => {
             let data = res.data;
             renderFromResponse(data);
-            console.log(data);
           })
           .catch((err) => {
             console.log(err)
@@ -104,7 +101,10 @@ export default function Account(props: any) {
           <div className="flex flex-col gap-2 max-w-2xl self-center w-3/4 border p-6 rounded-xl shadow-xl">
 
             <div className="flex flex-row-reverse justify-between self-center p-6 gap-2">
-              <p className='font-bold self-center md:text-6xl text-5xl tracking-tighter uppercase text-left'>{formStatus.title}</p>
+              <p className='font-bold self-center md:text-6xl text-5xl tracking-tighter uppercase text-left'>
+                {/* {formStatus.title} */}
+                Portal
+                </p>
               <img src={logo} alt="UCL logo" className="invert w-1/3 h-1/2" />
             </div>
 
@@ -113,7 +113,7 @@ export default function Account(props: any) {
               <input tabIndex={2} onChange={hc} type="password" name="password" placeholder="Password" className={fs} />
               <button tabIndex={3} onClick={hs} className={fs} >Click to {formStatus.title}</button>
               {serverMsg.length > 0 && <p className="font-bold">{serverMsg}</p>}
-              <button tabIndex={4} onClick={buttonToggle} className={fs}>{formStatus.button}</button>
+              {/* <button tabIndex={4} onClick={buttonToggle} className={fs}>{formStatus.button}</button> */}
             </form>
 
           </div>

@@ -22,6 +22,23 @@ export default function Dashboard(props: any) {
         email: "",
         exp: ""
     });
+    
+    const [foodDB, setFoodDB] = useState([]);
+
+    const getAll = async () => {
+        const foodConfig = {
+            method: 'get',
+            url: `${PATH}/getAll`
+        };
+
+        axios(foodConfig)
+            .then((res) => {
+                setFoodDB(res.data.target);
+            })
+            .catch((err) => {
+                console.log(err);
+        })
+    };
 
     useEffect(() => {
         const configuration = {
@@ -35,6 +52,7 @@ export default function Dashboard(props: any) {
         axios(configuration)
             .then((result) => {
                 setUser(result.data.user);
+                getAll();
             })
             .catch((error) => {
                 console.log('Something went wrong', error);
@@ -42,17 +60,22 @@ export default function Dashboard(props: any) {
     }, []);    
 
     const provVals = {
+        getAll,
         user,
         setUser,
+        foodDB,
+        setFoodDB
+        // setTodaysNums,
     };
 
+     
 return(<>
         <div className="flex gap-2 flex-col min-h-screen min-w-screen justify-center align-center">
             <NumsContext.Provider value={provVals}>
                 <Header />
                 <LogoutButton />
                 <NumCounter />
-                <UpdRotating />
+                {/* <UpdRotating /> */}
                 <Reports />
                 {/* <Broadcast /> */}
                 <TeaInventory />
