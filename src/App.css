@@ -180,7 +180,7 @@ input:-webkit-autofill,
   z-index: 10;
   margin: .8em 0 0 0;
   /* font-size: 1.1em; */
-  font-weight: 300;
+  font-weight: 600;
 }
 
 .inputBox span {
