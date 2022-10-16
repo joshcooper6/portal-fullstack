@@ -102,8 +102,7 @@ export default function Account(props: any) {
 
             <div className="flex flex-row-reverse justify-between self-center p-6 gap-2">
               <p className='font-bold self-center md:text-6xl text-5xl tracking-tighter uppercase text-left'>
-                {/* {formStatus.title} */}
-                Portal
+                {formStatus.title}
                 </p>
               <img src={logo} alt="UCL logo" className="invert w-1/3 h-1/2" />
             </div>
@@ -113,7 +112,7 @@ export default function Account(props: any) {
               <input tabIndex={2} onChange={hc} type="password" name="password" placeholder="Password" className={fs} />
               <button tabIndex={3} onClick={hs} className={fs} >Click to {formStatus.title}</button>
               {serverMsg.length > 0 && <p className="font-bold">{serverMsg}</p>}
-              {/* <button tabIndex={4} onClick={buttonToggle} className={fs}>{formStatus.button}</button> */}
+              <button tabIndex={4} onClick={buttonToggle} className={fs}>{formStatus.button}</button>
             </form>
 
           </div>
