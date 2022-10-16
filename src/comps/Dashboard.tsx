@@ -14,47 +14,23 @@ export default function Dashboard(props: any) {
 
     const token = cookies.get("session-token");
     const [numsNeeded, setNumsNeeded] = useState([]);
-    // add reports to admin only
-    const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
+    // const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
     const [rotatingNums, setRotatingNums] = useState([]);
-
-    const [todaysNums, setTodaysNums] = useState({
-        morning: [],
-        afternoon: []
-    });
-
-    console.log('NUMZ', numsNeeded)
 
     const dayString = () => {
         const DATE = new Date();
         const TODAY = DATE.getDay();
       
         switch(TODAY) {
-          case 0:
-            return 'sunday';
-            break;
-          case 1:
-            return 'monday';
-            break;
-          case 2:
-            return 'tuesday';
-            break;
-          case 3:
-            return 'wednesday';
-            break;
-          case 4:
-            return 'thursday';
-            break;
-          case 5:
-            return 'friday';
-            break;
-          case 6:
-            return 'saturday';
-            break;
-        }
+          case 0: return 'sunday'; break;
+          case 1: return 'monday'; break;
+          case 2: return 'tuesday'; break;
+          case 3: return 'wednesday'; break;
+          case 4: return 'thursday'; break;
+          case 5: return 'friday'; break;
+          case 6: return 'saturday'; break;
+        };
       };
-
-    console.log('day', dayString())
 
     const [user, setUser] = useState({
         firstName: "",
@@ -72,15 +48,9 @@ export default function Dashboard(props: any) {
         username: ''
     });
 
-    const [tea, setTea] = useState([]);
+    // const [tea, setTea] = useState([]);
 
-    const [tempNums, setTempNums] = useState([]);
-    const [todaysNums2, setTodaysNums2] = useState([]);
-    console.log('tempnums', tempNums)
-
-    console.log(tempNums.filter((num: any) => {
-        return num.rotating === true
-     }));
+    const [foodDB, setFoodDB] = useState([]);
 
     const getAll = async () => {
         const foodConfig = {
@@ -90,103 +60,33 @@ export default function Dashboard(props: any) {
 
         axios(foodConfig)
             .then((res) => {
-                console.log('Data recieved', res.data)
-                setTempNums(res.data.target);
+                setFoodDB(res.data.target);
             })
             .catch((err) => {
                 console.log(err);
         })
     };
 
-    const getFood = async () => {
-        const foodConfig = {
-            method: 'get',
-            url: `${PATH}/getFood`
-        };
+    let filterAM = foodDB.filter((num: any) => {
+        return num?.[`${dayString()}`].morning === true
+    });
 
-        axios(foodConfig)
-            .then((res) => {
-                setNumsNeeded(res.data.target);
-                console.log(res.data)
-                if (res.data.message === 'food-loaded') {
-                    console.log(`Numbers for ${res.data.day} ${res.data.time} have loaded successfully.`)
-                };
-            })
-            .catch((err) => {
-                console.log(err);
-        })
-    };  
+    let filterPM = foodDB.filter((num: any) => {
+        return num?.[`${dayString()}`].afternoon === true
+    });
 
-    const getTea = async () => {
-        const foodConfig = {
-            method: 'get',
-            url: `${PATH}/getTea`
-        };
-
-        axios(foodConfig)
-            .then((res) => {
-                setTea(res.data.target);
-                console.log(res.data.target);
-            })
-            .catch((err) => {
-                console.log(err);
-        })
-    };  
-
-    const getRotatingNums = async () => {
-        const config = {
-            method: 'get',
-            url: `${PATH}/rotating`
-        };
-
-        axios(config)
-            .then((res) => { setRotatingNums(res.data.target) })
-            .catch((err) => { console.log(err) });
-    };
-
-    const getReports = async () => {
-        const config = {
-            method: 'get',
-            url: `${PATH}/getReports`
-        };
-
-        axios(config)
-            .then((response) => { setReports( response.data.target ) })
-            .catch((err) => { console.log(err) });
+    const todaysNums = {
+        morning: filterAM,
+        afternoon: filterPM
     };
 
     const getFromServer = async () => {
-        getFood().then(() => {
-            console.log('Food has been retrieved.')
-        }).catch((err) => {
-            console.log('Something went wrong with retrievng numbers.')
-        });
-
-        getRotatingNums().then(() => { console.log('Rotating numbers have been adjusted.') });
-        getReports().then(() => { console.log('Reports have been loaded successfuly.') })
-        // getMsg().then(() => { console.log('Broadcasted message has been updated.') })
-        getTea().then(() => { console.log('Tea has been updated.') })
+        getAll();
+        setNumsNeeded(filterPM);
+        setRotatingNums(foodDB.filter((num: any) => {
+            return num.rotating === true
+         }));
     };
-
-    // const getMsg = async () => {
-    //     const config = {
-    //         method: 'get',
-    //         url: `${PATH}/getAdminMsg`
-    //     };
-
-    //     axios(config)
-    //     .then((succ) => {
-    //         setMessage((prev: any) => ({
-    //             ...prev,
-    //             broadcast: succ.data.msg,
-    //             username: succ.data.username,
-    //             firstName: succ.data.firstName
-    //         }))
-    //     })
-    //     .catch((err) => {
-    //         console.log('error', err)
-    //     })
-    // };
 
     useEffect(() => {
         const configuration = {
@@ -201,7 +101,6 @@ export default function Dashboard(props: any) {
             .then((result) => {
                 setUser(result.data.user);
                 getFromServer();
-                getAll();
             })
             .catch((error) => {
                 console.log('Something went wrong', error);
@@ -216,16 +115,11 @@ export default function Dashboard(props: any) {
         setRotatingNums,
         user,
         setUser,
-        reports,
-        setReports,
         message,
         setMessage,
         todaysNums, 
-        setTodaysNums,
-        tea,
-        setTea
+        // setTodaysNums,
     };
-    
      
 return(<>
         <div className="flex gap-2 flex-col min-h-screen min-w-screen justify-center align-center">
@@ -233,8 +127,8 @@ return(<>
                 <Header />
                 <LogoutButton />
                 <NumCounter />
-                {/* <UpdRotating />
-                <Reports /> */}
+                <UpdRotating />
+                <Reports />
                 {/* <Broadcast /> */}
                 <TeaInventory />
             </NumsContext.Provider>

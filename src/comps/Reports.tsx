@@ -1,11 +1,25 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import NumsContext from "../context/NumsContext";
 import Accordion from "./Accordion";
+import axios from "axios";
+import { PATH } from "../confgs";
 
 export default function Reports(props: any) {
 
-    const { getFromServer, setChangeRotating, setRepNums, user, reports } = useContext(NumsContext);
+    const { getFromServer, setChangeRotating, setRepNums, user } = useContext(NumsContext);
     const [showReports, setShowReports] = useState(false);    
+    const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
+
+    const getReports = async () => {
+        const config = {
+            method: 'get',
+            url: `${PATH}/getReports`
+        };
+
+        axios(config)
+            .then((response) => { setReports( response.data.target ) })
+            .catch((err) => { console.log(err) });
+    };
 
     const buttonClick = () => {
         setShowReports(!showReports);
@@ -15,6 +29,10 @@ export default function Reports(props: any) {
         button: `p-4 tracking-widest uppercase rounded-xl max-w-lg border w-4/5 self-center
         ${showReports ? 'bg-red-200' : 'bg-blue-100'}`,
     };
+
+    useEffect(() => {
+        if (showReports) {getReports(); console.log('reports loaded')};
+    }, [showReports]);
 
     return(<>
             <button onClick={buttonClick} className={styles.button}>

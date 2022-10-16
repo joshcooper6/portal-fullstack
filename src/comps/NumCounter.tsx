@@ -7,7 +7,6 @@ export default function NumCounter(props: any) {
 
     const { getFromServer, setNumsNeeded, numsNeeded, user, rotatingNums, todaysNums, setTodaysNums } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
-
     const [confirmPost, setConfirmPost] = useState(false);
 
     const postNums = () => {
@@ -41,51 +40,6 @@ export default function NumCounter(props: any) {
             setConfirmPost(false);
         }, 300)
     };
-
-    const getMorning = async () => {
-        const foodConfig = {
-            method: 'get',
-            url: 'http://localhost:5000/getMorningFood'
-        };
-
-        axios(foodConfig)
-            .then((res:any) => {
-                const data = res.data;
-                setTodaysNums((prev:any) => ({
-                    ...prev,
-                    morning: data.target
-                }))
-            })
-            .catch((err) => {
-                console.log(err);
-        })
-    };  
-
-    const getAfternoon = async () => {
-        const foodConfig = {
-            method: 'get',
-            url: 'http://localhost:5000/getAfternoonFood'
-        };
-
-        axios(foodConfig)
-            .then((res:any) => {
-                const data = res.data;
-                setTodaysNums((prev:any) => ({
-                    ...prev,
-                    afternoon: data.target
-                }))
-            })
-            .catch((err) => {
-                console.log(err);
-        })
-    };  
-
-    useEffect(() => {
-        getMorning().then(() => {
-            console.log('Morning numbers loaded. Loading afternoon now.')
-            getAfternoon().then(() => { console.log('Afternoon numbers loaded now.') })
-        });
-    }, []);
 
     return (<>
             <button 
