@@ -33,12 +33,6 @@ export default function LoginForm(props) {
           [e.target.name]: e.target.value
         }))
       };
-    
-      const config = {
-        method: 'post',
-        url: `${PATH}/${formStatus.path}`,
-        data: formData
-      };
 
       const quickMsgChange = (msg) => {
         setServerMsg(msg);
@@ -78,6 +72,13 @@ export default function LoginForm(props) {
       };
     
       const hs = async (e) => {
+        e.preventDefault();
+        const config = {
+            method: 'post',
+            url: `${PATH}/${formStatus.path}`,
+            data: formData
+        };
+
         await axios(config)
           .then((res) => {
             let data = res.data;
@@ -89,21 +90,19 @@ export default function LoginForm(props) {
           })
       };
 
-      
       const buttonToggle = (e) => {
         e.preventDefault();
         {(formStatus.path === 'register') ? setFormStatus(ROUTES.LOGIN) : setFormStatus(ROUTES.REGISTER)}
       };
       
-      document.addEventListener("keydown", (e) => {
-        if (e.key === 'Enter') hs();
+      window.addEventListener("keydown", (e) => {
+        if (e.key === 'Enter') hs(e);
       });
 
     return(<>
         <div className="box">
                 <div className='form'>
                     <form autoComplete="off" className="content">
-                        
                         <div className="flex justify-between">
                             <img className="w-1/3  opacity-30 self-center" src={logo} />
                             <h2 className="self-center">{formStatus.title}</h2>
@@ -125,7 +124,7 @@ export default function LoginForm(props) {
                         </div>
                         <button className="submit" onClick={hs} children={formStatus.title} />
                     </form>
-                    {serverMsg.length > 0 && <p className="text-white font-light text-sm p-4">{serverMsg}</p>}
+                    {/* {serverMsg.length > 0 && <p className="text-white font-light text-sm p-4">{serverMsg}</p>} */}
                 </div>
             </div>
     </>)
