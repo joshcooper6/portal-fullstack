@@ -40,7 +40,13 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/getAll', async (req, res) => {
-  res.send('hey');
+  await Food.find({})
+    .then((numbers) => {
+      res.send({target: numbers})
+    })
+    .catch((err) => {
+      res.send({err})
+    })
 });
 
 app.get('/getFood', async (req, res) => {

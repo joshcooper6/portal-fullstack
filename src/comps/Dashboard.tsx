@@ -17,10 +17,44 @@ export default function Dashboard(props: any) {
     // add reports to admin only
     const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
     const [rotatingNums, setRotatingNums] = useState([]);
+
     const [todaysNums, setTodaysNums] = useState({
         morning: [],
         afternoon: []
     });
+
+    console.log('NUMZ', numsNeeded)
+
+    const dayString = () => {
+        const DATE = new Date();
+        const TODAY = DATE.getDay();
+      
+        switch(TODAY) {
+          case 0:
+            return 'sunday';
+            break;
+          case 1:
+            return 'monday';
+            break;
+          case 2:
+            return 'tuesday';
+            break;
+          case 3:
+            return 'wednesday';
+            break;
+          case 4:
+            return 'thursday';
+            break;
+          case 5:
+            return 'friday';
+            break;
+          case 6:
+            return 'saturday';
+            break;
+        }
+      };
+
+    console.log('day', dayString())
 
     const [user, setUser] = useState({
         firstName: "",
@@ -39,6 +73,30 @@ export default function Dashboard(props: any) {
     });
 
     const [tea, setTea] = useState([]);
+
+    const [tempNums, setTempNums] = useState([]);
+    const [todaysNums2, setTodaysNums2] = useState([]);
+    console.log('tempnums', tempNums)
+
+    console.log(tempNums.filter((num: any) => {
+        return num.rotating === true
+     }));
+
+    const getAll = async () => {
+        const foodConfig = {
+            method: 'get',
+            url: `${PATH}/getAll`
+        };
+
+        axios(foodConfig)
+            .then((res) => {
+                console.log('Data recieved', res.data)
+                setTempNums(res.data.target);
+            })
+            .catch((err) => {
+                console.log(err);
+        })
+    };
 
     const getFood = async () => {
         const foodConfig = {
@@ -110,25 +168,25 @@ export default function Dashboard(props: any) {
         getTea().then(() => { console.log('Tea has been updated.') })
     };
 
-    const getMsg = async () => {
-        const config = {
-            method: 'get',
-            url: `${PATH}/getAdminMsg`
-        };
+    // const getMsg = async () => {
+    //     const config = {
+    //         method: 'get',
+    //         url: `${PATH}/getAdminMsg`
+    //     };
 
-        axios(config)
-        .then((succ) => {
-            setMessage((prev: any) => ({
-                ...prev,
-                broadcast: succ.data.msg,
-                username: succ.data.username,
-                firstName: succ.data.firstName
-            }))
-        })
-        .catch((err) => {
-            console.log('error', err)
-        })
-    };
+    //     axios(config)
+    //     .then((succ) => {
+    //         setMessage((prev: any) => ({
+    //             ...prev,
+    //             broadcast: succ.data.msg,
+    //             username: succ.data.username,
+    //             firstName: succ.data.firstName
+    //         }))
+    //     })
+    //     .catch((err) => {
+    //         console.log('error', err)
+    //     })
+    // };
 
     useEffect(() => {
         const configuration = {
@@ -143,6 +201,7 @@ export default function Dashboard(props: any) {
             .then((result) => {
                 setUser(result.data.user);
                 getFromServer();
+                getAll();
             })
             .catch((error) => {
                 console.log('Something went wrong', error);
@@ -174,8 +233,8 @@ return(<>
                 <Header />
                 <LogoutButton />
                 <NumCounter />
-                <UpdRotating />
-                <Reports />
+                {/* <UpdRotating />
+                <Reports /> */}
                 {/* <Broadcast /> */}
                 <TeaInventory />
             </NumsContext.Provider>
