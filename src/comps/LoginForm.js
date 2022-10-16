@@ -92,6 +92,7 @@ export default function LoginForm(props) {
 
       const buttonToggle = (e) => {
         e.preventDefault();
+        // eslint-disable-next-line
         {(formStatus.path === 'register') ? setFormStatus(ROUTES.LOGIN) : setFormStatus(ROUTES.REGISTER)}
       };
 
@@ -99,8 +100,8 @@ export default function LoginForm(props) {
         <div className="box">
                 <div className='form'>
                     <form autoComplete="off" onSubmit={hs} className="content">
-                        <div className="flex justify-between">
-                            <img className="w-1/3  opacity-30 self-center" src={logo} />
+                        <div className="flex w-full justify-between">
+                            <img className="w-1/3 opacity-30 self-center" src={logo} alt="UCL logo" />
                             <h2 className="self-center">{formStatus.title}</h2>
                         </div>
                         
