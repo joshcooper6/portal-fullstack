@@ -6,17 +6,17 @@ import { render } from "@testing-library/react";
 
 export default function Header(props: any) {
 
-    const { user, message, todaysNums } = useContext(NumsContext);
+    const { user, message } = useContext(NumsContext);
 
-    const renderNumberAlert = () => {
-        if ((todaysNums.morning.length > 0) && (todaysNums.afternoon.length > 0)) {
-            return 'You will have numbers in the morning and the afternoon'
-        } else if ((todaysNums.morning.length > 0) && (todaysNums.afternoon.length <= 0)) {
-            return 'You will only have numbers in the morning'
-        } else if (todaysNums.morning.length <= 0 && todaysNums.afternoon.length > 0) {
-            return 'You will only have numbers in the afternoon'
-        }
-    };
+    // const renderNumberAlert = () => {
+    //     if ((todaysNums.morning.length > 0) && (todaysNums.afternoon.length > 0)) {
+    //         return 'You will have numbers in the morning and the afternoon'
+    //     } else if ((todaysNums.morning.length > 0) && (todaysNums.afternoon.length <= 0)) {
+    //         return 'You will only have numbers in the morning'
+    //     } else if (todaysNums.morning.length <= 0 && todaysNums.afternoon.length > 0) {
+    //         return 'You will only have numbers in the afternoon'
+    //     }
+    // };
 
     return(<>
             <div className="flex gap-4 flex-col lg:flex-row max-w-xl self-center justify-between align-center">
@@ -49,8 +49,6 @@ export default function Header(props: any) {
                 Your current account role is <b>{user.role}</b>.
 
                 <br /> 
-
-                {renderNumberAlert()}.
             </h2>
     </>)
 }

@@ -13,24 +13,6 @@ const cookies = new Cookies();
 export default function Dashboard(props: any) {
 
     const token = cookies.get("session-token");
-    const [numsNeeded, setNumsNeeded] = useState([]);
-    // const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
-    const [rotatingNums, setRotatingNums] = useState([]);
-
-    const dayString = () => {
-        const DATE = new Date();
-        const TODAY = DATE.getDay();
-      
-        switch(TODAY) {
-          case 0: return 'sunday'; break;
-          case 1: return 'monday'; break;
-          case 2: return 'tuesday'; break;
-          case 3: return 'wednesday'; break;
-          case 4: return 'thursday'; break;
-          case 5: return 'friday'; break;
-          case 6: return 'saturday'; break;
-        };
-      };
 
     const [user, setUser] = useState({
         firstName: "",
@@ -41,15 +23,7 @@ export default function Dashboard(props: any) {
         exp: ""
     });
 
-    const [message, setMessage] = useState({
-        currentInput: '',
-        broadcast: '',
-        firstName: '',
-        username: ''
-    });
-
-    // const [tea, setTea] = useState([]);
-
+    // total database
     const [foodDB, setFoodDB] = useState([]);
 
     const getAll = async () => {
@@ -67,25 +41,8 @@ export default function Dashboard(props: any) {
         })
     };
 
-    let filterAM = foodDB.filter((num: any) => {
-        return num?.[`${dayString()}`].morning === true
-    });
-
-    let filterPM = foodDB.filter((num: any) => {
-        return num?.[`${dayString()}`].afternoon === true
-    });
-
-    const todaysNums = {
-        morning: filterAM,
-        afternoon: filterPM
-    };
-
-    const getFromServer = async () => {
+    const getFromServer = () => {
         getAll();
-        setNumsNeeded(filterPM);
-        setRotatingNums(foodDB.filter((num: any) => {
-            return num.rotating === true
-         }));
     };
 
     useEffect(() => {
@@ -100,7 +57,7 @@ export default function Dashboard(props: any) {
         axios(configuration)
             .then((result) => {
                 setUser(result.data.user);
-                getFromServer();
+                getAll();
             })
             .catch((error) => {
                 console.log('Something went wrong', error);
@@ -109,17 +66,12 @@ export default function Dashboard(props: any) {
 
     const provVals = {
         getFromServer,
-        numsNeeded,
-        setNumsNeeded,
-        rotatingNums,
-        setRotatingNums,
         user,
         setUser,
-        message,
-        setMessage,
-        todaysNums, 
+        foodDB
         // setTodaysNums,
     };
+
      
 return(<>
         <div className="flex gap-2 flex-col min-h-screen min-w-screen justify-center align-center">

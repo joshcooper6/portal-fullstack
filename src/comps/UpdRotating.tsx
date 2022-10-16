@@ -6,8 +6,9 @@ import { PATH } from "../confgs";
 
 export default function UpdRotating(props: any) {
 
-    const { getFromServer, rotatingNums, setRotatingNums, user, setUser } = useContext(NumsContext);
+    const { getFromServer, foodDB, user, setUser } = useContext(NumsContext);
     const [changeRotating, setChangeRotating] = useState(false);
+    const [rotatingNums, setRotatingNums] = useState([]);
 
     const handlePost = (e: any) => {
         rotatingNums.forEach((number: any) => {
@@ -36,6 +37,12 @@ export default function UpdRotating(props: any) {
             setChangeRotating(false)
         }, 300);
     };
+
+    useEffect(() => {
+        if (changeRotating) {setRotatingNums(foodDB.filter((num: any) => {
+            return num.rotating === true
+         })); console.log('rotating nums loaded')}
+    }, [changeRotating]);
 
     return(<>
 
