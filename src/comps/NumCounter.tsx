@@ -6,10 +6,26 @@ import { PATH } from '../confgs';
 
 export default function NumCounter(props: any) {
 
-    const { getFromServer, foodDB, user } = useContext(NumsContext);
+    const { user } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
+    const [foodDB, setFoodDB] = useState([]);
     const [numsNeeded, setNumsNeeded] = useState([]);
     const [confirmPost, setConfirmPost] = useState(false);
+
+    const getAll = async () => {
+        const foodConfig = {
+            method: 'get',
+            url: `${PATH}/getAll`
+        };
+
+        axios(foodConfig)
+            .then((res) => {
+                setFoodDB(res.data.target);
+            })
+            .catch((err) => {
+                console.log(err);
+        })
+    };
 
     const dayString = () => {
         const DATE = new Date();
@@ -59,7 +75,7 @@ export default function NumCounter(props: any) {
             .then((res) => {
                 console.log('Post numbers successfully', res)
                 alert('Numbers reported successfully!')
-                getFromServer().then(() => { 'With new numbers, app has been updated.' })
+                getAll().then(() => { 'With new numbers, app has been updated.' })
             })
             .catch((err) => {
                 console.log('Posting nums went wrong', err)
@@ -74,6 +90,10 @@ export default function NumCounter(props: any) {
     useEffect(() => {
         if (repNums) { setNumsNeeded(filterPM); console.log('food nums loaded') };
     }, [repNums]);
+
+    useEffect(() => {
+        getAll();
+    }, []); 
 
     return (<>
             <button 

@@ -23,28 +23,6 @@ export default function Dashboard(props: any) {
         exp: ""
     });
 
-    // total database
-    const [foodDB, setFoodDB] = useState([]);
-
-    const getAll = async () => {
-        const foodConfig = {
-            method: 'get',
-            url: `${PATH}/getAll`
-        };
-
-        axios(foodConfig)
-            .then((res) => {
-                setFoodDB(res.data.target);
-            })
-            .catch((err) => {
-                console.log(err);
-        })
-    };
-
-    const getFromServer = () => {
-        getAll();
-    };
-
     useEffect(() => {
         const configuration = {
             method: "get",
@@ -57,7 +35,6 @@ export default function Dashboard(props: any) {
         axios(configuration)
             .then((result) => {
                 setUser(result.data.user);
-                getAll();
             })
             .catch((error) => {
                 console.log('Something went wrong', error);
@@ -65,14 +42,10 @@ export default function Dashboard(props: any) {
     }, []);    
 
     const provVals = {
-        getFromServer,
         user,
         setUser,
-        foodDB
-        // setTodaysNums,
     };
 
-     
 return(<>
         <div className="flex gap-2 flex-col min-h-screen min-w-screen justify-center align-center">
             <NumsContext.Provider value={provVals}>
