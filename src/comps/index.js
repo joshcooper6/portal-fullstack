@@ -10,4 +10,3 @@ export { default as Reports } from './Reports';
 export { default as Broadcast } from './Broadcast';
 export { default as Header } from './Header';
 export { default as TeaInventory } from './TeaInventory';
-export { default as LoginForm } from './LoginForm';
