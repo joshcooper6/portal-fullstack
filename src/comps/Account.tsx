@@ -100,6 +100,10 @@ export default function Account(props: any) {
       };
 
       return (
+
+        <div className="flex container flex-col min-h-screen min-w-screen align-center text-center justify-center ">
+          <LoginForm  />
+
         <div className="flex flex-col min-h-screen min-w-screen align-center text-center justify-center ">
           <div className="flex flex-col gap-2 max-w-2xl self-center w-3/4 border p-6 rounded-xl shadow-xl">
 
@@ -117,6 +121,7 @@ export default function Account(props: any) {
             </form>
 
           </div>
+
 
           { cookies.get('session-token') && <Navigate to="/dashboard" /> }
         </div>
