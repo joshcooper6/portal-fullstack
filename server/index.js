@@ -22,12 +22,8 @@ const TeaReport = require("./models/TeaReport");
 const SERVER_DATE = new Date();
 const DAY_OF_WEEK = dayString(SERVER_DATE);
 const TIME_OF_DAY = timeString(SERVER_DATE, 11);
-const router = express.Router();
 
-
-const token = cookies.get('session-token');
-
-app.use(express.static(path.join(__dirname, '../build')));
+// app.use(express.static(path.join(__dirname, '../build')));
 // app.use(express.static("build"));
 // app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,54 +36,58 @@ dbConnect();
 // });
 
 app.get('/', async (req, res) => {
-  res.send({
-    message: 'food-loaded',
-    date: SERVER_DATE.toString(),
-    day: DAY_OF_WEEK,
-    time: TIME_OF_DAY,
-    target: await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
-  });
+
 });
 
-app.get('/getFood', async (req, res) => {
-  let sentReport = await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
-    .then((sendingTheseNums) => {
-      res.send({
-        message: 'food-loaded',
-        date: SERVER_DATE.toString(),
-        day: DAY_OF_WEEK,
-        time: TIME_OF_DAY,
-        target: sendingTheseNums
-      });
+app.get('/getAll', async (req, res) => {
+  await Food.find({})
+    .then((numbers) => {
+      res.send({target: numbers})
+    })
+    .catch((err) => {
+      res.send({err})
     })
 });
 
+// app.get('/getFood', async (req, res) => {
+//   let sentReport = await Food.find({ [`${DAY_OF_WEEK}.${TIME_OF_DAY}`] : true })
+//     .then((sendingTheseNums) => {
+//       res.send({
+//         message: 'food-loaded',
+//         date: SERVER_DATE.toString(),
+//         day: DAY_OF_WEEK,
+//         time: TIME_OF_DAY,
+//         target: sendingTheseNums
+//       });
+//     });
+// });
 
-app.get('/getMorningFood', async (req, res) => {
-  let sentReport = await Food.find({ [`${DAY_OF_WEEK}.morning`] : true })
-    .then((sendingTheseNums) => {
-      res.send({
-        message: 'food-loaded',
-        date: SERVER_DATE.toString(),
-        day: DAY_OF_WEEK,
-        time: 'morning',
-        target: sendingTheseNums
-      });
-    })
-});
 
-app.get('/getAfternoonFood', async (req, res) => {
-  let sentReport = await Food.find({ [`${DAY_OF_WEEK}.afternoon`] : true })
-    .then((sendingTheseNums) => {
-      res.send({
-        message: 'food-loaded',
-        date: SERVER_DATE.toString(),
-        day: DAY_OF_WEEK,
-        time: 'afternoon',
-        target: sendingTheseNums
-      });
-    })
-});
+// app.get('/getMorningFood', async (req, res) => {
+//   let sentReport = await Food.find({ [`${DAY_OF_WEEK}.morning`] : true })
+//     .then((sendingTheseNums) => {
+//       res.send({
+//         message: 'food-loaded',
+//         date: SERVER_DATE.toString(),
+//         day: DAY_OF_WEEK,
+//         time: 'morning',
+//         target: sendingTheseNums
+//       });
+//     })
+// });
+
+// app.get('/getAfternoonFood', async (req, res) => {
+//   let sentReport = await Food.find({ [`${DAY_OF_WEEK}.afternoon`] : true })
+//     .then((sendingTheseNums) => {
+//       res.send({
+//         message: 'food-loaded',
+//         date: SERVER_DATE.toString(),
+//         day: DAY_OF_WEEK,
+//         time: 'afternoon',
+//         target: sendingTheseNums
+//       });
+//     })
+// });
 
 app.get('/getTea', async(req, res) => {
   const request = req.body;
@@ -228,22 +228,22 @@ app.get('/getReports', async (req, response) => {
   })
 });
 
-app.post('/sendAdminMsg', async (REQUEST, RESPONSE) =>  {
-  const data = REQUEST.body;
+// app.post('/sendAdminMsg', async (REQUEST, RESPONSE) =>  {
+//   const data = REQUEST.body;
 
-  await AdminMsg.findByIdAndUpdate({ _id: '63391b9dc62e4902b0981ebd' }, { msg: data.msg, username: data.username, firstName: data.firstName }, {returnOriginal: false})
-    .then((results) => {
-      console.log(results)
-    })
-});
+//   await AdminMsg.findByIdAndUpdate({ _id: '63391b9dc62e4902b0981ebd' }, { msg: data.msg, username: data.username, firstName: data.firstName }, {returnOriginal: false})
+//     .then((results) => {
+//       console.log(results)
+//     })
+// });
 
-app.get('/getAdminMsg', async (REQUEST, RESPONSE) =>  {
-  const data = REQUEST.body;
+// app.get('/getAdminMsg', async (REQUEST, RESPONSE) =>  {
+//   const data = REQUEST.body;
 
-  const msg = await AdminMsg.findById({ _id: '63391b9dc62e4902b0981ebd' })
+//   const msg = await AdminMsg.findById({ _id: '63391b9dc62e4902b0981ebd' })
 
-  RESPONSE.send({ msg: msg.msg, firstName: msg.firstName, username: msg.username })
-});
+//   RESPONSE.send({ msg: msg.msg, firstName: msg.firstName, username: msg.username })
+// });
 
 app.post('/deleteReport', async (request, res) => {
   const data = request.body;
@@ -282,18 +282,18 @@ app.get('/removeFromAllFood', async (req, response) => {
     })
 });
 
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-    );
-    next();
-  });
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader(
+//       "Access-Control-Allow-Headers",
+//       "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+//     );
+//     res.setHeader(
+//       "Access-Control-Allow-Methods",
+//       "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+//     );
+//     next();
+//   });
 
 app.post('/register', async (req, res) => {
     const data = req.body;
@@ -387,10 +387,10 @@ app.post("/login", async (request, response) => {
         }) 
 });
 
-app.get('/foodInventory', async (request, response) => {
-  response.send({connect: true, message: 'time to send your food!'});
-  console.log(request.body);
-});
+// app.get('/foodInventory', async (request, response) => {
+//   response.send({connect: true, message: 'time to send your food!'});
+//   console.log(request.body);
+// });
 
 app.post('/changeUserInfo', async (req, response) => {
   const tgt = req.body.tgt;
@@ -406,10 +406,10 @@ app.post('/changeUserInfo', async (req, response) => {
   console.log(req.body, tgt, update)
 });
 
-app.post('/foodInventory', async (request, response) => {
-  const data = request.body;
-  response.send({message: 'Use /createFood or /updateFood instead.'});
-});
+// app.post('/foodInventory', async (request, response) => {
+//   const data = request.body;
+//   response.send({message: 'Use /createFood or /updateFood instead.'});
+// });
 
 app.post('/createFood', async (req, res) => {
       const data = req.body;

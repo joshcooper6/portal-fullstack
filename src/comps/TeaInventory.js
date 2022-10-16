@@ -6,7 +6,24 @@ import { PATH } from "../confgs";
 
 export default function TeaInventory(props) {
     
-    const { tea, setTea, user } = useContext(NumsContext);
+    const { user } = useContext(NumsContext);
+    const [tea, setTea] = useState([]);
+
+    const getTea = async () => {
+        const foodConfig = {
+            method: 'get',
+            url: `${PATH}/getTea`
+        };
+
+        axios(foodConfig)
+            .then((res) => {
+                setTea(res.data.target);
+                console.log(res.data.target);
+            })
+            .catch((err) => {
+                console.log(err);
+        })
+    };  
 
     const [showComp, setShowComp] = useState(false);
 
@@ -104,27 +121,27 @@ export default function TeaInventory(props) {
         });
     };
 
-    const postTeaReport = async () => {
-        const config = {
-            method: 'post',
-            url: `${PATH}/finalReport`,
-            data: {
-                user: user.username,
-                teaResults: tea,
-                needed: needed,
-                nextWeek: nextweek,
-                msgRendered: toBeCopied
-            }
-        };
+    // const postTeaReport = async () => {
+    //     const config = {
+    //         method: 'post',
+    //         url: `${PATH}/finalReport`,
+    //         data: {
+    //             user: user.username,
+    //             teaResults: tea,
+    //             needed: needed,
+    //             nextWeek: nextweek,
+    //             msgRendered: toBeCopied
+    //         }
+    //     };
 
-        axios(config)
-            .then((res) => {
-                console.log('Tea report added to DB', res);
-            })
-            .catch((err) => {
-                console.log('something went wrong adding to tea db', err)
-        })
-    };
+    //     axios(config)
+    //         .then((res) => {
+    //             console.log('Tea report added to DB', res);
+    //         })
+    //         .catch((err) => {
+    //             console.log('something went wrong adding to tea db', err)
+    //     })
+    // };
 
     const renderFinalMsg = () => {
 
@@ -163,6 +180,10 @@ export default function TeaInventory(props) {
             })
         };
     }, [step]);
+
+    useEffect(() => {
+        if (showComp) { getTea(); console.log('tea rec now') }
+    }, [showComp]);
 
     return(<>
 
@@ -226,7 +247,7 @@ export default function TeaInventory(props) {
                         {toBeCopied}
                         </p>
 
-                        <OpenApp id="openapp" onClick={() => {postTeaReport()}} href={trelloLinks.desktop} className={formStyles.trello}>
+                        <OpenApp id="openapp" href={trelloLinks.desktop} className={formStyles.trello}>
                             <p>Paste to Trello</p>
                         </OpenApp>  
 

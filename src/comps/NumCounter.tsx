@@ -2,13 +2,42 @@ import React, {useContext, useEffect, useState} from 'react';
 import NumsContext from '../context/NumsContext';
 import axios from 'axios';
 import TextToInput from './TextToInput';
+import { PATH } from '../confgs';
 
 export default function NumCounter(props: any) {
 
-    const { getFromServer, setNumsNeeded, numsNeeded, user, rotatingNums, todaysNums, setTodaysNums } = useContext(NumsContext);
+    const { user, foodDB, getAll } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
-
+    const [numsNeeded, setNumsNeeded] = useState([]);
     const [confirmPost, setConfirmPost] = useState(false);
+
+    const dayString = () => {
+        const DATE = new Date();
+        const TODAY = DATE.getDay();
+      
+        switch(TODAY) {
+          case 0: return 'sunday'; break;
+          case 1: return 'monday'; break;
+          case 2: return 'tuesday'; break;
+          case 3: return 'wednesday'; break;
+          case 4: return 'thursday'; break;
+          case 5: return 'friday'; break;
+          case 6: return 'saturday'; break;
+        };
+      };
+
+    let filterAM = foodDB.filter((num: any) => {
+        return num?.[`${dayString()}`].morning === true
+    });
+
+    let filterPM = foodDB.filter((num: any) => {
+        return num?.[`${dayString()}`].afternoon === true
+    });
+
+    const todaysNums = {
+        morning: filterAM,
+        afternoon: filterPM
+    };
 
     const postNums = () => {
         const date = new Date();
@@ -17,7 +46,7 @@ export default function NumCounter(props: any) {
 
         const config = {
             method: 'post',
-            url: 'http://localhost:5000/sendNumbers',
+            url: `${PATH}/sendNumbers`,
             data: {
                 numbers: numsNeeded,
                 reportedBy: `${user.firstName} / ${user.username}`,
@@ -30,7 +59,7 @@ export default function NumCounter(props: any) {
             .then((res) => {
                 console.log('Post numbers successfully', res)
                 alert('Numbers reported successfully!')
-                getFromServer().then(() => { 'With new numbers, app has been updated.' })
+                getAll().then(() => { 'With new numbers, app has been updated.' })
             })
             .catch((err) => {
                 console.log('Posting nums went wrong', err)
@@ -42,50 +71,9 @@ export default function NumCounter(props: any) {
         }, 300)
     };
 
-    const getMorning = async () => {
-        const foodConfig = {
-            method: 'get',
-            url: 'http://localhost:5000/getMorningFood'
-        };
-
-        axios(foodConfig)
-            .then((res:any) => {
-                const data = res.data;
-                setTodaysNums((prev:any) => ({
-                    ...prev,
-                    morning: data.target
-                }))
-            })
-            .catch((err) => {
-                console.log(err);
-        })
-    };  
-
-    const getAfternoon = async () => {
-        const foodConfig = {
-            method: 'get',
-            url: 'http://localhost:5000/getAfternoonFood'
-        };
-
-        axios(foodConfig)
-            .then((res:any) => {
-                const data = res.data;
-                setTodaysNums((prev:any) => ({
-                    ...prev,
-                    afternoon: data.target
-                }))
-            })
-            .catch((err) => {
-                console.log(err);
-        })
-    };  
-
     useEffect(() => {
-        getMorning().then(() => {
-            console.log('Morning numbers loaded. Loading afternoon now.')
-            getAfternoon().then(() => { console.log('Afternoon numbers loaded now.') })
-        });
-    }, []);
+        if (repNums) { setNumsNeeded(filterPM); console.log('food nums loaded') };
+    }, [repNums]);
 
     return (<>
             <button 

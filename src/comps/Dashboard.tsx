@@ -13,13 +13,6 @@ const cookies = new Cookies();
 export default function Dashboard(props: any) {
 
     const token = cookies.get("session-token");
-    const [numsNeeded, setNumsNeeded] = useState([]);
-    const [reports, setReports] = useState([{ _id: '', date: '', time: '', user: '', numsReported: [] }]);
-    const [rotatingNums, setRotatingNums] = useState([]);
-    const [todaysNums, setTodaysNums] = useState({
-        morning: [],
-        afternoon: []
-    });
 
     const [user, setUser] = useState({
         firstName: "",
@@ -29,103 +22,21 @@ export default function Dashboard(props: any) {
         email: "",
         exp: ""
     });
+    
+    const [foodDB, setFoodDB] = useState([]);
 
-    const [message, setMessage] = useState({
-        currentInput: '',
-        broadcast: '',
-        firstName: '',
-        username: ''
-    });
-
-    const [tea, setTea] = useState([]);
-
-    const getFood = async () => {
+    const getAll = async () => {
         const foodConfig = {
             method: 'get',
-            url: `${PATH}/getFood`
+            url: `${PATH}/getAll`
         };
 
         axios(foodConfig)
             .then((res) => {
-                setNumsNeeded(res.data.target);
-                console.log(res.data)
-                if (res.data.message === 'food-loaded') {
-                    console.log(`Numbers for ${res.data.day} ${res.data.time} have loaded successfully.`)
-                };
+                setFoodDB(res.data.target);
             })
             .catch((err) => {
                 console.log(err);
-        })
-    };  
-
-    const getTea = async () => {
-        const foodConfig = {
-            method: 'get',
-            url: `${PATH}/getTea`
-        };
-
-        axios(foodConfig)
-            .then((res) => {
-                setTea(res.data.target);
-                console.log(res.data.target);
-            })
-            .catch((err) => {
-                console.log(err);
-        })
-    };  
-
-    const getRotatingNums = async () => {
-        const config = {
-            method: 'get',
-            url: `${PATH}/rotating`
-        };
-
-        axios(config)
-            .then((res) => { setRotatingNums(res.data.target) })
-            .catch((err) => { console.log(err) });
-    };
-
-    const getReports = async () => {
-        const config = {
-            method: 'get',
-            url: `${PATH}/getReports`
-        };
-
-        axios(config)
-            .then((response) => { setReports( response.data.target ) })
-            .catch((err) => { console.log(err) });
-    };
-
-    const getFromServer = async () => {
-        getFood().then(() => {
-            console.log('Food has been retrieved.')
-        }).catch((err) => {
-            console.log('Something went wrong with retrievng numbers.')
-        });
-
-        getRotatingNums().then(() => { console.log('Rotating numbers have been adjusted.') });
-        getReports().then(() => { console.log('Reports have been loaded successfuly.') })
-        getMsg().then(() => { console.log('Broadcasted message has been updated.') })
-        getTea().then(() => { console.log('Tea has been updated.') })
-    };
-
-    const getMsg = async () => {
-        const config = {
-            method: 'get',
-            url: `${PATH}/getAdminMsg`
-        };
-
-        axios(config)
-        .then((succ) => {
-            setMessage((prev: any) => ({
-                ...prev,
-                broadcast: succ.data.msg,
-                username: succ.data.username,
-                firstName: succ.data.firstName
-            }))
-        })
-        .catch((err) => {
-            console.log('error', err)
         })
     };
 
@@ -141,7 +52,7 @@ export default function Dashboard(props: any) {
         axios(configuration)
             .then((result) => {
                 setUser(result.data.user);
-                getFromServer();
+                getAll();
             })
             .catch((error) => {
                 console.log('Something went wrong', error);
@@ -149,23 +60,14 @@ export default function Dashboard(props: any) {
     }, []);    
 
     const provVals = {
-        getFromServer,
-        numsNeeded,
-        setNumsNeeded,
-        rotatingNums,
-        setRotatingNums,
+        getAll,
         user,
         setUser,
-        reports,
-        setReports,
-        message,
-        setMessage,
-        todaysNums, 
-        setTodaysNums,
-        tea,
-        setTea
+        foodDB,
+        setFoodDB
+        // setTodaysNums,
     };
-    
+
      
 return(<>
         <div className="flex gap-2 flex-col min-h-screen min-w-screen justify-center align-center">
@@ -173,9 +75,9 @@ return(<>
                 <Header />
                 <LogoutButton />
                 <NumCounter />
-                <UpdRotating />
+                {/* <UpdRotating /> */}
                 <Reports />
-                <Broadcast />
+                {/* <Broadcast /> */}
                 <TeaInventory />
             </NumsContext.Provider>
         </div>
