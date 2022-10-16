@@ -2,7 +2,7 @@
 
 :root {
   --mainbg: #23242a;
-  --babyblue: #45f3ff;
+  --babyblue: rgb(122, 205, 190);
   --blu:#45f3ff;
   --width: 400px;
   --height: 420px;
@@ -268,19 +268,28 @@ input:-webkit-autofill,
 
 .submit:hover {
   cursor: pointer;
+  animation: pugdancing 1s linear infinite;
 }
 
 /* ANIMATIONS */
 
 @keyframes animate {
   0% {
-    rotate: 0deg;
+    transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate((0deg));
   }
   100% {
-    rotate: 360deg;
+    transform: rotate(360deg);;
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
   }
+}
+
+@keyframes pugdancing {
+	0% { left: 5px; top: 0 }
+	25% { left: 10px; top: 10px }
+	50% { left: 15px; top: 0px }
+	75% { left: 10px; top: 10px }
+	100% { left: 5px; top: 0px }
 }

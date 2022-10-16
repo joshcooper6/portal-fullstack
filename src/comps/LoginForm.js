@@ -120,8 +120,8 @@ export default function LoginForm(props) {
                         </div>
                         <button  type="submit" className="submit" children={formStatus.title} />
                     </form>
-                    {serverMsg.length > 0 && <p className="text-white font-light text-sm p-4">{serverMsg}</p>}
                 </div>
             </div>
+            <p className="text-white font-light text-sm fixed top-10">{serverMsg}</p>
     </>)
 };
