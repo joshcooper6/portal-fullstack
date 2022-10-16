@@ -12,8 +12,8 @@ module.exports = {
     './src/comps/Reports.tsx',
     './src/comps/Broadcast.tsx',
     './src/comps/Header.tsx',
-    './src/comps/TeaInventory.tsx'
-
+    './src/comps/TeaInventory.tsx',
+    './src/comps/LoginForm.js'
   ],
   theme: {
     extend: {},
