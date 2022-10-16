@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap');
 
 :root {
@@ -14,7 +15,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 
 .App {
   text-align: center;
@@ -72,6 +72,7 @@
   border-bottom-left-radius: 0;
   border-top-right-radius: 2em;
   border-bottom-right-radius: 2em;
+
 }
 
 /* Login Form Styles */
@@ -293,3 +294,5 @@ input:-webkit-autofill,
 	75% { left: 10px; top: 10px }
 	100% { left: 5px; top: 0px }
 }
+
+
