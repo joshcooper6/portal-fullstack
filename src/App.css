@@ -238,8 +238,9 @@ input:-webkit-autofill,
   z-index: 10;
 }
 
-.links button:hover {
+.links p:hover {
   color: var(--babyblue);
+  cursor: pointer;
   transition: 1s ease;
 }
 
