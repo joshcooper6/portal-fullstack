@@ -1,4 +1,7 @@
 import { useState } from "react";
+import thumb from '../assets/thumb.svg';
+import negative from '../assets/negative.svg';
+
 
 export default function SearchItem(props: any) {
     const { item } = props;
@@ -12,8 +15,13 @@ export default function SearchItem(props: any) {
     };
 
     const checkboxes = (item: any, dayOfWeek: any) => {
+        const condition = (item?.[`${dayOfWeek}`].morning || item?.[`${dayOfWeek}`].afternoon);
+
         return (<>
-            {/* {(item?.[`${dayOfWeek}`].morning || item?.[`${dayOfWeek}`].afternoon) && `${upperFirstChar(dayOfWeek)} at least once`} */}
+            <div className="flex gap-2 text-teal">
+                <h2 className="font-black text-2xl self-center">{upperFirstChar(dayOfWeek)}</h2>
+                 <img src={condition ? thumb : negative} alt={'thumb icon'} className={'invert w-10 self-center'} />
+            </div>
             <p>{upperFirstChar(dayOfWeek)} Morning: {item?.[`${dayOfWeek}`].morning ? 'True' : 'False'}</p>
             <p>{upperFirstChar(dayOfWeek)} Afternoon: {item?.[`${dayOfWeek}`].afternoon ? 'True' : 'False'}</p>
         </>)
