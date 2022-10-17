@@ -23,7 +23,7 @@ export default function Header(props: any) {
                 {/* <img src={logo} alt="UCL logo" className="invert self-center text-center w-5/12 lg:w-2/12" />  */}
                 <h1 className="text-6xl text-center uppercase font-bold tracking-tight">
                     Welcome  
-                    <span className="text-blue-500"> {user?.firstName}!</span>
+                    <span className="text-blue-400"> {user?.firstName}!</span>
                 </h1>
             </div>
   
@@ -34,19 +34,19 @@ export default function Header(props: any) {
             </h2> */}
 
             <h2 className="text-lg text-center self-center pl-4 pr-4 tracking-tight">
-                You are known to the world as <b>{user.username}</b>.
+                You are known to the world as <b>{user?.username}</b>.
                 
                 <br />
 
-                {user.email.length > 0 ? <>
-                    The email you have on file is <b>{user.email}</b>.
+                {user?.email.length > 0 ? <>
+                    The email you have on file is <b>{user?.email}</b>.
                 </> : <>
                     You have not added an email on file yet.
                 </>}
 
                 <br />
 
-                Your current account role is <b>{user.role}</b>.
+                Your current account role is <b>{user?.role}</b>.
 
                 <br /> 
             </h2>

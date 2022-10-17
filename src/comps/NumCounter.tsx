@@ -6,7 +6,7 @@ import { PATH } from '../confgs';
 
 export default function NumCounter(props: any) {
 
-    const { user, foodDB, getAll } = useContext(NumsContext);
+    const { user, foodDB, getAll, token, setUser } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
     const [numsNeeded, setNumsNeeded] = useState([]);
     const [confirmPost, setConfirmPost] = useState(false);
@@ -75,6 +75,7 @@ export default function NumCounter(props: any) {
         if (repNums) { setNumsNeeded(filterPM); console.log('food nums loaded') };
     }, [repNums]);
 
+
     return (<>
             <button 
                 onClick={() => {setRepNums(!repNums) }} 
@@ -121,7 +122,7 @@ export default function NumCounter(props: any) {
                 </div>
 
                 <div className="flex flex-col gap-2 w-10/12 max-w-2xl self-center justify-center align-center">
-                        <button className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider" onClick={() => setConfirmPost(!confirmPost)}>Ready to Report</button>
+                        <button className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider mt-10" onClick={() => setConfirmPost(!confirmPost)}>Ready to Report</button>
 
                         {confirmPost && <>
                             <div className="flex w-full gap-2">

@@ -152,7 +152,7 @@ export default function TextToInput(props: any) {
     };
 
     return (<>
-    <div className='flex flex-col p-4 gap-4 shadow-lg bg-opacity-40 rounded-xl border'>
+    <div className='flex flex-col p-10 gap-4 shadow-lg bg-opacity-40 rounded-xl border'>
 
         {props.hiddenTally && <h1 className='text-2xl font-thin'>Currently changing <b>{props.id}</b>:</h1>}
 
@@ -185,7 +185,7 @@ export default function TextToInput(props: any) {
 
                 <div className='flex h-full gap-3 self-center '>
                     {/* <p className='self-center text-3xl font-thin'>Total</p> */}
-                    <h2 className='text-4xl min-w-sm font-thin text-center self-center'>{total}</h2>
+                    <h2 className='text-4xl min-w-sm font-black text-center self-center'>{total}</h2>
                 </div>
 
                 <div className='flex h-full gap-3 self-center flex-row-reverse'>

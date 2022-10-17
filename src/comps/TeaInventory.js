@@ -175,19 +175,11 @@ export default function TeaInventory(props) {
     useEffect(() => {
         renderFinalMsg();
 
-        if (step.two === true && second.length === 0) {
-            setStep({
-                one: false,
-                two: false,
-                three: true
-            })
+        if (step.two === true && second.length <= 0) {
+            setStep({ one: false, two: false, three: true })
         };
 
-        if (step.three === true) {
-            submitAll().then(() => {
-                copy(toBeCopied);
-            })
-        };
+        if (step.three === true) { submitAll().then(() => { copy(toBeCopied); }) };
     }, [step]);
 
     useEffect(() => {

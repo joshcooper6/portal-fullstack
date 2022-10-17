@@ -61,13 +61,14 @@ export default function Dashboard(props: any) {
         user,
         setUser,
         foodDB,
-        setFoodDB
+        setFoodDB,
+        token
         // setTodaysNums,
     };
 
      
 return(<>
-        <div className="flex gap-2 flex-col min-h-screen min-w-screen justify-center align-center">
+        <div className="flex gap-2 pb-10 flex-col min-h-screen min-w-screen justify-center align-center">
             <NumsContext.Provider value={provVals}>
                 <Header />
                 <LogoutButton />
@@ -76,7 +77,7 @@ return(<>
                 <Reports />
                 {/* <Broadcast /> */}
 
-                {user.role === 'Admin' && <TeaInventory /> }
+                {user?.role === 'Admin' && <TeaInventory /> }
                 
             </NumsContext.Provider>
         </div>

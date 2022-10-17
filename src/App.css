@@ -3,7 +3,7 @@
 
 :root {
   --mainbg: #23242a;
-  --babyblue: rgb(122, 205, 190);
+  --babyblue: #7acdbe;
   --blu:#45f3ff;
   --width: 400px;
   --height: 420px;
@@ -298,12 +298,12 @@ input:-webkit-autofill,
 
 .grid_custom {
   display: grid;
-  width: 70vw;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  width: 80vw;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   align-items: center;
   grid-gap: 2em;
+  padding: 2em;
   justify-items: center;
-  margin: 1em 1em;
   transition: 300ms ease;
 }
 

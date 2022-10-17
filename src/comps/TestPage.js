@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-require('dotenv').config();
 import Cookies from "universal-cookie";
 import { Navigate } from "react-router-dom";
 const cookies = new Cookies();
+// require('dotenv').config();
 
-export default function TestPage() {
+export default function TestPage(props) {
 
     const [user, setUser] = useState({
         firstName: "",
@@ -17,6 +17,7 @@ export default function TestPage() {
     });
 
     const token = cookies.get("session-token");
+
     useEffect(() => {
         const configuration = {
             method: "get",
@@ -29,18 +30,26 @@ export default function TestPage() {
         axios(configuration)
             .then((result) => {
                 setUser(result.data.user);
+
+                if (result.data.error || !result.data.user) {
+                    window.location.href="/";
+                };
             })
             .catch((error) => {
                 console.log('Something went wrong', error);
+                window.location.href="/";
             });
     }, []);    
 
-
-
-    return <>Test
+    return <>
     
-    
-    {(!cookies.get('session-token')) && <Navigate to="/" />}
+        {(!cookies.get('session-token')) ? <Navigate to="/" /> : <>
+
+            { user.username.length <= 0 ? <></> : <>
+                {props.component}
+            </> }
+
+        </>}
 
     </>
-}
+};
