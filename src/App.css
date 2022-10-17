@@ -211,12 +211,12 @@ input:-webkit-autofill,
 .inputBox input:valid ~ span,
 .inputBox input:focus ~ span {
   color: var(--babyblue);
-  transform: translateY(-24px);
+  transform: translateY(-28px);
 }
 
 .inputBox input:valid ~ i,
 .inputBox input:focus ~ i {
-  height: 2.5em;
+  height: 3em;
 }
 
 /* LINKS */
@@ -298,11 +298,12 @@ input:-webkit-autofill,
 
 .grid_custom {
   display: grid;
-  width: 80vw;
+  min-width: 80vw;
   grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   align-items: center;
   grid-gap: 2em;
   padding: 2em;
+  /* margin: 0 10em; */
   justify-items: center;
   transition: 300ms ease;
 }

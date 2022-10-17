@@ -152,7 +152,7 @@ export default function TextToInput(props: any) {
     };
 
     return (<>
-    <div className='flex flex-col p-10 gap-4 shadow-lg bg-opacity-40 rounded-xl border'>
+    <div className='flex w-full flex-col p-10 gap-4 shadow-lg bg-opacity-40 rounded-xl border'>
 
         {props.hiddenTally && <h1 className='text-2xl font-thin'>Currently changing <b>{props.id}</b>:</h1>}
 
