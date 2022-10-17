@@ -175,6 +175,14 @@ export default function TeaInventory(props) {
     useEffect(() => {
         renderFinalMsg();
 
+        if (step.two === true && second.length === 0) {
+            setStep({
+                one: false,
+                two: false,
+                three: true
+            })
+        };
+
         if (step.three === true) {
             submitAll().then(() => {
                 copy(toBeCopied);
@@ -209,7 +217,7 @@ export default function TeaInventory(props) {
                         
                         <h1 className={formStyles.header}>Which have a backup bag present?</h1>
 
-                        <div className={formStyles.form}>
+                        <div className={`${formStyles.form} grid_tea_custom`}>
                             {firstRender}
                         </div>
 

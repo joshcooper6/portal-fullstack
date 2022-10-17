@@ -306,3 +306,13 @@ input:-webkit-autofill,
   margin: 1em 1em;
   transition: 300ms ease;
 }
+
+.grid_tea_custom {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: center;
+  grid-gap: 2em;
+  justify-items: center;
+  margin: 1em 1em;
+  transition: 300ms ease;
+}
