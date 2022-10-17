@@ -19,7 +19,6 @@ export default function Search(props: any) {
     };
 
     const resultsArray = searchFor(searchQuery);
-    console.log(resultsArray);
 
     return(<>
                 <div className='flex self-center flex-col justify-center items-center w-10/12 max-w-lg'>

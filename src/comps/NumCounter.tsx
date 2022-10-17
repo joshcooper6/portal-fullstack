@@ -99,18 +99,18 @@ export default function NumCounter(props: any) {
 
 
                <div id="SELECT_CONTAINER" className='flex w-11/12 max-w-xl gap-4 pb-5 self-center items-center justify-center'> 
-                    <div className='border p-6 w-1/2 rounded-xl flex flex-col text-center self-center items-center justify-center gap-2'>
-                        <h2 className='uppercase text-lg lg:text-2xl w-full text-gray-900 font-light'>Day of Week:</h2>
-                        <select defaultValue={dayString()} onChange={(e) => setCurrentDay(e.target.value)} className='border rounded-full p-4 font-black'>
+                    <div className='border bg-gray-900 text-teal p-6 w-1/2 rounded-xl flex flex-col text-center self-center items-center justify-center gap-2'>
+                        <h2 className='uppercase text-lg lg:text-2xl w-full text-teal font-light'>Day of Week:</h2>
+                        <select defaultValue={dayString()} onChange={(e) => setCurrentDay(e.target.value)} className='border-0 rounded-full p-4 font-black bg-gray-700'>
                             {weekdays.map((day) => {
                                 return <option key={day} value={day}>{upperFirstChar(day)}</option>
                             })}
                         </select>
                     </div>
 
-                    <div className='flex flex-col border p-6 w-1/2 text-center self-center items-center justify-center gap-2'>
-                        <h2 className='uppercase text-lg lg:text-2xl text-gray-900 font-light'>Time Of Day:</h2>
-                        <select defaultValue={currentTime} onChange={(e) => { setCurrentTime(e.target.value) }} className='border rounded-full p-4 font-black'>
+                    <div className='flex bg-gray-900 rounded-xl text-teal flex-col border p-6 w-1/2 text-center self-center items-center justify-center gap-2'>
+                        <h2 className='uppercase text-lg lg:text-2xl font-light'>Time Of Day:</h2>
+                        <select defaultValue={currentTime} onChange={(e) => { setCurrentTime(e.target.value) }} className='border-0 rounded-full p-4 bg-gray-700 font-black'>
                             {timeOfDay.map((day) => {
                                 return <option key={day} value={day}>{upperFirstChar(day)}</option>
                             })}

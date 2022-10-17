@@ -18,7 +18,7 @@ export default function Header(props: any) {
                         </div>
                         <img onClick={() => setShowSearch(!showSearch)} className="cursor-pointer transition_ease hover:scale-110 p-2 pb-0 invert self-end" src={search} alt="search button" />
                     </div>   
-                    <img className="w-2/12 opacity-70 logo_height self-center max-w-sm" src={logo} alt='ucl logo' />
+                    <img className="w-1/3 opacity-70 logo_height self-center max-w-sm" src={logo} alt='ucl logo' />
                 </div>
     </>)
 };

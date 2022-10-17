@@ -327,8 +327,7 @@ input:-webkit-autofill,
 
 .logo_height {
   max-height: 100px;
-  object-fit: contain;
-  min-height: 50px;
+  min-height: 75px;
   max-width: 175px;
 }
 

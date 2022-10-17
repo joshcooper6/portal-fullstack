@@ -90,7 +90,7 @@ export default function TextToInput(props: any) {
             p-4 
             font-light  
             tracking-widest
-            bg-gray-200
+            bg-gray-700
             rounded
             hover:cursor-pointer
             transition_ease
@@ -152,7 +152,7 @@ export default function TextToInput(props: any) {
     };
 
     return (<>
-    <div className='flex w-full flex-col p-5 gap-4 shadow-lg bg-opacity-40 rounded-xl border'>
+    <div className='flex w-full flex-col bg-gray-900 p-5 gap-4 shadow-lg text-teal rounded-xl border'>
 
         {props.hiddenTally && <h1 className='text-2xl font-thin'>Currently changing <b>{props.id}</b>:</h1>}
 
@@ -178,34 +178,34 @@ export default function TextToInput(props: any) {
             <div className='flex w-full flex-wrap justify-between gap-2 self-center'>
                 <div className='flex h-full gap-3'>
                     <p className='self-center text-3xl font-thin'>Front</p>
-                    <select id="front" onChange={changeNums} className='self-center h-fit border p-4 rounded-xl'>
+                    <select id="front" onChange={changeNums} className='bg-gray-700 self-center h-fit border-0 p-4 rounded-xl'>
                         {renderOps()}
                     </select>
                 </div>
 
                 <div className='flex h-full gap-3 self-center '>
                     {/* <p className='self-center text-3xl font-thin'>Total</p> */}
-                    <h2 className='text-4xl min-w-sm font-black text-center self-center'>{total}</h2>
+                    <h2 className={`text-5xl ${(total > 0 ? 'text-white' : 'text-teal')} min-w-sm font-black text-center self-center`}>{total}</h2>
                 </div>
 
                 <div className='flex h-full gap-3 self-center flex-row-reverse'>
                     <p className='self-center text-3xl font-thin'>Back</p>
-                    <select id="back" onChange={changeNums} className='self-center h-fit border p-4 rounded-xl'>
+                    <select id="back" onChange={changeNums} className='self-center bg-gray-700 border-0 h-fit p-4 rounded-xl'>
                         {renderOps()}
                     </select>
                 </div>
 
-                {showManual && <><div className='flex w-full flex-row-reverse h-16 gap-2'>
-                    <button onClick={increment} className='self-center text-center w-4/5 border rounded-lg h-full uppercase font-bold text-3xl bg-green-300 text-white'>
+                {showManual && <><div className='flex w-full flex-row-reverse h-16 gap-2 m-4'>
+                    <button onClick={increment} className='self-center text-center w-4/5 border-0 rounded-lg h-full uppercase font-bold text-3xl bg-teal-300 text-gray-900'>
                     +</button>
 
-                    <button onClick={decrement} className='self-center text-center w-1/5 border rounded-lg h-full p-1 uppercase font-bold text-2xl bg-red-300 text-white'>
+                    <button onClick={decrement} className='self-center text-center w-1/5 border-0 rounded-lg h-full p-1 uppercase font-bold text-2xl bg-red-100 text-gray-900'>
                     -</button>
                 </div>
                 
                 </> }
 
-                <button onClick={() => {setShowManual(!showManual)}} className='w-full font-thin border rounded-xl p-2'>
+                <button onClick={() => {setShowManual(!showManual)}} className='w-full bg-gray-700 font-black tracking-wider uppercase border-0 rounded-xl p-2'>
                     { showManual ? '^' : 'Click for tap counter' }
                 </button>
 
