@@ -27,9 +27,12 @@ export default function Search() {
                     placeholder='Search food database...'
                     onChange={(e: any) => { setSearchQuery(e.target.value) }}
                     className='border bg-gray-900 font-black text-xl w-full text-teal p-4 rounded-full' />
-                    {resultsArray.map((item: any) => {
-                        return <SearchItem item={item} />
-                    })}
+                    <div className="grid_custom max-w-xl">
+                        {resultsArray.map((item: any) => {
+                            return <SearchItem item={item} />
+                        })}
+
+                    </div>
                 </div>
         </>)
 };

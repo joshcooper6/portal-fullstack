@@ -73,6 +73,10 @@ export default function NumCounter(props: any) {
     const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const timeOfDay = ['morning', 'afternoon'];
 
+    const upperFirstChar = (string: String) => {
+        return string.slice(0,1).toUpperCase() + string.slice(1).toLowerCase();
+    };
+
     return (<>
             <button 
                 onClick={() => {setRepNums(!repNums) }} 
@@ -92,24 +96,24 @@ export default function NumCounter(props: any) {
 
             { repNums && <>
 
-                <h1 className='text-3xl uppercase font-light text-center p-5'>Numbers for <span className='font-black text-blue-400'>{currentDay} {currentTime}</span>:</h1>
+                <h1 className='text-3xl uppercase font-light text-center p-5'>Numbers for <span className='font-black text-gray-900'>{currentDay} {currentTime}</span>:</h1>
 
 
                <div id="SELECT_CONTAINER" className='flex w-11/12 max-w-xl gap-4 pb-5 self-center items-center justify-center'> 
                     <div className='border p-6 w-1/2 rounded-xl flex flex-col text-center self-center items-center justify-center gap-2'>
-                        <h2 className='uppercase text-lg lg:text-2xl w-full text-blue-500 font-light'>Day of Week:</h2>
-                        <select defaultValue={dayString()} onChange={(e) => setCurrentDay(e.target.value)} className='border rounded-full p-4'>
+                        <h2 className='uppercase text-lg lg:text-2xl w-full text-gray-900 font-light'>Day of Week:</h2>
+                        <select defaultValue={dayString()} onChange={(e) => setCurrentDay(e.target.value)} className='border rounded-full p-4 font-black'>
                             {weekdays.map((day) => {
-                                return <option key={day} value={day}>{day}</option>
+                                return <option key={day} value={day}>{upperFirstChar(day)}</option>
                             })}
                         </select>
                     </div>
 
                     <div className='flex flex-col border p-6 w-1/2 text-center self-center items-center justify-center gap-2'>
-                        <h2 className='uppercase text-lg lg:text-2xl text-blue-500 font-light'>Time Of Day:</h2>
-                        <select defaultValue={currentTime} onChange={(e) => { setCurrentTime(e.target.value) }} className='border rounded-full p-4'>
+                        <h2 className='uppercase text-lg lg:text-2xl text-gray-900 font-light'>Time Of Day:</h2>
+                        <select defaultValue={currentTime} onChange={(e) => { setCurrentTime(e.target.value) }} className='border rounded-full p-4 font-black'>
                             {timeOfDay.map((day) => {
-                                return <option key={day} value={day}>{day}</option>
+                                return <option key={day} value={day}>{upperFirstChar(day)}</option>
                             })}
                         </select>
                     </div>
