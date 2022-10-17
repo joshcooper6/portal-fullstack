@@ -15,8 +15,8 @@ module.exports = {
     './src/comps/TeaInventory.tsx',
     './src/comps/LoginForm.js',
     './src/comps/Search.tsx',
-    './src/comps/SearchItem.tsx'
-
+    './src/comps/SearchItem.tsx',
+    './src/comps/SearchCheckbox.tsx'
   ],
   theme: {
     extend: {},
