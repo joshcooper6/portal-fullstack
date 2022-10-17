@@ -12,7 +12,6 @@ function App() {
           <Route path="/" element={<Account />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/numbers" element={<TestPage />} />
-
       </Routes>
     </>
   );

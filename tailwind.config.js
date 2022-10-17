@@ -13,7 +13,10 @@ module.exports = {
     './src/comps/Broadcast.tsx',
     './src/comps/Header.tsx',
     './src/comps/TeaInventory.tsx',
-    './src/comps/LoginForm.js'
+    './src/comps/LoginForm.js',
+    './src/comps/Search.tsx',
+    './src/comps/SearchItem.tsx'
+
   ],
   theme: {
     extend: {},

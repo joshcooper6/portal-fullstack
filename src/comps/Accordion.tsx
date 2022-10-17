@@ -13,14 +13,6 @@ export default function Accordion(props: any) {
     const getFromServer = props.getFromServer;
     const numsReported = props.numsReported;
 
-    const timeOfDay = () => {
-        if (time.includes('PM')) {
-            return 'afternoon'
-        } else if (time.includes('AM')) {
-            return 'morning'
-        }
-    };
-
     const deletePost = () => {  
             if (user.includes(currUser.username) || currUser.role === 'Admin') {
                 const config = {
@@ -81,15 +73,10 @@ export default function Accordion(props: any) {
         <div className="accordion self-center max-w-xl lg:w-full w-4/5">
 
             <div className="accordion-item flex flex-col">
-                <div
-                    className="accordion-title"
-                    onClick={() => setIsActive(!isActive)}
-                >
-                
+                <div className="accordion-title" onClick={() => setIsActive(!isActive)}>
                     <div className={`uppercase font-light p-4 border text-center w-full rounded-xl ${isActive && 'bg-green-100'} hover:cursor-pointer`}>
                         Report by <span className="font-bold text-blue-600">{user}</span><br /> on <span className="text-blue-700"> {dayString(date)} {date}</span> at {time}
                     </div>
-
                 </div>
 
                 { isActive && <div className="text-2xl font-light p-4 flex flex-col">

@@ -298,12 +298,11 @@ input:-webkit-autofill,
 
 .grid_custom {
   display: grid;
-  min-width: 80vw;
+  min-width: 70vw;
   grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   align-items: center;
-  grid-gap: 2em;
-  padding: 2em;
-  /* margin: 0 10em; */
+  grid-gap: 1em;
+  /* padding: 2em; */
   justify-items: center;
   transition: 300ms ease;
 }
@@ -316,4 +315,23 @@ input:-webkit-autofill,
   justify-items: center;
   margin: 1em 1em;
   transition: 300ms ease;
+}
+
+.header_styles {
+  background-color: var(--mainbg);
+}
+
+.text-teal {
+  color: var(--babyblue);
+}
+
+.logo_height {
+  max-height: 100px;
+  object-fit: contain;
+  min-height: 50px;
+  max-width: 175px;
+}
+
+.transition_ease {
+  transition: 1s ease;
 }
