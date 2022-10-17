@@ -114,7 +114,7 @@ export default function NumCounter(props: any) {
 
             { repNums && <>
 
-                <div className='flex flex-col justify-center items-center min-w-screen w-full '>
+                <div className='flex flex-col justify-center items-center min-w-screen '>
                     <input type="text" 
                     placeholder='Search food database...'
                     onChange={(e: any) => { setSearchQuery(e.target.value) }}
@@ -124,7 +124,10 @@ export default function NumCounter(props: any) {
                     })}
                 </div>
 
-               <div id="SELECT_CONTAINER" className='flex w-11/12 max-w-xl gap-4 self-center items-center justify-center'> 
+                <h1 className='text-3xl uppercase font-light text-center p-5'>Numbers for <span className='font-black text-blue-400'>{currentDay} {currentTime}</span>:</h1>
+
+
+               <div id="SELECT_CONTAINER" className='flex w-11/12 max-w-xl gap-4 pb-5 self-center items-center justify-center'> 
                     <div className='border p-6 w-1/2 rounded-xl flex flex-col text-center self-center items-center justify-center gap-2'>
                         <h2 className='uppercase text-lg lg:text-2xl w-full text-blue-500 font-light'>Day of Week:</h2>
                         <select defaultValue={dayString()} onChange={(e) => setCurrentDay(e.target.value)} className='border rounded-full p-4'>
@@ -149,10 +152,7 @@ export default function NumCounter(props: any) {
                         <button className="w-1/2 p-4 border rounded-xl bg-slate-100 text-blue-500 font-bold uppercase" onClick={() => { setNumsNeeded(todaysNums.afternoon) }}>PM Numbers</button>
                 </div> */}
 
-            <h1 className='text-3xl uppercase font-light text-center pt-10'>Numbers for <span className='font-black text-blue-400'>{currentDay} {currentTime}</span>:</h1>
-
-
-                <div className="grid_custom self-center">
+                <div className="grid_custom self-center w-11/12">
 
                     {numsNeeded.length <= 0 ? <>
 

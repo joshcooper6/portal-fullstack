@@ -298,12 +298,11 @@ input:-webkit-autofill,
 
 .grid_custom {
   display: grid;
-  min-width: 80vw;
+  min-width: 70vw;
   grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   align-items: center;
-  grid-gap: 2em;
-  padding: 2em;
-  /* margin: 0 10em; */
+  grid-gap: 1em;
+  /* padding: 2em; */
   justify-items: center;
   transition: 300ms ease;
 }
@@ -319,7 +318,11 @@ input:-webkit-autofill,
 }
 
 .header_styles {
-  background-color: var(--babyblue);
+  background-color: var(--mainbg);
+}
+
+.text-teal {
+  color: var(--babyblue);
 }
 
 .logo_height {

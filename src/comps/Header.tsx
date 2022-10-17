@@ -2,6 +2,7 @@ import { useContext } from "react"
 import NumsContext from "../context/NumsContext"
 import logo from '../assets/logo.png';
 import { render } from "@testing-library/react";
+import LogoutButton from "./LogoutButton";
 
 
 export default function Header(props: any) {
@@ -19,36 +20,15 @@ export default function Header(props: any) {
     // };
 
     return(<>
-            <div className="flex gap-4 flex-col lg:flex-row max-w-xl self-center justify-between align-center">
-                {/* <img src={logo} alt="UCL logo" className="invert self-center text-center w-5/12 lg:w-2/12" />  */}
-                <h1 className="text-6xl text-center uppercase font-bold tracking-tight">
-                    Welcome  
-                    <span className="text-blue-400"> {user?.firstName}!</span>
-                </h1>
-            </div>
-  
-            {/* <h2 className="self-center text-center text-4xl tracking-tightest uppercase font-bold">Current Info</h2> */}
-
-            {/* <h2 className="text-center text-xl italic">
-                Message from {message.firstName}: {message.broadcast}
-            </h2> */}
-
-            <h2 className="text-lg text-center self-center pl-4 pr-4 tracking-tight">
-                You are known to the world as <b>{user?.username}</b>.
-                
-                <br />
-
-                {user?.email.length > 0 ? <>
-                    The email you have on file is <b>{user?.email}</b>.
-                </> : <>
-                    You have not added an email on file yet.
-                </>}
-
-                <br />
-
-                Your current account role is <b>{user?.role}</b>.
-
-                <br /> 
-            </h2>
+                        <div className="header_styles drop-shadow-xl mb-10 p-6 justify-between self-center text-center w-screen flex flex-row-reverse">
+                    <div id="HEADER_TEXT" className="self-center flex flex-col">
+                        <h2 className="text-teal self-end flex lg:text-4xl text-xl font-black uppercase">Welcome {user?.firstName} <span className="md:flex text-teal hidden font-thin">/{user?.username}</span></h2>
+                        <div className="flex flex-col self-end">
+                            <h2 className="text-white text-md lg:text-xl opacity-80 uppercase font-light tracking-widest">Account Role: <span className="font-bold">{user?.role}</span></h2>
+                            <LogoutButton override="hover:font-black hover:opacity-100 opacity-50 self-end text-left text-teal font-light uppercase" />
+                        </div>
+                    </div>   
+                    <img className="w-2/12 opacity-70 logo_height self-center max-w-sm" src={logo} alt='ucl logo' />
+                </div>
     </>)
 }
