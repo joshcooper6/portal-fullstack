@@ -317,3 +317,14 @@ input:-webkit-autofill,
   margin: 1em 1em;
   transition: 300ms ease;
 }
+
+.header_styles {
+  background-color: var(--babyblue);
+}
+
+.logo_height {
+  max-height: 100px;
+  object-fit: contain;
+  min-height: 50px;
+  max-width: 175px;
+}
