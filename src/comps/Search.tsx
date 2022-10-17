@@ -3,9 +3,9 @@ import Fuse from 'fuse.js';
 import NumsContext from "../context/NumsContext";
 import SearchItem from "./SearchItem";
 
-export default function Search() {
+export default function Search(props: any) {
 
-    const { foodDB, user } = useContext(NumsContext);
+    const { foodDB, user, showSearch } = useContext(NumsContext);
     const [searchQuery, setSearchQuery] = useState();
 
     const fuse = new Fuse(foodDB, {keys: ["name", "id", "vendor"], threshold: 0.1},);
@@ -26,7 +26,7 @@ export default function Search() {
                     <input type="text" 
                     placeholder='Search food database...'
                     onChange={(e: any) => { setSearchQuery(e.target.value) }}
-                    className='border bg-gray-900 font-black text-xl w-full text-teal p-4 rounded-full' />
+                    className={`mb-5 border-0 transition_ease ${!showSearch && 'h-0 p-0'} p-6 bg-gray-900 font-black text-xl w-full text-teal rounded-full`}/>
                     <div className="grid_custom max-w-xl">
                         {resultsArray.map((item: any) => {
                             return <SearchItem item={item} />

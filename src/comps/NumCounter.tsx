@@ -3,7 +3,6 @@ import NumsContext from '../context/NumsContext';
 import axios from 'axios';
 import TextToInput from './TextToInput';
 import { PATH } from '../confgs';
-import Fuse from 'fuse.js';
 
 export default function NumCounter(props: any) {
 
