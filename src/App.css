@@ -331,3 +331,7 @@ input:-webkit-autofill,
   min-height: 50px;
   max-width: 175px;
 }
+
+.transition_ease {
+  transition: 1s ease;
+}

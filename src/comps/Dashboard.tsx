@@ -5,7 +5,8 @@ import axios from "axios";
 import NumsContext from "../context/NumsContext";
 import { PATH } from "../confgs";
 import logo from '../assets/logo.png';
-import { Header, LogoutButton, Broadcast, NumCounter, UpdRotating, Reports, TeaInventory } from './';
+import Fuse from 'fuse.js';
+import { Header, LogoutButton, Broadcast, Search, NumCounter, UpdRotating, Reports, TeaInventory } from './';
 const cookies = new Cookies();
 
 export default function Dashboard(props: any) {
@@ -66,17 +67,51 @@ export default function Dashboard(props: any) {
         // setTodaysNums,
     };
 
-     
+    // const [searchQuery, setSearchQuery] = useState();;
+
+    // const fuse = new Fuse(foodDB, {keys: ["name", "id", "vendor"], threshold: 0.1},);
+
+    // const searchFor = (value: any) => {
+    //     if (!value) {
+    //         return []
+    //     }
+
+    //     return fuse.search(value).map((result) => result.item);
+    // };
+
+    // const resultsArray = searchFor(searchQuery);
+
+    // const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+    // const checkboxes = (item: any, dayOfWeek: any) => {
+    //     const formattedDay = dayOfWeek.slice(0,1).toUpperCase() + dayOfWeek.slice(1).toLowerCase();
+
+    //     return (<>
+    //         <p>{formattedDay} Morning: {item?.[`${dayOfWeek}`].morning ? 'True' : 'False'}</p>
+    //         <p>{formattedDay} Afternoon: {item?.[`${dayOfWeek}`].afternoon ? 'True' : 'False'}</p>
+    //     </>)
+    // };
+
+
+    // const renderedSeachItem = (item: any) => {
+    //     return(<div key={item.name} className="flex flex-col justify-center items-center">
+    //             <p>Name: {item.name}</p>
+    //             <p>ID: {item.id}</p>
+    //             {weekdays.map((day: String) => { return checkboxes(item, day) })}
+    //             <button className="text-teal hover:scale-110 m-4 font-black border-0 rounded-full bg-slate-600 p-4">Update Food Item</button>
+    //         </div>)
+    // };
+
+    // console.log(resultsArray)
+        
 return(<>
         <div className="flex gap-2 pb-10 flex-col min-w-screen justify-center align-center">
             <NumsContext.Provider value={provVals}>
-                <Header />
-                {/* <LogoutButton /> */}
-                <NumCounter />
-                {/* <UpdRotating /> */}
-                <Reports />
-                {/* <Broadcast /> */}
 
+                <Header />
+                <Search />
+                <NumCounter />
+                <Reports />
                 {user?.role === 'Admin' && <TeaInventory /> }
                 
             </NumsContext.Provider>

@@ -195,7 +195,9 @@ export default function TeaInventory(props) {
                 className={`p-4 
                     tracking-widest 
                     uppercase 
-                    ${showComp ? 'bg-red-200' : 'bg-blue-100'} 
+                    bg-gray-900
+                    text-teal 
+                    font-black 
                     rounded-xl 
                     border w-4/5
                     max-w-lg

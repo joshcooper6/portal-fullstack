@@ -27,7 +27,7 @@ export default function Reports(props: any) {
 
     const styles = {
         button: `p-4 tracking-widest uppercase rounded-xl max-w-lg border w-4/5 self-center
-        ${showReports ? 'bg-red-200' : 'bg-blue-100'}`,
+        bg-gray-900 font-black text-teal`,
     };
 
     useEffect(() => {

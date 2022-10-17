@@ -11,7 +11,6 @@ export default function NumCounter(props: any) {
     const [repNums, setRepNums] = useState(false);
     const [numsNeeded, setNumsNeeded] = useState([]);
     const [confirmPost, setConfirmPost] = useState(false);
-    const [searchQuery, setSearchQuery] = useState();;
 
     const dayString = () => {
         const DATE = new Date();
@@ -37,16 +36,8 @@ export default function NumCounter(props: any) {
     const [currentDay, setCurrentDay] = useState(dayString());
     const [currentTime, setCurrentTime] = useState('afternoon');
 
-    const todaysNums = {
-        morning: filterDB(currentDay, 'morning'),
-        afternoon: filterDB(currentDay, 'afternoon')
-    };
-
-
     const postNums = () => {
         const date = new Date();
-        const x = date.toLocaleDateString();
-        const y = date.toLocaleTimeString();
 
         const config = {
             method: 'post',
@@ -54,8 +45,8 @@ export default function NumCounter(props: any) {
             data: {
                 numbers: numsNeeded,
                 reportedBy: `${user.firstName} / ${user.username}`,
-                dateReported: x,
-                timeReported: y
+                dateReported: date.toLocaleDateString(),
+                timeReported: date.toLocaleTimeString()
             }
         };
 
@@ -79,22 +70,7 @@ export default function NumCounter(props: any) {
         if (repNums) { setNumsNeeded( filterDB(currentDay, currentTime) ); console.log(`food nums loaded for ${currentDay} ${currentTime}`) };
     }, [repNums, currentTime, currentDay]);
 
-    // useEffect(() => {
-    //     setNumsNeeded(filterDB(currentDay, currentTime))
-    // }, [currentTime]);
-
-    const fuse = new Fuse(foodDB, {keys: ["name", "id", "vendor", "positions.subgroup"]});
-
-    const searchThis = (value: any) => {
-        if (!value) {
-            return []
-        }
-
-        return fuse.search(value).map((result) => result.item);
-    };
-
-    const resultsArray = searchThis(searchQuery);
-    const weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+    const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const timeOfDay = ['morning', 'afternoon'];
 
     return (<>
@@ -103,7 +79,9 @@ export default function NumCounter(props: any) {
                 className={`p-4 
                     tracking-widest 
                     uppercase 
-                    ${repNums ? 'bg-red-200' : 'bg-blue-100'} 
+                    bg-gray-900
+                    text-teal
+                    font-black
                     rounded-xl 
                     border w-4/5
                     max-w-lg
@@ -113,16 +91,6 @@ export default function NumCounter(props: any) {
 
 
             { repNums && <>
-
-                <div className='flex flex-col justify-center items-center min-w-screen '>
-                    <input type="text" 
-                    placeholder='Search food database...'
-                    onChange={(e: any) => { setSearchQuery(e.target.value) }}
-                    className='border p-4 rounded-full w-1/2 min-w-md max-w-lg' />
-                    {resultsArray.map((item: any) => {
-                        return <p key={item.name}>{item.name}</p>
-                    })}
-                </div>
 
                 <h1 className='text-3xl uppercase font-light text-center p-5'>Numbers for <span className='font-black text-blue-400'>{currentDay} {currentTime}</span>:</h1>
 
@@ -152,7 +120,7 @@ export default function NumCounter(props: any) {
                         <button className="w-1/2 p-4 border rounded-xl bg-slate-100 text-blue-500 font-bold uppercase" onClick={() => { setNumsNeeded(todaysNums.afternoon) }}>PM Numbers</button>
                 </div> */}
 
-                <div className="grid_custom self-center w-11/12">
+                <div id="RENDERED_NUMS" className="grid_custom self-center w-11/12">
 
                     {numsNeeded.length <= 0 ? <>
 
