@@ -11,9 +11,7 @@ import { Header, LogoutButton, Broadcast, NumCounter, UpdRotating, Reports, TeaI
 const cookies = new Cookies();
 
 export default function Dashboard(props: any) {
-
     const token = cookies.get("session-token");
-
     const [user, setUser] = useState({
         firstName: "",
         lastName: "",
@@ -22,7 +20,6 @@ export default function Dashboard(props: any) {
         email: "",
         exp: ""
     });
-    
     const [foodDB, setFoodDB] = useState([]);
 
     const getAll = async () => {
@@ -78,7 +75,9 @@ return(<>
                 {/* <UpdRotating /> */}
                 <Reports />
                 {/* <Broadcast /> */}
-                <TeaInventory />
+
+                {user.role === 'Admin' && <TeaInventory /> }
+                
             </NumsContext.Provider>
         </div>
         

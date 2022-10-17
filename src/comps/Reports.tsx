@@ -43,9 +43,7 @@ export default function Reports(props: any) {
                     { reports.length > 0 ? <>
                     
                         { reports.slice().reverse().map((report: any) => {
-                            return <>
-
-                                <Accordion 
+                            return (<Accordion 
                                     getFromServer={getReports} 
                                     key={`${report.user}/${report.date}/${report.time}`} 
                                     user={report.user}
@@ -54,10 +52,8 @@ export default function Reports(props: any) {
                                     numsReported={report.numsReported} 
                                     _id={report._id} 
                                     currUser={user} 
-                                />
-
-                            </>
-                        })}
+                                />)
+                        })};
                     
                     </> : <>
 

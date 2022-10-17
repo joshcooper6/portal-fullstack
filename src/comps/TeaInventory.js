@@ -3,6 +3,7 @@ import NumsContext from "../context/NumsContext"
 import axios from 'axios';
 import OpenApp from 'react-open-app';
 import { PATH } from "../confgs";
+import { Navigate } from "react-router-dom";
 
 export default function TeaInventory(props) {
     
@@ -92,11 +93,11 @@ export default function TeaInventory(props) {
     };
 
     const firstRender = tea.map((tea) => {
-        return <h1 className={`${tea.meetsBackupBag && 'bg-green-100'} ${formStyles.elements}`} onClick={hc}>{tea.name}</h1>
+        return <h1 key={tea.name} className={`${tea.meetsBackupBag && 'bg-green-100'} ${formStyles.elements}`} onClick={hc}>{tea.name}</h1>
     });
 
     const secondRender = second.map((tea) => {
-        return <h1 className={`${tea.meetsContainer && 'bg-green-100'} ${formStyles.elements} `} onClick={hc2}>{tea.name}</h1>
+        return <h1 key={tea.name} className={`${tea.meetsContainer && 'bg-green-100'} ${formStyles.elements} `} onClick={hc2}>{tea.name}</h1>
     });
  
     const submitAll = async () => {
@@ -182,11 +183,11 @@ export default function TeaInventory(props) {
     }, [step]);
 
     useEffect(() => {
-        if (showComp) { getTea(); console.log('tea rec now') }
+        if (showComp) { getTea(); console.log('tea rec now'); };
     }, [showComp]);
 
-    return(<>
 
+    return(<>
         <div className={formStyles.container}>
 
             <button 
@@ -261,7 +262,6 @@ export default function TeaInventory(props) {
                     </> }
             
             </> }
-
 
         </div>
 

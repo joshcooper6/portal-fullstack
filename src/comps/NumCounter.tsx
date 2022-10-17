@@ -91,37 +91,36 @@ export default function NumCounter(props: any) {
 
 
             { repNums && <>
-                <div className="flex flex-col gap-6 max-w-lg w-4/5 self-center">
 
-                    <div className='w-full gap-2 flex self-center justify-center align-center'>
+                <div className='w-10/12 max-w-2xl grid_buttons gap-2 flex self-center justify-center align-center'>
                         <button className='w-1/2 border rounded-xl p-4 bg-blue-500 font-bold text-white uppercase' onClick={() => { setNumsNeeded(todaysNums.morning) }}>AM Numbers</button>
                         <button className="w-1/2 p-4 border rounded-xl bg-slate-100 text-blue-500 font-bold uppercase" onClick={() => { setNumsNeeded(todaysNums.afternoon) }}>PM Numbers</button>
-                    </div>
+                </div>
+
+                <div className="grid_custom self-center">
 
                     {numsNeeded.length <= 0 ? <>
 
-                        <h1 className="text-center uppercase font-bold text-5xl mt-2">No numbers to report right now!</h1>
+                        <h1 className="text-center self-center uppercase font-bold text-5xl mt-2">No numbers to report right now!</h1>
                    
                     </> : <>
 
                         {numsNeeded.map((obj: any) => {
-                            return <>
-                            <div key={`${obj._id}/${obj.id}`} className="flex flex-col gap-">
-                                <TextToInput
+                            return (<TextToInput
                                         key={obj._id} 
                                         setNumsNeeded={setNumsNeeded} 
                                         numsNeeded={numsNeeded}
                                         id={obj.id}
                                         value={obj.name} 
                                         user={user}
-                                    />
-                            </div>
-                            </>
+                                    />)
                         })}
 
                     </>}
 
-                    <div className="flex flex-col gap-2 w-full justify-center align-center">
+                </div>
+
+                <div className="flex flex-col gap-2 w-10/12 max-w-2xl self-center justify-center align-center">
                         <button className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider" onClick={() => setConfirmPost(!confirmPost)}>Ready to Report</button>
 
                         {confirmPost && <>
@@ -132,8 +131,6 @@ export default function NumCounter(props: any) {
                         </>}
 
                     </div>
-
-                </div>
             </>
             }
     </>)
