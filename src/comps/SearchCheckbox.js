@@ -1,14 +1,22 @@
 import thumb from '../assets/thumb.svg';
 import negative from '../assets/negative.svg';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NumsContext from '../context/NumsContext';
+import axios from 'axios';
+import { PATH } from '../confgs';
 
 export default function SearchCheckbox(props) {
 
-    const { setNumsNeeded, foodDB } = useContext(NumsContext);
+    const { setNumsNeeded, foodDB, setFoodDB, getAll } = useContext(NumsContext);
     const { item, dayOfWeek } = props;
     const [dayVis, setDayVis] = useState(false);
-    const [input, setInput] = useState([]);
+
+    const [formVals, setFormVals] = useState({
+        morning: item?.[`${dayOfWeek}`]?.morning,
+        afternoon: item?.[`${dayOfWeek}`]?.afternoon
+    });
+
+    const query = { id: item.id, [`${dayOfWeek}`]: formVals };
 
     const upperFirstChar = (string) => {
         return string.slice(0,1).toUpperCase() + string.slice(1).toLowerCase();
@@ -17,19 +25,37 @@ export default function SearchCheckbox(props) {
     const condition = (item?.[`${dayOfWeek}`].morning || item?.[`${dayOfWeek}`].afternoon);
 
     const hc = (e) => {
-        let query = {};
-        let filter = foodDB.filter((food) => food.id === item.id);
-        let dbComparison = filter[0];
-
-        if (dbComparison?.[`${dayOfWeek}`]?.[e.target.name] === e.target.checked) {
-            console.log('same as in food db')
-            query = {}
-        } else {
-            query = { id: dbComparison.id, [`${dayOfWeek}`]: { [e.target.name]: e.target.checked } }
-        }
+        setFormVals((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.checked
+        }))
     };
 
-    console.log('input', input)
+    const updateDB = async () => {
+        const cfg = {
+            method: 'post',
+            url: `${PATH}/updateFood`,
+            data: {
+                query: { id: item.id },
+                changeThis: { [`${dayOfWeek}`]: formVals }
+            }
+        };
+
+        axios(cfg)
+        .then((res) => {
+            console.log('posted', res)
+            alert(`updated for ${dayOfWeek}`)
+            setDayVis(false);
+            getAll();
+        })
+        .catch((err) => {
+            console.log('err', err)
+        })
+    };
+
+    useEffect(() => {
+        console.log(query)
+    }, [formVals]);
 
     return(<>
         <div onClick={(e) => {setDayVis(!dayVis)}} className="flex cursor-pointer p-4 w-full rounded-2xl bg-gray-700 gap-2 text-teal border-0">
@@ -38,11 +64,15 @@ export default function SearchCheckbox(props) {
         </div>
 
         {dayVis && <>
-
-            <input name="afternoon" onChange={hc} defaultChecked={item?.[`${dayOfWeek}`].afternoon} type="checkbox"></input>
-
-            <p>{upperFirstChar(dayOfWeek)} Morning: {item?.[`${dayOfWeek}`].morning ? 'True' : 'False'}</p>
-            <p>{upperFirstChar(dayOfWeek)} Afternoon: {item?.[`${dayOfWeek}`].afternoon ? 'True' : 'False'}</p>
+            <div className='flex gap-2'>
+                <p>{upperFirstChar(dayOfWeek)} Morning:</p>
+                <input onChange={hc} name="morning" type="checkbox" defaultChecked={formVals.morning} />
+            </div>
+            <div className='flex gap-2'>
+                <p>{upperFirstChar(dayOfWeek)} Afternoon:</p>
+                <input onChange={hc} name="afternoon" type="checkbox" defaultChecked={formVals.afternoon} />
+            </div>
+            <button onClick={updateDB} className="text-teal hover:scale-110 m-4 font-black border-0 rounded-2xl bg-gray-700 p-4" children={`Update ${upperFirstChar(dayOfWeek)}`} />
         </>}
     </>)
 };
