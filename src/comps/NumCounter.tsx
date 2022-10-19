@@ -3,10 +3,12 @@ import NumsContext from '../context/NumsContext';
 import axios from 'axios';
 import TextToInput from './TextToInput';
 import { PATH } from '../confgs';
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export default function NumCounter(props: any) {
 
-    const { user, foodDB, getAll, token, setUser } = useContext(NumsContext);
+    const { user, foodDB, getAll, setUser } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
     const [numsNeeded, setNumsNeeded] = useState([]);
     const [confirmPost, setConfirmPost] = useState(false);
@@ -68,6 +70,26 @@ export default function NumCounter(props: any) {
     useEffect(() => {
         if (repNums) { setNumsNeeded( filterDB(currentDay, currentTime) ); console.log(`food nums loaded for ${currentDay} ${currentTime}`) };
     }, [repNums, currentTime, currentDay]);
+    
+    const token = cookies.get('session-token');
+    useEffect(() => {
+        const configuration = {
+            method: "get",
+            url: `${PATH}/auth`,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        axios(configuration)
+            .then((result) => {
+                setUser(result.data.user);
+                getAll();
+            })
+            .catch((error) => {
+                console.log('Something went wrong', error);
+            });
+    }, []);    
 
     const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const timeOfDay = ['morning', 'afternoon'];

@@ -30,7 +30,7 @@ export default function Search(props: any) {
 
                         {showSearch && <>
                             {resultsArray.map((item: any) => {
-                                return <SearchItem item={item} />
+                                return <SearchItem key={item._id} item={item} />
                             })}
                         </>}
 

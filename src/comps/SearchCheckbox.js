@@ -4,11 +4,12 @@ import { useContext, useEffect, useState } from 'react';
 import NumsContext from '../context/NumsContext';
 import axios from 'axios';
 import { PATH } from '../confgs';
+import upperFirstChar from '../funcs/upperFirstChar';
 
 export default function SearchCheckbox(props) {
 
-    const { setNumsNeeded, foodDB, setFoodDB, getAll } = useContext(NumsContext);
-    const { item, dayOfWeek } = props;
+    const { setNumsNeeded, foodDB, setFoodDB, getAll, user } = useContext(NumsContext);
+    const { item, dayOfWeek, thingsToChange, setThingsToChange } = props;
     const [dayVis, setDayVis] = useState(false);
 
     const [formVals, setFormVals] = useState({
@@ -17,10 +18,6 @@ export default function SearchCheckbox(props) {
     });
 
     const query = { id: item.id, [`${dayOfWeek}`]: formVals };
-
-    const upperFirstChar = (string) => {
-        return string.slice(0,1).toUpperCase() + string.slice(1).toLowerCase();
-    };
 
     const condition = (item?.[`${dayOfWeek}`].morning || item?.[`${dayOfWeek}`].afternoon);
 
@@ -54,7 +51,7 @@ export default function SearchCheckbox(props) {
     };
 
     useEffect(() => {
-        console.log(query)
+
     }, [formVals]);
 
     return(<>
@@ -64,15 +61,25 @@ export default function SearchCheckbox(props) {
         </div>
 
         {dayVis && <>
-            <div className='flex gap-2'>
-                <p>{upperFirstChar(dayOfWeek)} Morning:</p>
+            <div className='flex gap-2 m-2'>
+                <p className='font-black text-xl lowercase'>Morning:</p>
                 <input onChange={hc} name="morning" type="checkbox" defaultChecked={formVals.morning} />
             </div>
-            <div className='flex gap-2'>
-                <p>{upperFirstChar(dayOfWeek)} Afternoon:</p>
-                <input onChange={hc} name="afternoon" type="checkbox" defaultChecked={formVals.afternoon} />
+            <div className='flex gap-2 m-2'>
+                <p className='font-black text-xl lowercase'>Afternoon:</p>
+                <input 
+                onChange={hc} 
+                name="afternoon" 
+                type="checkbox" 
+                defaultChecked={formVals.afternoon} />
             </div>
-            <button onClick={updateDB} className="text-teal hover:scale-110 m-4 font-black border-0 rounded-2xl bg-gray-700 p-4" children={`Update ${upperFirstChar(dayOfWeek)}`} />
+
+            {user?.role === 'Admin' && <>
+                <button 
+                onClick={updateDB} 
+                className="text-teal hover:scale-110 m-4 font-black border-0 rounded-2xl bg-gray-700 p-4" 
+                children={`Update ${upperFirstChar(dayOfWeek)}`} />
+            </>}
         </>}
     </>)
 };
