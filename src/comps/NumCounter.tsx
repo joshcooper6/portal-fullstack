@@ -109,7 +109,7 @@ export default function NumCounter(props: any) {
 
                     {numsNeeded.length <= 0 ? <>
 
-                        <h1 className="text-center self-center uppercase font-bold text-5xl mt-2">No numbers to report for {currentDay} {currentTime}!</h1>
+                        <h1 className="text-center max-w-lg self-center uppercase font-bold text-5xl m-2 mb-6">No numbers to report for {currentDay} {currentTime}!</h1>
                    
                     </> : <>
 
@@ -125,12 +125,16 @@ export default function NumCounter(props: any) {
                         })}
 
                     </>}
+                    
 
                 </div>
 
-                <div className="flex flex-col gap-2 w-10/12 max-w-2xl self-center justify-center align-center">
+                        
+                <div className={`${numsNeeded.length <= 0 && 'hidden'} flex flex-col gap-2 w-10/12 max-w-lg mb-6 self-center justify-center align-center`}>
                     <button className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider mt-10" onClick={confirm}>Ready to Report</button>
                 </div>
+
+
             </>
             }
     </>)

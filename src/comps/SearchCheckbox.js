@@ -8,8 +8,8 @@ import upperFirstChar from '../funcs/upperFirstChar';
 
 export default function SearchCheckbox(props) {
 
-    const { setNumsNeeded, foodDB, setFoodDB, getAll, user } = useContext(NumsContext);
-    const { item, dayOfWeek, thingsToChange, setThingsToChange } = props;
+    const { getAll, user } = useContext(NumsContext);
+    const { item, dayOfWeek } = props;
     const [dayVis, setDayVis] = useState(false);
 
     const [formVals, setFormVals] = useState({

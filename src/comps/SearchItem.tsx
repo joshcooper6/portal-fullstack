@@ -9,8 +9,6 @@ export default function SearchItem(props: any) {
     const { item } = props;
 
     const [daysVisible, setDaysVisible] = useState(false);
-
-    const [thingsToChange, setThingsToChange] = useState([]);
     
    return(<div key={item.name} className="flex flex-col justify-center items-center border p-6 w-10/12 max-w-lg m-4 rounded-xl bg-gray-900 text-teal border-gray-900">
     <p className="font-black text-center text-2xl uppercase tracking-wider">{item.name}</p>
@@ -20,7 +18,7 @@ export default function SearchItem(props: any) {
 
     {daysVisible && <>
         <div className="flex flex-col justify-center items-center gap-1">
-            {weekdays.map((day: String) => { return <SearchCheckbox key={`${item.id}/{day}`} item={item} dayOfWeek={day} thingsToChange={thingsToChange} setThingsToChange={setThingsToChange} /> })}
+            {weekdays.map((day: String) => { return <SearchCheckbox key={`${item.id}/{day}`} item={item} dayOfWeek={day} /> })}
         </div>
     </>}
 </div>)

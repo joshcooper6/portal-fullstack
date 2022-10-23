@@ -47,7 +47,6 @@ export default function TestPage(props) {
     
         {(!cookies.get('session-token')) ? <Navigate to="/" /> : <>
 
-             <NumCounter user={user} />
 
         </>}
 
