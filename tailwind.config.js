@@ -16,7 +16,8 @@ module.exports = {
     './src/comps/LoginForm.js',
     './src/comps/Search.tsx',
     './src/comps/SearchItem.tsx',
-    './src/comps/SearchCheckbox.js'
+    './src/comps/SearchCheckbox.js',
+    './src/comps/CreateFoodItem.js'
   ],
   theme: {
     extend: {},

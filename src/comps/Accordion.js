@@ -90,6 +90,7 @@ export default function Accordion(props) {
                             {numsReported.map((number) => {
                                 return <p className="m-1" key={number._id}>{number.name} = {number.currentTotal}</p>
                             })}
+
                         </> : <>
                             It appears there were no numbers included with this report.
                         </>}

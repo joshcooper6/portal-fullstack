@@ -6,7 +6,7 @@ import { PATH } from "../confgs";
 import logo from '../assets/logo.png';
 import search from '../assets/search.svg';
 import Fuse from 'fuse.js';
-import { Header, LogoutButton, Broadcast, Search, NumCounter, UpdRotating, Reports, TeaInventory } from './';
+import { Header, LogoutButton, CreateFoodItem, Broadcast, Search, NumCounter, UpdRotating, Reports, TeaInventory } from './';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -58,6 +58,8 @@ export default function Dashboard(props: any) {
             });
     }, []);    
     
+    
+
 
     const provVals = {
         getAll,
@@ -85,8 +87,10 @@ return(<>
                 </div>
                 
                 <NumCounter />
+                <CreateFoodItem />
                 <Reports />
                 {user?.role === 'Admin' && <TeaInventory /> }
+
                 
             </NumsContext.Provider>
         </div>
