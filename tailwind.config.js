@@ -7,7 +7,7 @@ module.exports = {
     './src/comps/LogoutButton.tsx',
     './src/comps/TextToInput.tsx',
     './src/comps/NumCounter.tsx',
-    './src/comps/Accordion.tsx',
+    './src/comps/Accordion.js',
     './src/comps/UpdRotating.tsx',
     './src/comps/Reports.tsx',
     './src/comps/Broadcast.tsx',

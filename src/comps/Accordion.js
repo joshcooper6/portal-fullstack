@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import resultInOrder from "../funcs/resultInOrder";
 import OpenApp from 'react-open-app';
 
 
@@ -71,44 +72,7 @@ export default function Accordion(props: any) {
         }
       };
 
-    const resultInOrder = () => {
-        const groups = {
-            artisan: numsReported.filter((number) => number.positions.group === 'artisan'),
-            misc: numsReported.filter((number) => number.positions.group === 'misc'),
-            squash: numsReported.filter((number) => number.positions.group === 'squash'),
-            savoryCroissant: numsReported.filter((number) => number.positions.group === 'savoryCroissant'),
-            glutenFree: numsReported.filter((number) => number.positions.group === 'glutenFree'),
-            quiche: numsReported.filter((number) => number.positions.group === 'quiche'),
-            empanadas: numsReported.filter((number) => number.positions.group === 'empanadas'),
-        };
-
-        const group = [
-            'artisan',
-            'misc',
-            'squash',
-            'savoryCroissant',
-            'glutenFree',
-            'quiche',
-            'empanadas'
-        ]
-
-        const mapObject = (variable) => {
-            if (groups?.[variable].length > 0) {
-                return groups?.[variable].map((num) => {
-                    return `\n${num.name} = ${num.currentTotal}`
-                }).join(' ')
-            };
-        };
-
-        const text = `${group.map((string) => {
-               return mapObject(string)
-            }).join('\n')}
-            \nRecorded by ${user} at ${time} on ${date}`
-
-        return text;
-    };
-
-    if (isActive) { console.log(resultInOrder()); navigator.clipboard.writeText(resultInOrder()) };
+    if (isActive) { console.log('numsReportedRes', resultInOrder(numsReported)); navigator.clipboard.writeText(resultInOrder(numsReported)) };
 
     return(<>
         <div className="accordion self-center max-w-xl lg:w-full w-4/5">
@@ -130,6 +94,10 @@ export default function Accordion(props: any) {
                             It appears there were no numbers included with this report.
                         </>}
 
+                        <OpenApp className={`opacity-80 mt-2 hover:cursor-pointer w-full max-w-lg self-center bg-orange-600 text-white font-black p-6 text-center border rounded-xl`} href={`https://app.7shifts.com/log_book`}>
+                            Paste to 7Shifts
+                        </OpenApp>
+
                         {(user.includes(currUser.username) || currUser.role === 'Admin') && <>
                             <button onClick={() => {
                                 const a = `WARNING: Are you sure you want to delete this? There's no retrieving this data afterwards.`
@@ -139,6 +107,7 @@ export default function Accordion(props: any) {
                                 };
                             }} className=" self-center p-2 border w-11/12 m-4 rounded-lg opacity-50 hover:opacity-100 active:opacity-100 bg-red-800 text-white ">Delete this Report</button>
                         </>}
+
                     </div> 
                 }
 

@@ -6,6 +6,7 @@ import { PATH } from '../confgs';
 import upperFirstChar from '../funcs/upperFirstChar';
 import dayString from '../funcs/dayString';
 import { weekdays, timeOfDay } from '../funcs/vars';
+import resultInOrder from '../funcs/resultInOrder';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -57,11 +58,19 @@ export default function NumCounter(props: any) {
         if (repNums) { setNumsNeeded( filterDB(currentDay, currentTime) ); console.log(`food nums loaded for ${currentDay} ${currentTime}`) };
     }, [repNums, currentTime, currentDay]);
 
-    const confirm = (e: any) => {
+    useEffect(() => {
+        foodDB.forEach((num) => { num.currentTotal = 0 })
+    }, [foodDB]);
+
+    const confirm = (e) => {
         if (window.confirm('Have you double checked all of the numbers?')) {
             postNums();
         };
     };
+
+    useEffect(() => {
+        console.log('numsNeeded', resultInOrder(numsNeeded))
+    }, [numsNeeded])
 
     return (<>
             <button 
