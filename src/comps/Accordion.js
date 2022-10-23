@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import OpenApp from 'react-open-app';
+
 
 export default function Accordion(props: any) {
 
@@ -68,6 +70,45 @@ export default function Accordion(props: any) {
             break;
         }
       };
+
+    const resultInOrder = () => {
+        const groups = {
+            artisan: numsReported.filter((number) => number.positions.group === 'artisan'),
+            misc: numsReported.filter((number) => number.positions.group === 'misc'),
+            squash: numsReported.filter((number) => number.positions.group === 'squash'),
+            savoryCroissant: numsReported.filter((number) => number.positions.group === 'savoryCroissant'),
+            glutenFree: numsReported.filter((number) => number.positions.group === 'glutenFree'),
+            quiche: numsReported.filter((number) => number.positions.group === 'quiche'),
+            empanadas: numsReported.filter((number) => number.positions.group === 'empanadas'),
+        };
+
+        const group = [
+            'artisan',
+            'misc',
+            'squash',
+            'savoryCroissant',
+            'glutenFree',
+            'quiche',
+            'empanadas'
+        ]
+
+        const mapObject = (variable) => {
+            if (groups?.[variable].length > 0) {
+                return groups?.[variable].map((num) => {
+                    return `\n${num.name} = ${num.currentTotal}`
+                }).join(' ')
+            };
+        };
+
+        const text = `${group.map((string) => {
+               return mapObject(string)
+            }).join('\n')}
+            \nRecorded by ${user} at ${time} on ${date}`
+
+        return text;
+    };
+
+    if (isActive) { console.log(resultInOrder()); navigator.clipboard.writeText(resultInOrder()) };
 
     return(<>
         <div className="accordion self-center max-w-xl lg:w-full w-4/5">
