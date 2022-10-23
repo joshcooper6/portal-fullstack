@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Cookies from "universal-cookie";
-import { Navigate } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import NumsContext from "../context/NumsContext";
 import { PATH } from "../confgs";
@@ -8,6 +7,7 @@ import logo from '../assets/logo.png';
 import search from '../assets/search.svg';
 import Fuse from 'fuse.js';
 import { Header, LogoutButton, Broadcast, Search, NumCounter, UpdRotating, Reports, TeaInventory } from './';
+import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 export default function Dashboard(props: any) {
@@ -73,11 +73,17 @@ export default function Dashboard(props: any) {
 
 
 return(<>
-        <div className="flex gap-2 pb-10 bg-slate-100 flex-col min-w-screen min-h-screen">
+        <div className="flex pb-10 bg-slate-100 flex-col min-w-screen min-h-screen">
             <NumsContext.Provider value={provVals}>
-
+                
                 <Header />
+
                 <Search />
+                
+                <div className="w-full flex max-w-2xl self-center">
+                    <h2 className="w-10/12 font-thin ml-5 mb-10 text-6xl md:max-w-md max-w-xs">Which task are you looking for?</h2>
+                </div>
+                
                 <NumCounter />
                 <Reports />
                 {user?.role === 'Admin' && <TeaInventory /> }

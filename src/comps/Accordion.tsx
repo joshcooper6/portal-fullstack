@@ -74,8 +74,8 @@ export default function Accordion(props: any) {
 
             <div className="accordion-item flex flex-col">
                 <div className="accordion-title" onClick={() => setIsActive(!isActive)}>
-                    <div className={`uppercase font-light p-4 border text-center w-full rounded-xl ${isActive && 'bg-green-100'} hover:cursor-pointer`}>
-                        Report by <span className="font-bold text-blue-600">{user}</span><br /> on <span className="text-blue-700"> {dayString(date)} {date}</span> at {time}
+                    <div className={`uppercase bg-gray-900 text-teal font-light p-4 border text-center w-full rounded-xl ${isActive && 'bg-green-100'} hover:cursor-pointer`}>
+                        Report by <span className="font-bold text-teal">{user}</span><br /> on <span className="text-teal"> {dayString(date)} {date}</span> at {time}
                     </div>
                 </div>
 

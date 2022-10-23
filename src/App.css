@@ -332,5 +332,5 @@ input:-webkit-autofill,
 }
 
 .transition_ease {
-  transition: 500ms ease;
+  transition: 100ms ease-in;
 }

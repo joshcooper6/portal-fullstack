@@ -4,8 +4,6 @@ import { Account, Dashboard, NumCounter } from './comps';
 import TestPage from './comps/TestPage';
 
 function App() {
-
-
   return (
     <>
       <Routes>

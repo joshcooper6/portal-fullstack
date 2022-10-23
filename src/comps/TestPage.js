@@ -2,18 +2,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { Navigate } from "react-router-dom";
+import NumCounter from "./NumCounter";
+
 const cookies = new Cookies();
 // require('dotenv').config();
 
 export default function TestPage(props) {
 
     const [user, setUser] = useState({
-        firstName: "",
-        lastName: "",
-        role: "",
-        username: "",
-        email: "",
-        exp: ""
+        // firstName: "",
+        // lastName: "",
+        // role: "",
+        // username: "",
+        // email: "",
+        // exp: ""
     });
 
     const token = cookies.get("session-token");
@@ -45,9 +47,6 @@ export default function TestPage(props) {
     
         {(!cookies.get('session-token')) ? <Navigate to="/" /> : <>
 
-            { user.username.length <= 0 ? <></> : <>
-                {props.component}
-            </> }
 
         </>}
 

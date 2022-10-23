@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 
 export default function TextToInput(props: any) {
     const [showInp, setShowInp] = useState(false);
@@ -13,10 +13,7 @@ export default function TextToInput(props: any) {
     const total = (eval(`${counted.front} + ${counted.back} + ${counted.counterTally}`));
 
     const [showManual, setShowManual] = useState(false);
-
-    const setNumsNeeded = props.setNumsNeeded;
-    const numsNeeded = props.numsNeeded;
-    const user = props.user;
+    const { setNumsNeeded, numsNeeded, user } = props;
 
     const handleClick = () => {
         setShowInp(!showInp)
@@ -50,16 +47,6 @@ export default function TextToInput(props: any) {
             })
         );
     }, [counted]);
-
-
-
-    // { 
-    //     name: object.name,
-    //     currentTotal: total, 
-    //     reportedBy: user.firstName,
-    //     dateReported: x,
-    //     timeReported: y
-    // }
 
     const tw = {
         styles: `
@@ -184,7 +171,6 @@ export default function TextToInput(props: any) {
                 </div>
 
                 <div className='flex h-full gap-3 self-center '>
-                    {/* <p className='self-center text-3xl font-thin'>Total</p> */}
                     <h2 className={`text-5xl ${(total > 0 ? 'text-white' : 'text-teal')} min-w-sm font-black text-center self-center`}>{total}</h2>
                 </div>
 

@@ -3,28 +3,17 @@ import NumsContext from '../context/NumsContext';
 import axios from 'axios';
 import TextToInput from './TextToInput';
 import { PATH } from '../confgs';
+import upperFirstChar from '../funcs/upperFirstChar';
+import dayString from '../funcs/dayString';
+import { weekdays, timeOfDay } from '../funcs/vars';
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export default function NumCounter(props: any) {
 
-    const { user, foodDB, getAll, token, setUser } = useContext(NumsContext);
+    const { user, foodDB, getAll, setUser } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
     const [numsNeeded, setNumsNeeded] = useState([]);
-    const [confirmPost, setConfirmPost] = useState(false);
-
-    const dayString = () => {
-        const DATE = new Date();
-        const TODAY = DATE.getDay();
-      
-        switch(TODAY) {
-          case 0: return 'sunday'; break;
-          case 1: return 'monday'; break;
-          case 2: return 'tuesday'; break;
-          case 3: return 'wednesday'; break;
-          case 4: return 'thursday'; break;
-          case 5: return 'friday'; break;
-          case 6: return 'saturday'; break;
-        };
-      };
 
     const filterDB = (string: any, timeOfDay: any) => {
         return foodDB.filter((num: any) => {
@@ -61,7 +50,6 @@ export default function NumCounter(props: any) {
 
         setTimeout(() => {
             setRepNums(false);
-            setConfirmPost(false);
         }, 300)
     };
 
@@ -69,11 +57,10 @@ export default function NumCounter(props: any) {
         if (repNums) { setNumsNeeded( filterDB(currentDay, currentTime) ); console.log(`food nums loaded for ${currentDay} ${currentTime}`) };
     }, [repNums, currentTime, currentDay]);
 
-    const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    const timeOfDay = ['morning', 'afternoon'];
-
-    const upperFirstChar = (string: String) => {
-        return string.slice(0,1).toUpperCase() + string.slice(1).toLowerCase();
+    const confirm = (e: any) => {
+        if (window.confirm('Have you double checked all of the numbers?')) {
+            postNums();
+        };
     };
 
     return (<>
@@ -118,16 +105,11 @@ export default function NumCounter(props: any) {
                     </div>
                 </div>
 
-                {/* <div className='w-10/12 max-w-2xl grid_buttons gap-2 flex self-center justify-center align-center'>
-                        <button className='w-1/2 border rounded-xl p-4 bg-blue-500 font-bold text-white uppercase' onClick={() => { setNumsNeeded(todaysNums.morning) }}>AM Numbers</button>
-                        <button className="w-1/2 p-4 border rounded-xl bg-slate-100 text-blue-500 font-bold uppercase" onClick={() => { setNumsNeeded(todaysNums.afternoon) }}>PM Numbers</button>
-                </div> */}
-
                 <div id="RENDERED_NUMS" className="grid_custom self-center w-11/12">
 
                     {numsNeeded.length <= 0 ? <>
 
-                        <h1 className="text-center self-center uppercase font-bold text-5xl mt-2">No numbers to report for {currentDay} {currentTime}!</h1>
+                        <h1 className="text-center max-w-lg self-center uppercase font-bold text-5xl m-2 mb-6">No numbers to report for {currentDay} {currentTime}!</h1>
                    
                     </> : <>
 
@@ -143,20 +125,16 @@ export default function NumCounter(props: any) {
                         })}
 
                     </>}
+                    
 
                 </div>
 
-                <div className="flex flex-col gap-2 w-10/12 max-w-2xl self-center justify-center align-center">
-                        <button className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider mt-10" onClick={() => setConfirmPost(!confirmPost)}>Ready to Report</button>
+                        
+                <div className={`${numsNeeded.length <= 0 && 'hidden'} flex flex-col gap-2 w-10/12 max-w-lg mb-6 self-center justify-center align-center`}>
+                    <button className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider mt-10" onClick={confirm}>Ready to Report</button>
+                </div>
 
-                        {confirmPost && <>
-                            <div className="flex w-full gap-2">
-                                <button className="w-1/2 bg-green-100 p-4 rounded-xl border uppercase font-light tracking-wider" onClick={postNums}>Confirm</button>
-                                <button className="w-1/2 bg-red-100 p-4 rounded-xl border uppercase font-light tracking-wider" onClick={() => setConfirmPost(false)}>Deny</button>
-                            </div>
-                        </>}
 
-                    </div>
             </>
             }
     </>)

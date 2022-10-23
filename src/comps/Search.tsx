@@ -21,7 +21,7 @@ export default function Search(props: any) {
     const resultsArray = searchFor(searchQuery);
 
     return(<>
-                <div className='flex self-center flex-col justify-center items-center w-10/12 max-w-lg'>
+                <div className='flex self-center flex-col justify-center items-center w-10/12 max-w-lg m-6'>
                     <input type="text" 
                     placeholder='Search food database...'
                     onChange={(e: any) => { setSearchQuery(e.target.value) }}
@@ -30,7 +30,7 @@ export default function Search(props: any) {
 
                         {showSearch && <>
                             {resultsArray.map((item: any) => {
-                                return <SearchItem item={item} />
+                                return <SearchItem key={item._id} item={item} />
                             })}
                         </>}
 
