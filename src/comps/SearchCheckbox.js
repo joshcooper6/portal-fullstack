@@ -54,30 +54,36 @@ export default function SearchCheckbox(props) {
 
     }, [formVals]);
 
+    const checkboxes = [
+        {time: 'morning', values: formVals.morning},
+        {time: 'afternoon', values: formVals.afternoon}
+    ];
+
     return(<>
-        <div onClick={(e) => {setDayVis(!dayVis)}} className="flex cursor-pointer p-4 w-full rounded-2xl bg-gray-700 gap-2 text-teal border-0">
-            <h2 className="font-black text-2xl self-center">{upperFirstChar(dayOfWeek)}</h2>
+
+        <div id="DAY_CHECKBOX_CONTAINER" className='w-full flex gap-4'>
+            <div onClick={(e) => { setDayVis(!dayVis)}} className="flex cursor-pointer p-4 w-52 rounded-2xl bg-gray-700 gap-2 text-teal border-0">
+                <h2 className="font-black text-2xl self-center">{upperFirstChar(dayOfWeek)}</h2>
+                {/* <img src={condition ? thumb : negative} alt={'thumb icon'} className={'invert w-10 self-center'} /> */}
+            </div>
+            
             <img src={condition ? thumb : negative} alt={'thumb icon'} className={'invert w-10 self-center'} />
         </div>
 
-        {dayVis && <>
-            <div className='self-start p-4'>
-                <div className='flex gap-2 m-2'>
-                    <p className='font-light tracking-widest text-xl uppercase'>Morning:</p>
-                    <input 
-                        onChange={hc} 
-                        name="morning" 
-                        type="checkbox" 
-                        defaultChecked={formVals.morning} />
-                </div>
-                <div className='flex gap-2 m-2'>
-                    <p className='font-light tracking-widest text-xl uppercase'>Afternoon:</p>
-                    <input 
-                    onChange={hc} 
-                    name="afternoon" 
-                    type="checkbox" 
-                    defaultChecked={formVals.afternoon} />
-                </div>
+            <div id="CHECKBOX_WRAPPER" className={`flex flex-col ${!dayVis && 'hidden'} justify-center items-center rounded-xl text-center w-full`}>
+
+                {checkboxes.map((type) => {
+                    return (<>
+                         <div className='flex gap-2 m-2'>
+                            <p className='font-light tracking-widest text-xl uppercase'>{upperFirstChar(type.time)}:</p>
+                            <input 
+                            onChange={hc} 
+                            name={type.time}
+                            type="checkbox" 
+                            defaultChecked={type.values} />
+                        </div>
+                    </>)
+                })}
 
                 {user?.role === 'Admin' && <>
                     <button 
@@ -85,8 +91,8 @@ export default function SearchCheckbox(props) {
                     className="text-teal hover:scale-110 m-4 font-black border-0 rounded-2xl bg-gray-700 p-4" 
                     children={`Update ${upperFirstChar(dayOfWeek)}`} />
                 </>}
+
             </div>
 
-        </>}
     </>)
 };
