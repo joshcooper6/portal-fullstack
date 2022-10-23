@@ -61,25 +61,32 @@ export default function SearchCheckbox(props) {
         </div>
 
         {dayVis && <>
-            <div className='flex gap-2 m-2'>
-                <p className='font-black text-xl lowercase'>Morning:</p>
-                <input onChange={hc} name="morning" type="checkbox" defaultChecked={formVals.morning} />
-            </div>
-            <div className='flex gap-2 m-2'>
-                <p className='font-black text-xl lowercase'>Afternoon:</p>
-                <input 
-                onChange={hc} 
-                name="afternoon" 
-                type="checkbox" 
-                defaultChecked={formVals.afternoon} />
+            <div className='self-start p-4'>
+                <div className='flex gap-2 m-2'>
+                    <p className='font-light tracking-widest text-xl uppercase'>Morning:</p>
+                    <input 
+                        onChange={hc} 
+                        name="morning" 
+                        type="checkbox" 
+                        defaultChecked={formVals.morning} />
+                </div>
+                <div className='flex gap-2 m-2'>
+                    <p className='font-light tracking-widest text-xl uppercase'>Afternoon:</p>
+                    <input 
+                    onChange={hc} 
+                    name="afternoon" 
+                    type="checkbox" 
+                    defaultChecked={formVals.afternoon} />
+                </div>
+
+                {user?.role === 'Admin' && <>
+                    <button 
+                    onClick={updateDB} 
+                    className="text-teal hover:scale-110 m-4 font-black border-0 rounded-2xl bg-gray-700 p-4" 
+                    children={`Update ${upperFirstChar(dayOfWeek)}`} />
+                </>}
             </div>
 
-            {user?.role === 'Admin' && <>
-                <button 
-                onClick={updateDB} 
-                className="text-teal hover:scale-110 m-4 font-black border-0 rounded-2xl bg-gray-700 p-4" 
-                children={`Update ${upperFirstChar(dayOfWeek)}`} />
-            </>}
         </>}
     </>)
 };
