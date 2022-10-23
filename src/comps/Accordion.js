@@ -4,7 +4,7 @@ import resultInOrder from "../funcs/resultInOrder";
 import OpenApp from 'react-open-app';
 
 
-export default function Accordion(props: any) {
+export default function Accordion(props) {
 
     const [isActive, setIsActive] = useState(false);
 
@@ -43,7 +43,7 @@ export default function Accordion(props: any) {
             }
     };
 
-    const dayString = (insertdate: any) => {
+    const dayString = (insertdate) => {
         const DATE = new Date(insertdate);
         const TODAY = DATE.getDay();
       
@@ -87,7 +87,7 @@ export default function Accordion(props: any) {
                 { isActive && <div className="text-2xl font-light p-4 flex flex-col">
 
                         {numsReported.length > 0 ? <>
-                            {numsReported.map((number:any) => {
+                            {numsReported.map((number) => {
                                 return <p className="m-1" key={number._id}>{number.name} = {number.currentTotal}</p>
                             })}
                         </> : <>

@@ -23,7 +23,7 @@ export default function resultInOrder (array) {
         if (groups?.[variable].length > 0) {
             return groups?.[variable].map((num) => {
                 return `\n${num.name} = ${num.currentTotal}`
-            }).join(' ')
+            }).join('')
         };
     };
 

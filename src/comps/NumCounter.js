@@ -10,14 +10,14 @@ import resultInOrder from '../funcs/resultInOrder';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-export default function NumCounter(props: any) {
+export default function NumCounter(props) {
 
-    const { user, foodDB, getAll, setUser } = useContext(NumsContext);
+    const { user, foodDB, getAll } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
     const [numsNeeded, setNumsNeeded] = useState([]);
 
-    const filterDB = (string: any, timeOfDay: any) => {
-        return foodDB.filter((num: any) => {
+    const filterDB = (string, timeOfDay) => {
+        return foodDB.filter((num) => {
             return num?.[`${string}`]?.[`${timeOfDay}`] === true
         });
     };
@@ -54,6 +54,12 @@ export default function NumCounter(props: any) {
         }, 300)
     };
 
+    const confirm = (e) => {
+        if (window.confirm('Have you double checked all of the numbers?')) {
+            postNums();
+        };
+    };
+
     useEffect(() => {
         if (repNums) { setNumsNeeded( filterDB(currentDay, currentTime) ); console.log(`food nums loaded for ${currentDay} ${currentTime}`) };
     }, [repNums, currentTime, currentDay]);
@@ -62,15 +68,9 @@ export default function NumCounter(props: any) {
         foodDB.forEach((num) => { num.currentTotal = 0 })
     }, [foodDB]);
 
-    const confirm = (e) => {
-        if (window.confirm('Have you double checked all of the numbers?')) {
-            postNums();
-        };
-    };
-
     useEffect(() => {
         console.log('numsNeeded', resultInOrder(numsNeeded))
-    }, [numsNeeded])
+    }, [numsNeeded]);
 
     return (<>
             <button 
@@ -122,7 +122,7 @@ export default function NumCounter(props: any) {
                    
                     </> : <>
 
-                        {numsNeeded.map((obj: any) => {
+                        {numsNeeded.map((obj) => {
                             return (<TextToInput
                                         key={obj._id} 
                                         setNumsNeeded={setNumsNeeded} 
@@ -140,7 +140,11 @@ export default function NumCounter(props: any) {
 
                         
                 <div className={`${numsNeeded.length <= 0 && 'hidden'} flex flex-col gap-2 w-10/12 max-w-lg mb-6 self-center justify-center align-center`}>
-                    <button className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider mt-10" onClick={confirm}>Ready to Report</button>
+                    <button 
+                        className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider mt-10" 
+                        onClick={confirm}
+                        children={'Ready To Report'}
+                    />
                 </div>
 
 
