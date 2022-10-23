@@ -23,13 +23,13 @@ export default function resultInOrder (array) {
         if (groups?.[variable].length > 0) {
             return groups?.[variable].map((num) => {
                 return `\n${num.name} = ${num.currentTotal}`
-            }).join('')
+            }).join(' ')
         };
     };
 
     const text = `${group.map((string) => {
            return mapObject(string)
-        }).join('\n')}`
+        }).join('\n')}`;
 
     return text;
 };

@@ -81,16 +81,16 @@ return(<>
                 <Header />
 
                 <Search />
-
-                <CreateFoodItem />
                 
                 <div className="w-full flex max-w-2xl self-center">
                     <h2 className="w-10/12 font-thin ml-10 mb-10 text-6xl md:max-w-md max-w-xs">Which task are you looking for?</h2>
                 </div>
                 
                 <NumCounter />
+                <CreateFoodItem />
                 <Reports />
                 {user?.role === 'Admin' && <TeaInventory /> }
+
                 
             </NumsContext.Provider>
         </div>

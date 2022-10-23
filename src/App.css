@@ -334,3 +334,18 @@ input:-webkit-autofill,
 .transition_ease {
   transition: 100ms ease-in;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  width: inherit;
+  background-color: inherit;
+  margin: inherit;
+  height: inherit;
+}
