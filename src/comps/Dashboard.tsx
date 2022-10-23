@@ -6,7 +6,7 @@ import { PATH } from "../confgs";
 import logo from '../assets/logo.png';
 import search from '../assets/search.svg';
 import Fuse from 'fuse.js';
-import { Header, LogoutButton, Broadcast, Search, NumCounter, UpdRotating, Reports, TeaInventory } from './';
+import { Header, LogoutButton, CreateFoodItem, Broadcast, Search, NumCounter, UpdRotating, Reports, TeaInventory } from './';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -58,6 +58,8 @@ export default function Dashboard(props: any) {
             });
     }, []);    
     
+    
+
 
     const provVals = {
         getAll,
@@ -79,6 +81,8 @@ return(<>
                 <Header />
 
                 <Search />
+
+                <CreateFoodItem />
                 
                 <div className="w-full flex max-w-2xl self-center">
                     <h2 className="w-10/12 font-thin ml-10 mb-10 text-6xl md:max-w-md max-w-xs">Which task are you looking for?</h2>
