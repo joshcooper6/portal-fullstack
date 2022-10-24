@@ -1,3 +1,5 @@
+const functions = require("firebase-functions");
+
 const dbConnect = require("./db");
 const express = require("express");
 const app = express();
@@ -24,7 +26,7 @@ app.use(cors());
 dbConnect();
 
 app.get('/', async (req, res) => {
-
+    res.send({message: 'working'})
 });
 
 app.get('/getAll', async (req, res) => {
@@ -363,6 +365,9 @@ app.get("/auth", auth, async (request, response) => {
    
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is connected to port ${PORT}`)
-});
+// app.listen(PORT, () => {
+//     console.log(`Server is connected to port ${PORT}`)
+// });
+
+
+exports.app = functions.https.onRequest(app);

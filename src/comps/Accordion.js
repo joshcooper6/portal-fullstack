@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import resultInOrder from "../funcs/resultInOrder";
+import { PATH } from "../confgs";
 import OpenApp from 'react-open-app';
 
 
@@ -20,7 +21,7 @@ export default function Accordion(props) {
             if (user.includes(currUser.username) || currUser.role === 'Admin') {
                 const config = {
                     method: 'post',
-                    url: 'http://localhost:5000/deleteReport',
+                    url: `${PATH}/deleteReport`,
                     data: {
                         _id: _id,
                         date: date,
