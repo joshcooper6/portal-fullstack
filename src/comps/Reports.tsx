@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import NumsContext from "../context/NumsContext";
 import Accordion from "./Accordion";
 import axios from "axios";
+import Button from "./Button";
 import { PATH } from "../confgs";
 
 export default function Reports(props: any) {
@@ -35,9 +36,8 @@ export default function Reports(props: any) {
     }, [showReports]);
 
     return(<>
-            <button onClick={buttonClick} className={styles.button}>
-                {showReports ? 'Hide Food Reports' : 'Show Food Reports'}
-            </button>
+
+            <Button state={showReports} setState={setShowReports} labels={{show: 'Show Food Reports', hide: 'Hide Food Reports'}}/>
 
             { showReports && <>
                     { reports.length > 0 ? <>

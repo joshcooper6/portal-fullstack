@@ -163,7 +163,7 @@ export default function TextToInput(props: any) {
 
         {props.hiddenTally ? <></> : <>
             <div className='flex w-full flex-wrap justify-between gap-2 self-center'>
-                <div className='flex h-full gap-3'>
+                <div className='flex flex-col h-full gap-3'>
                     <p className='self-center text-3xl font-thin'>Front</p>
                     <select id="front" onChange={changeNums} className='bg-gray-700 self-center h-fit border-0 p-4 rounded-xl'>
                         {renderOps()}
@@ -174,7 +174,7 @@ export default function TextToInput(props: any) {
                     <h2 className={`text-5xl ${(total > 0 ? 'text-white' : 'text-teal')} min-w-sm font-black text-center self-center`}>{total}</h2>
                 </div>
 
-                <div className='flex h-full gap-3 self-center flex-row-reverse'>
+                <div className='flex flex-col h-full gap-3 self-center flex-row-reverse'>
                     <p className='self-center text-3xl font-thin'>Back</p>
                     <select id="back" onChange={changeNums} className='self-center bg-gray-700 border-0 h-fit p-4 rounded-xl'>
                         {renderOps()}

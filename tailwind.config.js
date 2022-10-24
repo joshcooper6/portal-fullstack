@@ -6,7 +6,7 @@ module.exports = {
     './src/comps/Dashboard.tsx',
     './src/comps/LogoutButton.tsx',
     './src/comps/TextToInput.tsx',
-    './src/comps/NumCounter.tsx',
+    './src/comps/NumCounter.js',
     './src/comps/Accordion.js',
     './src/comps/UpdRotating.tsx',
     './src/comps/Reports.tsx',
@@ -17,7 +17,9 @@ module.exports = {
     './src/comps/Search.tsx',
     './src/comps/SearchItem.tsx',
     './src/comps/SearchCheckbox.js',
-    './src/comps/CreateFoodItem.js'
+    './src/comps/CreateFoodItem.js',
+    './src/comps/Button.js'
+
   ],
   theme: {
     extend: {},

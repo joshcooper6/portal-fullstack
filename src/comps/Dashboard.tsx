@@ -57,9 +57,6 @@ export default function Dashboard(props: any) {
                 console.log('Something went wrong', error);
             });
     }, []);    
-    
-    
-
 
     const provVals = {
         getAll,
@@ -72,7 +69,6 @@ export default function Dashboard(props: any) {
         token
         // setTodaysNums,
     };
-
 
 return(<>
         <div className="flex pb-10 bg-slate-100 flex-col min-w-screen min-h-screen">

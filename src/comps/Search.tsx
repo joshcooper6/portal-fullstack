@@ -25,7 +25,7 @@ export default function Search(props: any) {
                     <input type="text" 
                     placeholder='Search food database...'
                     onChange={(e: any) => { setSearchQuery(e.target.value) }}
-                    className={`mb-5 border-0 transition_ease ${!showSearch && 'h-0 p-0'} p-6 bg-gray-900 font-black text-xl w-full text-teal rounded-full`}/>
+                    className={`mb-5 border-0 transition_ease ${!showSearch && 'h-0 p-0 placeholder:text-transparent border-0'} p-6 bg-gray-900 font-black text-xl w-full text-teal rounded-full`}/>
                     <div className="grid_custom max-w-xl">
 
                         {showSearch && <>

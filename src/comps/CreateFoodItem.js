@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import upperFirstChar from "../funcs/upperFirstChar";
 import { weekdays } from "../funcs/vars";
 import { PATH } from "../confgs";
+import Button from "./Button";
 import axios from "axios";
 import NumsContext from "../context/NumsContext";
 
@@ -99,20 +100,11 @@ export default function CreateFoodItem() {
  
     return(<>
 
-            <button 
-                onClick={() => { setShowForm(!showForm) }} 
-                className={`p-4 
-                    tracking-widest 
-                    uppercase 
-                    bg-gray-900
-                    text-teal
-                    font-black
-                    rounded-xl 
-                    border w-4/5
-                    max-w-lg
-                    self-center`}
-                children={showForm ? 'Hide Create Food Form' : 'Create New Food Item'}
-               />
+        <Button 
+            state={showForm}
+            setState={setShowForm}
+            labels={{show: 'Create New Food Item', hide: 'Hide Create Food Item'}}
+        />
 
         <div className={`${!showForm && 'hidden'} flex flex-col justify-center items-center text-center m-4`}>
             <h1 className="text-slate-900 font-black text-3xl mb-4">Create New Food</h1>

@@ -369,5 +369,4 @@ app.get("/auth", auth, async (request, response) => {
 //     console.log(`Server is connected to port ${PORT}`)
 // });
 
-
 exports.app = functions.https.onRequest(app);

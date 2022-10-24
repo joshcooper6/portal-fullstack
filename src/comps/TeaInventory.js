@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import NumsContext from "../context/NumsContext"
 import axios from 'axios';
 import OpenApp from 'react-open-app';
+import Button from "./Button";
 import { PATH } from "../confgs";
 import { Navigate } from "react-router-dom";
 
@@ -190,7 +191,7 @@ export default function TeaInventory(props) {
     return(<>
         <div className={formStyles.container}>
 
-            <button 
+            {/* <button 
                 onClick={() => { setShowComp(!showComp); }} 
                 className={`p-4 
                     tracking-widest 
@@ -204,7 +205,9 @@ export default function TeaInventory(props) {
                     mb-4
                     self-center`}>
                         {showComp ? 'Hide Tea Inventory' : 'Report Tea Inventory'}
-            </button>
+            </button> */}
+
+            <Button state={showComp} setState={setShowComp} labels={{show: 'Report Tea Inventory', hide: 'Hide Tea Inventory'}} />
 
             { showComp && <>
                     { step.one && <>

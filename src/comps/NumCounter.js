@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import NumsContext from '../context/NumsContext';
 import axios from 'axios';
 import TextToInput from './TextToInput';
@@ -7,6 +7,7 @@ import upperFirstChar from '../funcs/upperFirstChar';
 import dayString from '../funcs/dayString';
 import { weekdays, timeOfDay } from '../funcs/vars';
 import resultInOrder from '../funcs/resultInOrder';
+import Button from './Button';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -15,6 +16,7 @@ export default function NumCounter(props) {
     const { user, foodDB, getAll } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
     const [numsNeeded, setNumsNeeded] = useState([]);
+    const ref = useRef();
 
     const filterDB = (string, timeOfDay) => {
         return foodDB.filter((num) => {
@@ -69,24 +71,16 @@ export default function NumCounter(props) {
     }, [foodDB]);
 
     useEffect(() => {
-        console.log('numsNeeded', resultInOrder(numsNeeded))
+        console.log('numsNeeded', resultInOrder(numsNeeded));
     }, [numsNeeded]);
 
     return (<>
-            <button 
-                onClick={() => {setRepNums(!repNums) }} 
-                className={`p-4 
-                    tracking-widest 
-                    uppercase 
-                    bg-gray-900
-                    text-teal
-                    font-black
-                    rounded-xl 
-                    border w-4/5
-                    max-w-lg
-                    self-center`}>
-                        {repNums ? 'Hide Food Numbers' : 'Report Food Numbers'}
-            </button>
+
+            <Button 
+                state={repNums}
+                setState={setRepNums}
+                labels={{show: 'Report Food Numbers', hide: 'Hide Food Numbers'}}
+            />
 
 
             { repNums && <>

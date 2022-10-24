@@ -24,7 +24,7 @@ app.use(cors());
 dbConnect();
 
 app.get('/', async (req, res) => {
-
+  res.send({message: 'working'})
 });
 
 app.get('/getAll', async (req, res) => {
