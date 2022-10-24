@@ -70,10 +70,12 @@ export default function TextToInput(props: any) {
             tracking-widest
             transition_ease
             w-full
+            truncate
         `,
         voidStyles: `
             text-center 
             text-2xl 
+            truncate
             p-4 
             font-light  
             tracking-widest
@@ -174,7 +176,7 @@ export default function TextToInput(props: any) {
                     <h2 className={`text-5xl ${(total > 0 ? 'text-white' : 'text-teal')} min-w-sm font-black text-center self-center`}>{total}</h2>
                 </div>
 
-                <div className='flex flex-col h-full gap-3 self-center flex-row-reverse'>
+                <div className='flex flex-col h-full gap-3 self-center'>
                     <p className='self-center text-3xl font-thin'>Back</p>
                     <select id="back" onChange={changeNums} className='self-center bg-gray-700 border-0 h-fit p-4 rounded-xl'>
                         {renderOps()}

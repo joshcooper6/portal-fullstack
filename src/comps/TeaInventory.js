@@ -10,6 +10,7 @@ export default function TeaInventory(props) {
     
     const { user } = useContext(NumsContext);
     const [tea, setTea] = useState([]);
+    const [input, setInput] = useState([]);
 
     const getTea = async () => {
         const foodConfig = {
@@ -20,7 +21,6 @@ export default function TeaInventory(props) {
         axios(foodConfig)
             .then((res) => {
                 setTea(res.data.target);
-                console.log(res.data.target);
             })
             .catch((err) => {
                 console.log(err);
@@ -79,6 +79,18 @@ export default function TeaInventory(props) {
                 return tea
             })
         );
+
+        setInput((prev) => {
+            if (prev.includes(e.target.textContent)) {
+                let filter = prev.filter((x) => x != e.target.textContent);
+                setInput(filter)
+            } else {
+                return [
+                    ...prev,
+                    e.target.textContent
+                ]
+            }
+        })
     };
 
     const hc2 = (e) => {
@@ -91,6 +103,18 @@ export default function TeaInventory(props) {
                 return tea
             })
         )
+
+        setInput((prev) => {
+            if (prev.includes(e.target.textContent)) {
+                let filter = prev.filter((x) => x != e.target.textContent);
+                setInput(filter)
+            } else {
+                return [
+                    ...prev,
+                    e.target.textContent
+                ]
+            }
+        })
     };
 
     const firstRender = tea.map((tea) => {
@@ -102,14 +126,17 @@ export default function TeaInventory(props) {
     });
  
     const submitAll = async () => {
-        tea.forEach((tea) => {
+        input.forEach((input) => {
+            const filter = tea.filter((tea) => tea.name === input);
+            const tgt = filter[0];
+
             const config = {
                 method: 'post',
                 url: `${PATH}/reportTea`,
                 data: {
-                    name: tea.name,
-                    meetsContainer: tea.meetsContainer,
-                    meetsBackupBag: tea.meetsBackupBag
+                    name: tgt.name,
+                    meetsContainer: tgt.meetsContainer,
+                    meetsBackupBag: tgt.meetsBackupBag
                 }
             };
     
@@ -120,30 +147,9 @@ export default function TeaInventory(props) {
                 .catch((err) => {
                     console.log('something went wrong updating', err)
             })
-        });
+
+        })
     };
-
-    // const postTeaReport = async () => {
-    //     const config = {
-    //         method: 'post',
-    //         url: `${PATH}/finalReport`,
-    //         data: {
-    //             user: user.username,
-    //             teaResults: tea,
-    //             needed: needed,
-    //             nextWeek: nextweek,
-    //             msgRendered: toBeCopied
-    //         }
-    //     };
-
-    //     axios(config)
-    //         .then((res) => {
-    //             console.log('Tea report added to DB', res);
-    //         })
-    //         .catch((err) => {
-    //             console.log('something went wrong adding to tea db', err)
-    //     })
-    // };
 
     const renderFinalMsg = () => {
 
@@ -184,28 +190,11 @@ export default function TeaInventory(props) {
     }, [step]);
 
     useEffect(() => {
-        if (showComp) { getTea(); console.log('tea rec now'); };
-    }, [showComp]);
-
+        getTea(); console.log('tea rec now'); 
+    }, [])
 
     return(<>
         <div className={formStyles.container}>
-
-            {/* <button 
-                onClick={() => { setShowComp(!showComp); }} 
-                className={`p-4 
-                    tracking-widest 
-                    uppercase 
-                    bg-gray-900
-                    text-teal 
-                    font-black 
-                    rounded-xl 
-                    border w-4/5
-                    max-w-lg
-                    mb-4
-                    self-center`}>
-                        {showComp ? 'Hide Tea Inventory' : 'Report Tea Inventory'}
-            </button> */}
 
             <Button state={showComp} setState={setShowComp} labels={{show: 'Report Tea Inventory', hide: 'Hide Tea Inventory'}} />
 

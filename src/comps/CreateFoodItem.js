@@ -8,7 +8,7 @@ import NumsContext from "../context/NumsContext";
 
 export default function CreateFoodItem() {
 
-    const {getAll} = useContext(NumsContext);
+    const {getAll, foodDB} = useContext(NumsContext);
     const [showForm, setShowForm] = useState(false);
     const [confirmDays, setConfirmDays] = useState(false);
 
@@ -60,7 +60,7 @@ export default function CreateFoodItem() {
         setValues((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
-        }))
+        }));
     };
 
     const postToDB = () => {

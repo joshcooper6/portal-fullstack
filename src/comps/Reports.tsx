@@ -22,18 +22,9 @@ export default function Reports(props: any) {
             .catch((err) => { console.log(err) });
     };
 
-    const buttonClick = () => {
-        setShowReports(!showReports);
-    };
-
-    const styles = {
-        button: `p-4 tracking-widest uppercase rounded-xl max-w-lg border w-4/5 self-center
-        bg-gray-900 font-black text-teal`,
-    };
-
     useEffect(() => {
-        if (showReports) {getReports(); console.log('reports loaded')};
-    }, [showReports]);
+        { getReports(); console.log('reports loaded') }
+    }, []);
 
     return(<>
 

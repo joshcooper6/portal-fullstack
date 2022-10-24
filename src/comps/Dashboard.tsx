@@ -51,7 +51,7 @@ export default function Dashboard(props: any) {
         axios(configuration)
             .then((result) => {
                 setUser(result.data.user);
-                getAll();
+                getAll().then(() => console.log('food loaded'))
             })
             .catch((error) => {
                 console.log('Something went wrong', error);

@@ -16,7 +16,6 @@ export default function NumCounter(props) {
     const { user, foodDB, getAll } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
     const [numsNeeded, setNumsNeeded] = useState([]);
-    const ref = useRef();
 
     const filterDB = (string, timeOfDay) => {
         return foodDB.filter((num) => {
@@ -45,7 +44,7 @@ export default function NumCounter(props) {
             .then((res) => {
                 console.log('Post numbers successfully', res)
                 alert('Numbers reported successfully!')
-                getAll().then(() => { 'With new numbers, app has been updated.' })
+                getAll();
             })
             .catch((err) => {
                 console.log('Posting nums went wrong', err)
@@ -93,7 +92,7 @@ export default function NumCounter(props) {
                         <h2 className='uppercase text-lg lg:text-2xl w-full text-teal font-light'>Day of Week:</h2>
                         <select defaultValue={dayString()} onChange={(e) => setCurrentDay(e.target.value)} className='border-0 rounded-full p-4 font-black bg-gray-700'>
                             {weekdays.map((day) => {
-                                return <option key={day} value={day}>{upperFirstChar(day)}</option>
+                                return <option key={day} value={day} children={upperFirstChar(day)} />
                             })}
                         </select>
                     </div>
@@ -102,13 +101,13 @@ export default function NumCounter(props) {
                         <h2 className='uppercase text-lg lg:text-2xl font-light'>Time Of Day:</h2>
                         <select defaultValue={currentTime} onChange={(e) => { setCurrentTime(e.target.value) }} className='border-0 rounded-full p-4 bg-gray-700 font-black'>
                             {timeOfDay.map((day) => {
-                                return <option key={day} value={day}>{upperFirstChar(day)}</option>
+                                return <option key={day} value={day} children={upperFirstChar(day)} />
                             })}
                         </select>
                     </div>
                 </div>
 
-                <div id="RENDERED_NUMS" className="grid_custom self-center w-11/12">
+                <div id="RENDERED_NUMS" className="grid_custom self-center w-10/12">
 
                     {numsNeeded.length <= 0 ? <>
 
