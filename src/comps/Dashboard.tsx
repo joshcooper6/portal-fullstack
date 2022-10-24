@@ -84,7 +84,7 @@ return(<>
                 
                 <NumCounter />
                 <CreateFoodItem />
-                <Reports />
+                {/* <Reports /> */}
                 {user?.role === 'Admin' && <TeaInventory /> }
 
                 

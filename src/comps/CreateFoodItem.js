@@ -87,7 +87,7 @@ export default function CreateFoodItem() {
     };
 
     useEffect(() => {
-        console.log(values)
+        // console.log(values)
     }, [values]);
 
     const renderOpts = opts.map((opt) => {

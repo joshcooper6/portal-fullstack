@@ -6,10 +6,10 @@ import { PATH } from '../confgs';
 import upperFirstChar from '../funcs/upperFirstChar';
 import dayString from '../funcs/dayString';
 import { weekdays, timeOfDay } from '../funcs/vars';
+import copy from '../funcs/copy';
 import resultInOrder from '../funcs/resultInOrder';
 import Button from './Button';
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import OpenApp from 'react-open-app';
 
 export default function NumCounter(props) {
 
@@ -57,7 +57,8 @@ export default function NumCounter(props) {
 
     const confirm = (e) => {
         if (window.confirm('Have you double checked all of the numbers?')) {
-            postNums();
+            // postNums();
+
         };
     };
 
@@ -70,7 +71,7 @@ export default function NumCounter(props) {
     }, [foodDB]);
 
     useEffect(() => {
-        console.log('numsNeeded', resultInOrder(numsNeeded));
+        // copy(resultInOrder(numsNeeded))
     }, [numsNeeded]);
 
     return (<>
@@ -133,10 +134,11 @@ export default function NumCounter(props) {
 
                         
                 <div className={`${numsNeeded.length <= 0 && 'hidden'} flex flex-col gap-2 w-10/12 max-w-lg mb-6 self-center justify-center align-center`}>
-                    <button 
-                        className="w-full rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider mt-10" 
-                        onClick={confirm}
+                    <OpenApp 
+                        className="w-full text-center rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider mt-10" 
+                        href={'https://app.7shifts.com/log_book'}
                         children={'Ready To Report'}
+                        onClick={() => copy(resultInOrder(numsNeeded))}
                     />
                 </div>
 
