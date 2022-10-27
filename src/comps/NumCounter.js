@@ -119,6 +119,7 @@ export default function NumCounter(props) {
                     </> : <>
 
                         {sortedNumbers.map((obj) => {
+                            if (obj.name === undefined) return;
                             return (<TextToInput
                                         key={obj._id} 
                                         setNumsNeeded={setNumsNeeded} 
@@ -140,7 +141,16 @@ export default function NumCounter(props) {
                         className="w-full text-center rounded-xl border p-4 bg-slate-300 font-bold uppercase tracking-wider mt-10" 
                         href={'https://app.7shifts.com/log_book'}
                         children={'Ready To Report'}
-                        onClick={() => copy(resultInOrder(numsNeeded))}
+                        onClick={() => {
+                            let nums = sortedNumbers.map((item) => {
+                                if (item.name === undefined) return;
+                               return `${item.name} = ${item.currentTotal}`;
+                            })
+                            
+                            let msg = nums.join('\n');
+                            copy(msg);
+                            console.log(msg);
+                        }}
                     />
                 </div>
 

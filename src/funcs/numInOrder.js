@@ -9,7 +9,7 @@ export default function numInOrder(array) {
         empanadas: array.filter((number) => number.positions.group === 'empanadas'),
     };
 
-    const merged = [...groups.artisan, ...groups.misc, ...groups.squash, ...groups.savoryCroissant, ...groups.glutenFree, ...groups.quiche, ...groups.empanadas];
+    const merged = [...groups.artisan, '', ...groups.misc, '', ...groups.squash, '', ...groups.savoryCroissant, '', ...groups.glutenFree, '', ...groups.quiche, '', ...groups.empanadas];
 
     return merged;
 };
