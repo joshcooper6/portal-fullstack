@@ -11,7 +11,8 @@ export default function TitleChange(props) {
     const { getAll, user } = useContext(NumsContext);
 
     function handleClick() {
-        {user.role === 'Admin' ? setIsActive(!isActive) : alert('You are not authorized to change the title.')}
+        const msg = `If you need to change the name of ${props.value} in the database, let an admin know.`
+        { user.role === 'Admin' ? setIsActive(!isActive) : alert(msg) }
     };
 
     function handleChange(e) {
@@ -40,21 +41,25 @@ export default function TitleChange(props) {
     }
 
     function buttonConfirm() {
-        if (window.confirm(`Are you ready to change the name of ${props.id}?`)) {
+        if (window.confirm(`Are you ready to change the name of ${props.id} to ${value}?`)) {
             handleClick();
             handleSubmit();
         };
     }
 
-    function handleBlur() {
-        // setValue(props.value);
-        // handleClick();
-        if (window.confirm('Are you sure you want to discard changes?')) {
-            setValue(props.value);
-            handleClick();
-        }
-    }
+    // function handleBlur() {
+    //     setValue(props.value);
+    //     handleClick();
+    //     if (window.confirm('Are you sure you want to discard changes?')) {
+    //         setValue(props.value);
+    //         handleClick();
+    //     }
+    // }
 
+    document.addEventListener('dblclick', () => {
+        setIsActive(false)
+        setValue(props.value)
+    })
 
     function Text() {
         return <span onClick={handleClick} children={value} className={`w-11/12 font-black text-center text-2xl uppercase tracking-wider truncate`} />
