@@ -15,3 +15,4 @@ export { default as SearchItem } from './SearchItem';
 export { default as SearchCheckbox } from './SearchCheckbox';
 export { default as CreateFoodItem } from './CreateFoodItem';
 export { default as Button } from './Button';
+export { default as TitleChange } from './TitleChange';

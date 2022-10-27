@@ -351,6 +351,18 @@ app.post('/updateFood', async (req, res) => {
     })
 });
 
+app.post('/updateFoodItem', async (req, res) => {
+  const query = req.body.query;
+  const changeThis = req.body.changeThis;
+  console.log(query, changeThis);
+
+  await Food.findOneAndUpdate(query, changeThis, { returnOriginal: false }).then((results) => {
+    res.send({success: true, message: 'All items have been updated!', results})
+  }).catch((err) => {
+    res.send({success: false, message: 'Could not update', err})
+  })
+});
+
 app.get('/rotating', async (request, response) => {
   await Food.find({ rotating: true }).then((rez) => {
     response.send({success: true, target: rez})

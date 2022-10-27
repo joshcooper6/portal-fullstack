@@ -72,16 +72,14 @@ export default function SearchCheckbox(props) {
         <div id="CHECKBOX_WRAPPER" className={`m-4 p-2 bg-gray-800 flex flex-col ${!dayVis && 'hidden'} justify-center items-center rounded-xl text-center w-full`}>
 
             {checkboxes.map((type) => {
-                return (<>
-                        <div className='flex gap-2 m-2'>
+                return (<div className='flex gap-2 m-2' key={type.time}>
                            <p className='font-light tracking-widest text-xl uppercase'>{upperFirstChar(type.time)}:</p>
                            <input 
                            onChange={hc} 
                            name={type.time}
                            type="checkbox" 
                            defaultChecked={type.values} />
-                    </div>
-                </>)
+                    </div>)
              })}
 
             {user?.role === 'Admin' && <>
