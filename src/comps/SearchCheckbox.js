@@ -60,7 +60,6 @@ export default function SearchCheckbox(props) {
     ];
 
     return(<>
-
         <div id="DAY_CHECKBOX_CONTAINER" className='w-full flex gap-4'>
             <div onClick={(e) => { setDayVis(!dayVis)}} className="flex cursor-pointer p-4 w-52 rounded-2xl bg-gray-700 gap-2 text-teal border-0">
                 <h2 className="font-black text-2xl self-center">{upperFirstChar(dayOfWeek)}</h2>
@@ -94,6 +93,5 @@ export default function SearchCheckbox(props) {
             </>}
 
         </div>
-
     </>)
 };

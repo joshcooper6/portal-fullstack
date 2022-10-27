@@ -141,7 +141,7 @@ export default function TextToInput(props: any) {
     };
 
     return (<>
-    <div className='flex w-full flex-col bg-gray-900 p-5 gap-4 shadow-lg text-teal rounded-xl border'>
+    <div className='flex w-full flex-col bg-gray-900 even:bg-slate-800 p-5 gap-4 shadow-lg text-teal rounded-xl border'>
 
         {props.hiddenTally && <h1 className='text-2xl font-thin'>Currently changing <b>{props.id}</b>:</h1>}
 
@@ -173,7 +173,7 @@ export default function TextToInput(props: any) {
                 </div>
 
                 <div className='flex h-full gap-3 self-center '>
-                    <h2 className={`text-5xl ${(total > 0 ? 'text-white' : 'text-teal')} min-w-sm font-black text-center self-center`}>{total}</h2>
+                    <h2 className={`text-5xl  ${(total > 0 ? 'text-white' : 'text-teal')} min-w-sm font-black text-center self-center`}>{total}</h2>
                 </div>
 
                 <div className='flex flex-col h-full gap-3 self-center'>
@@ -192,10 +192,10 @@ export default function TextToInput(props: any) {
                 </div>
                 
                 </> }
-
-                <button onClick={() => {setShowManual(!showManual)}} className='w-full bg-gray-700 font-black tracking-wider uppercase border-0 rounded-xl p-2'>
+{/* 
+                <button onClick={() => {setShowManual(!showManual)}} className='w-full bg-gray-700 font-black tracking-wider uppercase border-0 rounded-xl p-2 mt-2'>
                     { showManual ? '^' : 'Click for tap counter' }
-                </button>
+                </button> */}
 
             </div>
         </>}

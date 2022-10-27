@@ -363,6 +363,17 @@ app.post('/updateFoodItem', async (req, res) => {
   })
 });
 
+app.post('/deleteFoodItem', async (req, res) => {
+  const query = req.body.query;
+  console.log(query);
+
+  await Food.findOneAndDelete(query, { returnOriginal: false }).then((results) => {
+    res.send({success: true, message: 'All items have been deleted!', results})
+  }).catch((err) => {
+    res.send({success: false, message: 'Could not update', err})
+  })
+});
+
 app.get('/rotating', async (request, response) => {
   await Food.find({ rotating: true }).then((rez) => {
     response.send({success: true, target: rez})
