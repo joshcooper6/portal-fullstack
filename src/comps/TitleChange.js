@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react"
 import NumsContext from "../context/NumsContext";
 import axios from "axios";
+import check from '../assets/check.svg';
 import { PATH } from "../confgs";
 
 export default function TitleChange(props) {
@@ -8,7 +9,7 @@ export default function TitleChange(props) {
     const [isActive, setIsActive] = useState(false);
     const [value, setValue] = useState(props.value);
     const { getAll, user } = useContext(NumsContext);
-    
+
     function handleClick() {
         {user.role === 'Admin' ? setIsActive(!isActive) : alert('You are not authorized to change the title.')}
     };
@@ -38,29 +39,44 @@ export default function TitleChange(props) {
 
     }
 
-    function handleBlur() {
-        handleClick();
-        handleSubmit();
-        // if (window.confirm('Are you sure you want to change the name in the DB?')) {
-        //     alert('This is when they be posted.')
-        // };
+    function buttonConfirm() {
+        if (window.confirm(`Are you ready to change the name of ${props.id}?`)) {
+            handleClick();
+            handleSubmit();
+        };
     }
+
+    function handleBlur() {
+        // setValue(props.value);
+        // handleClick();
+        if (window.confirm('Are you sure you want to discard changes?')) {
+            setValue(props.value);
+            handleClick();
+        }
+    }
+
 
     function Text() {
         return <span onClick={handleClick} children={value} className={`w-11/12 font-black text-center text-2xl uppercase tracking-wider truncate`} />
     }
 
     function TextInput() {
-        return <input onBlur={handleBlur} onChange={handleChange} type="text" value={value} autoFocus={true} 
-            className={'w-11/12 p-3 text-2xl font-black bg-white bg-opacity-10 border-0 rounded-full focus:outline-none'}
-        />
+        return <>
+            <div className="flex gap-2">
+                <input 
+                    // onBlur={handleBlur} 
+                    onChange={handleChange} 
+                    type="text" 
+                    value={value} 
+                    autoFocus={true} 
+                    className={'w-full p-3 text-2xl font-black bg-white bg-opacity-10 border-0 rounded-full focus:outline-none'}
+                />
+                <button onClick={buttonConfirm}>
+                    <img src={check} className={'invert object-contain'} alt={'verify name change'} />
+                </button>
+            </div>
+        </>
     }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && isActive) {
-            handleBlur()
-        };
-    })
     
    return <>
         { isActive ? <TextInput /> : <Text /> }
