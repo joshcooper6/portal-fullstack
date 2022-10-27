@@ -71,7 +71,7 @@ export default function Dashboard(props: any) {
     };
 
 return(<>
-        <div className="flex pb-10 bg-slate-100 flex-col min-w-screen min-h-screen">
+        <div className="flex pb-10 bg-slate-100 flex-col min-w-screen min-h-screen z-0">
             <NumsContext.Provider value={provVals}>
                 
                 <Header />

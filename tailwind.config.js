@@ -18,8 +18,8 @@ module.exports = {
     './src/comps/SearchItem.tsx',
     './src/comps/SearchCheckbox.js',
     './src/comps/CreateFoodItem.js',
-    './src/comps/Button.js'
-
+    './src/comps/Button.js',
+    './src/comps/TitleChange.js'
   ],
   theme: {
     extend: {},
