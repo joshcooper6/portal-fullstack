@@ -10,12 +10,14 @@ import copy from '../funcs/copy';
 import resultInOrder from '../funcs/resultInOrder';
 import Button from './Button';
 import OpenApp from 'react-open-app';
+import numInOrder from '../funcs/numInOrder';
 
 export default function NumCounter(props) {
 
     const { user, foodDB, getAll } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
     const [numsNeeded, setNumsNeeded] = useState([]);
+    const sortedNumbers = numInOrder(numsNeeded);
 
     const filterDB = (string, timeOfDay) => {
         return foodDB.filter((num) => {
@@ -116,7 +118,7 @@ export default function NumCounter(props) {
                    
                     </> : <>
 
-                        {numsNeeded.map((obj) => {
+                        {sortedNumbers.map((obj) => {
                             return (<TextToInput
                                         key={obj._id} 
                                         setNumsNeeded={setNumsNeeded} 
