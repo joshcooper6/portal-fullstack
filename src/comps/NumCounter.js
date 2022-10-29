@@ -112,7 +112,7 @@ export default function NumCounter(props) {
                     </> : <>
 
                         {sortedNumbers.map((obj) => {
-                            if (obj.name === undefined) return '';
+                            if (obj.name === undefined) return;
                             return (<TextToInput
                                         key={obj._id} 
                                         setNumsNeeded={setNumsNeeded} 
@@ -136,7 +136,7 @@ export default function NumCounter(props) {
                         children={'Ready To Report'}
                         onClick={() => {
                             let nums = sortedNumbers.map((item) => {
-                                if (item.name === undefined) return '';
+                                if (item.name === undefined || item.length <= 0) return;
                                return `${item.name} = ${item.currentTotal}`;
                             })
                             
