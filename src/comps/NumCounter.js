@@ -57,13 +57,6 @@ export default function NumCounter(props) {
         }, 300)
     };
 
-    const confirm = (e) => {
-        if (window.confirm('Have you double checked all of the numbers?')) {
-            // postNums();
-
-        };
-    };
-
     useEffect(() => {
         if (repNums) { setNumsNeeded( filterDB(currentDay, currentTime) ); console.log(`food nums loaded for ${currentDay} ${currentTime}`) };
     }, [repNums, currentTime, currentDay]);
@@ -119,7 +112,7 @@ export default function NumCounter(props) {
                     </> : <>
 
                         {sortedNumbers.map((obj) => {
-                            if (obj.name === undefined) return;
+                            if (obj.name === undefined) return '';
                             return (<TextToInput
                                         key={obj._id} 
                                         setNumsNeeded={setNumsNeeded} 
@@ -143,7 +136,7 @@ export default function NumCounter(props) {
                         children={'Ready To Report'}
                         onClick={() => {
                             let nums = sortedNumbers.map((item) => {
-                                if (item.name === undefined) return;
+                                if (item.name === undefined) return '';
                                return `${item.name} = ${item.currentTotal}`;
                             })
                             

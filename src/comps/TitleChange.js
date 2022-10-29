@@ -34,12 +34,13 @@ export default function TitleChange(props) {
 
         axios(config)
             .then((res) => {
-                console.log(`${props.id} was updated to ${value}.`)
+                console.log(`${props.id} was updated to ${value}.`);
+                alert(`${props.id} was updated to ${value}.`);
                 getAll();
-                setConfirmed(true);
             })
             .catch((err) => {
-                console.log('Posting nums went wrong', err)
+                console.log('Posting nums went wrong', err);
+                alert('Something went wrong changing the title.')
             });
 
     }
@@ -74,7 +75,7 @@ export default function TitleChange(props) {
                     className={`w-full p-3 ${confirmed && 'submitAnimation'} shadow-xl text-2xl font-black bg-white bg-opacity-10 border-0 rounded-full focus:outline-none`}
                 />
                 <button                     
-                    onAnimationEnd={() => {let timeout = setTimeout(() => { setConfirmed(false); handleClick(); }, 500)}}  
+                    onAnimationEnd={() => {let timeout = setTimeout(() => { setConfirmed(false); handleSubmit(); handleClick(); }, 500)}}  
                     className={`${confirmed && 'checkGrow self-center'}`} 
                     onClick={buttonConfirm}>
                     <img src={check} className={'invert object-contain'} alt={'verify name change'} />
