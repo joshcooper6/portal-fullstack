@@ -10,7 +10,12 @@ export default function numInOrder(array) {
         empanadas: array.filter((number) => number.positions.group === 'empanadas'),
     };
 
-    const merged = [...groups.artisan, '', ...groups.misc, '', ...groups.crafted,  ...groups.squash, '', ...groups.savoryCroissant, '', ...groups.glutenFree, '', ...groups.quiche, '', ...groups.empanadas];
+    const artisan1 = groups.artisan.slice(0, 5);
+    const artisan2 = groups.artisan.slice(5);
+    const misc1 = groups.misc.slice(0, 3);
+    const misc2 = groups.misc.slice(3);
+
+    const merged = [...artisan1, '', ...artisan2, '', ...misc1, '', ...misc2, '',  ...groups.crafted,  ...groups.squash, '', ...groups.savoryCroissant, '', ...groups.glutenFree, '', ...groups.quiche, '', ...groups.empanadas];
 
     return merged;
 };

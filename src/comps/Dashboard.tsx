@@ -6,7 +6,7 @@ import { PATH } from "../confgs";
 import logo from '../assets/logo.png';
 import search from '../assets/search.svg';
 import Fuse from 'fuse.js';
-import { Header, LogoutButton, CreateFoodItem, Broadcast, Search, NumCounter, UpdRotating, Reports, TeaInventory } from './';
+import { Header, LogoutButton, CreateFoodItem, Broadcast, RotatingItem, Search, NumCounter, UpdRotating, Reports, TeaInventory } from './';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
@@ -70,6 +70,9 @@ export default function Dashboard(props: any) {
         // setTodaysNums,
     };
 
+    // const rotatingNums = foodDB.filter((x: any) => x?.rotating === true);
+    // console.log('rotaitng', rotatingNums);
+
 return(<>
         <div className="flex pb-10 bg-slate-100 flex-col min-w-screen min-h-screen z-0">
             <NumsContext.Provider value={provVals}>
@@ -86,6 +89,14 @@ return(<>
                 <CreateFoodItem />
                 {/* <Reports /> */}
                 {user?.role === 'Admin' && <TeaInventory /> }
+
+                {/* <div className="self-center w-full flex flex-col items-center justify-center">
+                    {rotatingNums.map((item: any) => {
+                        return <>
+                            <RotatingItem item={item} />
+                        </>
+                    })}
+                </div> */}
 
                 
             </NumsContext.Provider>

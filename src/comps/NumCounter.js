@@ -28,34 +28,38 @@ export default function NumCounter(props) {
     const [currentDay, setCurrentDay] = useState(dayString());
     const [currentTime, setCurrentTime] = useState('afternoon');
 
-    const postNums = () => {
-        const date = new Date();
+    // const postNums = () => {
+    //     const date = new Date();
 
-        const config = {
-            method: 'post',
-            url: `${PATH}/sendNumbers`,
-            data: {
-                numbers: numsNeeded,
-                reportedBy: `${user.firstName} / ${user.username}`,
-                dateReported: date.toLocaleDateString(),
-                timeReported: date.toLocaleTimeString()
-            }
-        };
+    //     const config = {
+    //         method: 'post',
+    //         url: `${PATH}/sendNumbers`,
+    //         data: {
+    //             numbers: numsNeeded,
+    //             reportedBy: `${user.firstName} / ${user.username}`,
+    //             dateReported: date.toLocaleDateString(),
+    //             timeReported: date.toLocaleTimeString()
+    //         }
+    //     };
 
-        axios(config)
-            .then((res) => {
-                console.log('Post numbers successfully', res)
-                alert('Numbers reported successfully!')
-                getAll();
-            })
-            .catch((err) => {
-                console.log('Posting nums went wrong', err)
-            });
+    //     axios(config)
+    //         .then((res) => {
+    //             console.log('Post numbers successfully', res)
+    //             alert('Numbers reported successfully!')
+    //             getAll();
+    //         })
+    //         .catch((err) => {
+    //             console.log('Posting nums went wrong', err)
+    //         });
 
-        setTimeout(() => {
-            setRepNums(false);
-        }, 300)
-    };
+    //     setTimeout(() => {
+    //         setRepNums(false);
+    //     }, 300)
+    // };
+
+    // useEffect(() => {
+    //     returnDate()
+    // }, [])
 
     useEffect(() => {
         if (repNums) { setNumsNeeded( filterDB(currentDay, currentTime) ); console.log(`food nums loaded for ${currentDay} ${currentTime}`) };
@@ -65,9 +69,9 @@ export default function NumCounter(props) {
         foodDB.forEach((num) => { num.currentTotal = 0 })
     }, [foodDB]);
 
-    useEffect(() => {
-        // copy(resultInOrder(numsNeeded))
-    }, [numsNeeded]);
+    // useEffect(() => {
+    //     copy(resultInOrder(numsNeeded))
+    // }, [numsNeeded]);
 
     return (<>
 
@@ -104,7 +108,7 @@ export default function NumCounter(props) {
                 </div>
 
                 <div id="RENDERED_NUMS" className="grid_custom self-center w-10/12">
-
+                    
                     {numsNeeded.length <= 0 ? <>
 
                         <h1 className="text-center max-w-lg self-center uppercase font-bold text-5xl m-2 mb-6">No numbers to report for {currentDay} {currentTime}!</h1>
@@ -136,15 +140,30 @@ export default function NumCounter(props) {
                         children={'Ready To Report'}
                         onClick={() => {
                             let nums = sortedNumbers.map((item) => {
-                                if (item.name === undefined || item.length <= 0) return;
+                                if (item === '' || item.length <= 0) return '';
                                return `${item.name} = ${item.currentTotal}`;
-                            })
+                        }); 
                             
                             let msg = nums.join('\n');
                             copy(msg);
-                            console.log(msg);
                         }}
                     />
+                    {/* <button onClick={() => {                         
+                        let nums = sortedNumbers.map((item) => {
+                                if (item === '' || item.length <= 0) return;
+                               return `${item.name} = ${item.currentTotal}`;
+                        }); 
+
+                
+                        
+                        let msg = nums.join('\n');
+                        console.log('nums', nums); 
+                        console.log('sorted', sortedNumbers)
+                        console.log('msg', msg)
+                    }}
+                        >
+                        Test
+                        </button> */}
                 </div>
 
 

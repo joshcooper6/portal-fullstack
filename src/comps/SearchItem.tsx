@@ -12,6 +12,8 @@ export default function SearchItem(props: any) {
     const { getAll, user } = useContext(NumsContext);
     const [daysVisible, setDaysVisible] = useState(false);
 
+    const [rotating, setRotating] = useState(item.rotating);
+
     function deleteItem(e: any) {
         if (!window.confirm('Are you sure you want to delete this?')) return;
         if (user.role != 'Admin') return alert('You are not authorized.');
@@ -34,15 +36,50 @@ export default function SearchItem(props: any) {
         .catch((err) => {
             console.log('err', err);
         });
-    }
+    };
+
+    function updateItem(e: any) {
+        if (user.role != 'Admin') return alert('You are not authorized.');
+
+        const cfg = {
+            method: 'POST',
+            url: `${PATH}/updateFoodItem`,
+            data: {
+                query: { id: item.id },
+                changeThis: { rotating: e.target.checked }
+            }
+        };
+
+        alert('You have confirmed.');
+
+        axios(cfg)
+        .then((res) => {
+            getAll();
+        })
+        .catch((err) => {
+            console.log('err', err);
+        });
+    };
     
    return(<div key={item.name} className={`flex flex-col justify-center items-center border p-6 w-10/12 max-w-lg m-4 rounded-xl bg-gray-900 text-teal border-gray-900`}>
     
     <TitleChange value={item.name} id={item.id} />
     <p className="text-xl truncate w-11/12 text-center font-thin">{item.id} <span className="text-3xl">|</span> {upperFirstChar(item.vendor)}</p>
+
     <button onClick={() => {setDaysVisible(!daysVisible)}} className="text-teal hover:scale-110 m-4 font-black border-0 rounded-full bg-gray-700 p-4" children={daysVisible ? 'Hide Item Schedule' : 'See Item Schedule'} />
 
         {daysVisible && <>
+
+            <div className="flex gap-2 pb-4">
+                <span className="uppercase font-light tracking-wide">Rotating:</span>
+                <input type="checkbox" value={rotating} checked={rotating} onChange={(e) => {
+                    if (!window.confirm(`Confirm rotating item status for ${item.name}?`)) return;
+
+                    updateItem(e);
+                    setRotating(e.target.checked);
+                }} />
+            </div>
+
             <div className={`flex flex-col justify-center items-center gap-1 h-11/12 overflow-scroll`}>
                 {weekdays.map((day) => { return <SearchCheckbox key={`${item.id}/${day}`} item={item} dayOfWeek={day} /> })}
             </div>

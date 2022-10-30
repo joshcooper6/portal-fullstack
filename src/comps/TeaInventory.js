@@ -55,8 +55,8 @@ export default function TeaInventory(props) {
     const formStyles = {
         container: `min-w-screen flex flex-col`,
         header: `text-left text-6xl p-6 uppercase font-thin self-center max-w-lg`,
-        elements: `w-full uppercase text-2xl font-light tracking-widest text-center hover:cursor-pointer p-4 border rounded-xl max-w-lg`,
-        form: `flex flex-col w-full items-center self-center gap-2 p-4 max-w-lg`,
+        elements: `w-full uppercase text-2xl font-light tracking-widest truncate text-center hover:cursor-pointer p-4 border rounded-xl`,
+        form: `flex flex-col w-full items-center self-center gap-2 p-4 max-w-2xl`,
         button: `mt-4 p-4 border rounded-xl w-11/12 self-center p-6 font-light uppercase text-2xl bg-blue-500 max-w-md text-white max-w-lg`,
         trello: `p-4 border rounded-xl w-11/12 self-center p-6 font-light uppercase text-2xl bg-blue-200 text-center max-w-lg text-black`,
     };

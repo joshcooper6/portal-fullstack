@@ -19,7 +19,8 @@ module.exports = {
     './src/comps/SearchCheckbox.js',
     './src/comps/CreateFoodItem.js',
     './src/comps/Button.js',
-    './src/comps/TitleChange.js'
+    './src/comps/TitleChange.js',
+    './src/comps/RotatingItem.js'
   ],
   theme: {
     extend: {},

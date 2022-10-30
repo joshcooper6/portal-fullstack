@@ -15,7 +15,6 @@ export default function CreateFoodItem() {
     const opts = ['artisan', 'misc', 'squash', 'glutenFree', 'quiche', 'empanadas'];
     const vendors = ['macrina', 'crafted', 'catapult', 'marialuisa', 'rila', 'finales'];
 
-
     const [values, setValues] = useState({
         id: "",
         name: "",
@@ -90,13 +89,11 @@ export default function CreateFoodItem() {
         // console.log(values)
     }, [values]);
 
-    const renderOpts = opts.map((opt) => {
-        return <option key={opt} id={opt} value={opt} children={upperFirstChar(opt)}/>
-    });
-
-    const rendorVendors = vendors.map((opt) => {
-        return <option key={opt} id={opt} value={opt} children={upperFirstChar(opt)}/>
-    });
+    const renderOptions = (array) => {
+        return array.map((opt) => {
+            return <option key={opt} id={opt} value={opt} children={upperFirstChar(opt)}/>
+        });
+    };
  
     return(<>
 
@@ -133,51 +130,33 @@ export default function CreateFoodItem() {
 
                 </div>
 
-                {/* <div className="flex gap-2">
-                    <span className="text-xl uppercase font-light self-center">Vendor:</span>
-                    <input 
-                        className="rounded-full p-2"
-                        type={'text'}
-                        onChange={hc}
-                        name={'vendor'}
-                        required
-                    />
-                </div> */}
-
                 <div className="flex gap-2">
                     <span className="text-xl w-1/2 uppercase font-light self-center">Vendor</span>
-                    <select className="p-2 w-3/4 rounded-full font-black" name={'vendor'} onChange={hc}>
-                        {rendorVendors}
-                    </select>
+                    <select 
+                        className="p-2 w-3/4 rounded-full font-black" 
+                        name={'vendor'}
+                        onChange={hc}
+                        children={renderOptions(vendors)}
+                    />
                 </div>
+
                 <div className="flex gap-2">
                     <span className="text-xl w-1/2 uppercase font-light self-center">Group Position:</span>
-                    <select className="p-2 w-3/4 rounded-full font-black" name={'positions'} onChange={(e) => {
-                                setValues((prev) => ({
-                                    ...prev,
-                                    [e.target.name]: {
-                                        ...prev?.[e.target.name],
-                                        group: e.target.value
-                                    }
-                                }))
-                            }}>
-                        {renderOpts}
-                    </select>
-                    {/* <input 
-                            className="rounded-full p-2"
-                            type={'text'}
-                            onChange={(e) => {
-                                setValues((prev) => ({
-                                    ...prev,
-                                    [e.target.name]: {
-                                        ...prev?.[e.target.name],
-                                        group: e.target.value
-                                    }
-                                }))
-                            }}
-                            name={'positions'}
-                            required
-                    /> */}
+                    <select 
+                        className="p-2 w-3/4 rounded-full font-black" 
+                        name={'positions'} 
+                        onChange={(e) => {
+                            setValues((prev) => ({
+                                ...prev,
+                                [e.target.name]: {
+                                    ...prev?.[e.target.name],
+                                    group: e.target.value
+                                }
+                            }))
+                        }}
+                        children={renderOptions(opts)}
+                    />
+
                 </div>
 
                 <button
