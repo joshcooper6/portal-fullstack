@@ -31,6 +31,7 @@ app.get('/getAll', async (req, res) => {
   await Food.find({})
     .then((numbers) => {
       res.send({target: numbers})
+      console.log(numbers)
     })
     .catch((err) => {
       res.send({err})

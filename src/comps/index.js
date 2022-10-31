@@ -17,3 +17,4 @@ export { default as CreateFoodItem } from './CreateFoodItem';
 export { default as Button } from './Button';
 export { default as TitleChange } from './TitleChange'
 export { default as RotatingItem } from './RotatingItem';
+export { default as Spinner } from './Spinner';

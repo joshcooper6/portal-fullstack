@@ -20,7 +20,8 @@ module.exports = {
     './src/comps/CreateFoodItem.js',
     './src/comps/Button.js',
     './src/comps/TitleChange.js',
-    './src/comps/RotatingItem.js'
+    './src/comps/RotatingItem.js',
+    './src/comps/Spinner.js'
   ],
   theme: {
     extend: {},

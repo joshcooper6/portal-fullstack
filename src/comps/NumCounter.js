@@ -154,8 +154,6 @@ export default function NumCounter(props) {
                                return `${item.name} = ${item.currentTotal}`;
                         }); 
 
-                
-                        
                         let msg = nums.join('\n');
                         console.log('nums', nums); 
                         console.log('sorted', sortedNumbers)

@@ -3,6 +3,7 @@ import { PATH } from "../confgs";
 import axios from "axios";
 import logo from '../assets/logo.png';
 import Cookies from "universal-cookie";
+import Spinner from "./Spinner";
 const cookies = new Cookies();
 
 export default function LoginForm(props) {
@@ -19,7 +20,8 @@ export default function LoginForm(props) {
           button: 'Login to existing account'
         }
       };
-    
+      
+      const [loading, setLoading] = useState(false);
       const [formStatus, setFormStatus] = useState(ROUTES.LOGIN);
       const [serverMsg, setServerMsg] = useState("");
       const [formData, setFormData] = useState({
@@ -79,11 +81,14 @@ export default function LoginForm(props) {
             data: formData
         };
 
+        setLoading(true);
+
         await axios(config)
           .then((res) => {
             let data = res.data;
             renderFromResponse(data);
             console.log(data);
+            setLoading(false);
           })
           .catch((err) => {
             console.log(err)
@@ -97,9 +102,9 @@ export default function LoginForm(props) {
       };
 
     return(<>
-        <div className="box">
+        <div className={`box ${loading && 'hidden'}`}>
                 <div className='form'>
-                    <form autoComplete="off" onSubmit={hs} className="content">
+                    <form autoComplete="off" className="content">
                         <div className="flex w-full justify-between">
                             <img className="w-1/3 opacity-30 self-center" src={logo} alt="UCL logo" />
                             <h2 className="self-center">{formStatus.title}</h2>
@@ -119,10 +124,16 @@ export default function LoginForm(props) {
                             {/* <a href={'#'} children={'Forgot Password'} /> */}
                             <p onClick={buttonToggle} children={ formStatus.title === 'Register' ? 'Sign In' : 'Sign Up' } />
                         </div>
-                        <button  type="submit" className="submit" children={formStatus.title} />
+                        <button onClick={hs} type="submit" className="submit" children={formStatus.title} />
                     </form>
                 </div>
             </div>
+
+            <div className={`${!loading && 'hidden'}`}>
+              <Spinner />
+              <b className="text-teal">Logging in...</b>
+            </div>
+            
             <p className="text-white font-light text-sm fixed top-10">{serverMsg}</p>
     </>)
 };

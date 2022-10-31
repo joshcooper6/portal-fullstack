@@ -4,12 +4,13 @@ import axios from 'axios';
 import OpenApp from 'react-open-app';
 import Button from "./Button";
 import { PATH } from "../confgs";
-import { Navigate } from "react-router-dom";
+import { Spinner } from '../comps';
 
 export default function TeaInventory(props) {
     
     const { user } = useContext(NumsContext);
     const [tea, setTea] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [input, setInput] = useState([]);
 
     const getTea = async () => {
@@ -18,8 +19,11 @@ export default function TeaInventory(props) {
             url: `${PATH}/getTea`
         };
 
+        setLoading(true);
+
         axios(foodConfig)
             .then((res) => {
+                setLoading(false);
                 setTea(res.data.target);
             })
             .catch((err) => {
@@ -194,7 +198,9 @@ export default function TeaInventory(props) {
     }, [])
 
     return(<>
-        <div className={formStyles.container}>
+        {loading && <Spinner />}
+
+        <div className={`${formStyles.container} ${loading && 'hidden'}`}>
 
             <Button state={showComp} setState={setShowComp} labels={{show: 'Report Tea Inventory', hide: 'Hide Tea Inventory'}} />
 

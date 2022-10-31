@@ -15,7 +15,7 @@ export default function CreateFoodItem() {
     const opts = ['artisan', 'misc', 'squash', 'glutenFree', 'quiche', 'empanadas'];
     const vendors = ['macrina', 'crafted', 'catapult', 'marialuisa', 'rila', 'finales'];
 
-    const [values, setValues] = useState({
+    const foodForm = {
         id: "",
         name: "",
         vendor: vendors[0],
@@ -53,7 +53,9 @@ export default function CreateFoodItem() {
             morning: false,
             afternoon: false,
         },
-    });
+    };
+
+    const [values, setValues] = useState(foodForm);
 
     const hc = (e) => {
         setValues((prev) => ({
@@ -62,7 +64,7 @@ export default function CreateFoodItem() {
         }));
     };
 
-    const postToDB = () => {
+    const postToDB = async () => {
         const config = {
             method: 'post',
             url: `${PATH}/createFood`,
@@ -73,6 +75,7 @@ export default function CreateFoodItem() {
         .then((succ) => {
             alert(`${values.name} has been created successfully!`);
             setShowForm(false);
+            setValues(foodForm);
             getAll();
         })
         .catch((err) => {
@@ -86,7 +89,7 @@ export default function CreateFoodItem() {
     };
 
     useEffect(() => {
-        // console.log(values)
+        console.log(values)
     }, [values]);
 
     const renderOptions = (array) => {
@@ -103,77 +106,85 @@ export default function CreateFoodItem() {
             labels={{show: 'Create New Food Item', hide: 'Hide Create Food Item'}}
         />
 
-        <div className={`${!showForm && 'hidden'} flex flex-col justify-center items-center text-center m-4`}>
-            <h1 className="text-slate-900 font-black text-3xl mb-4">Create New Food</h1>
-            <form className="flex-col flex gap-2 justify-center">
-                <div className="flex gap-2 self-center">
-                    <span className="text-xl uppercase font-light self-center">Name:</span>
-                    <input 
-                        className="rounded-full p-2"
-                        type={'text'}
-                        onChange={hc}
-                        name={'name'}
-                        required
-                    />
-                </div>
+        <div className={`${!showForm && 'hidden'} flex flex-col max-w-lg self-center m-4 w-10/12`}>
+            <h1 className="text-slate-900 uppercase font-black text-4xl mb-4">Create New Food</h1>
+            <form className="flex flex-col gap-4">
+                    <div className="flex gap-2">
+                        <span className="text-xl uppercase font-light self-center w-1/3">Name:</span>
+                        <input 
+                            className="rounded-full p-2 w-2/3"
+                            type={'text'}
+                            value={values.name}
+                            onChange={hc}
+                            name={'name'}
+                            required
+                        />
+                    </div>
 
-                <div className="flex gap-2 self-center">
 
-                    <span className="text-xl uppercase font-light self-center">ID:</span>
-                    <input 
-                        className="rounded-full p-2"
-                        type={'text'}
-                        onChange={hc}
-                        name={'id'}
-                        required
-                    />
 
-                </div>
+                    <div className="flex gap-2">
+                        <span className="text-xl uppercase font-light self-center w-1/3">ID:</span>
+                        <input 
+                            className="rounded-full p-2 w-2/3"
+                            type={'text'}
+                            onChange={hc}
+                            value={values.id}
+                            name={'id'}
+                            required
+                        />
+                    </div>
 
-                <div className="flex gap-2">
-                    <span className="text-xl w-1/2 uppercase font-light self-center">Vendor</span>
-                    <select 
-                        className="p-2 w-3/4 rounded-full font-black" 
-                        name={'vendor'}
-                        onChange={hc}
-                        children={renderOptions(vendors)}
-                    />
-                </div>
 
-                <div className="flex gap-2">
-                    <span className="text-xl w-1/2 uppercase font-light self-center">Group Position:</span>
-                    <select 
-                        className="p-2 w-3/4 rounded-full font-black" 
-                        name={'positions'} 
-                        onChange={(e) => {
-                            setValues((prev) => ({
-                                ...prev,
-                                [e.target.name]: {
-                                    ...prev?.[e.target.name],
-                                    group: e.target.value
-                                }
-                            }))
-                        }}
-                        children={renderOptions(opts)}
-                    />
 
-                </div>
+                    <div className="flex gap-2">
+                        <span className="text-xl uppercase font-light self-center w-1/3">Vendor:</span>
+                        <select 
+                            className="p-2 rounded-full font-black w-2/3" 
+                            name={'vendor'}
+                            onChange={hc}
+                            value={values.vendor}
+                            children={renderOptions(vendors)}
+                        />
+                    </div>
 
-                <button
+
+                    <div className="flex gap-2">
+                        <span className="text-xl uppercase font-light self-center w-1/3">Group:</span>
+                        <select 
+                            className="p-2 rounded-full font-black w-2/3" 
+                            name={'positions'} 
+                            value={values.positions.group}
+                            onChange={(e) => {
+                                setValues((prev) => ({
+                                    ...prev,
+                                    [e.target.name]: {
+                                        ...prev?.[e.target.name],
+                                        group: e.target.value
+                                    }
+                                }))
+                            }}
+                            children={renderOptions(opts)}
+                        />
+                    </div>
+            </form>
+            
+            <button
                     onClick={(e) => { e.preventDefault(); setConfirmDays(!confirmDays) }}
-                    children={confirmDays ? 'Hide Days Needed' : 'Want to set the days needed now?'}
-                    className={`border rounded-full p-2 font-black bg-slate-900 text-white`}
+                    children={confirmDays ? 'Hide Schedule' : 'Set Schedule'}
+                    className={`hidden border w-full rounded-full p-2 font-black bg-slate-900 text-white`}
                 />
 
                 {confirmDays && <>
                         {weekdays.map((day) => {
                             return <div key={`createFood_${day}`}>
-                            <span className="m-4 font-black text-xl">{upperFirstChar(day)}</span>
+                            <span className="m-4 font-black text-2xl">{upperFirstChar(day)}</span>
                             <div className="flex gap-4 justify-center">
                                 <span className="uppercase text-xl font-light">Morning:</span>
                                 <input
                                     type="checkbox"
                                     name={'morning'}
+                                    value={`${[day]}.morning`}
                                     onChange={(e) => {
                                         setValues((prev) => ({
                                             ...prev,
@@ -189,6 +200,7 @@ export default function CreateFoodItem() {
                                 <input 
                                     type="checkbox"
                                     name="afternoon"
+                                    value={`${[day]}.afternoon`}
                                     onChange={(e) => {
                                         setValues((prev) => ({
                                             ...prev,
@@ -207,10 +219,10 @@ export default function CreateFoodItem() {
             
                 <button
                     onClick={hs}
-                    className="w-full border-0 rounded-full p-2 bg-white text-slate-900 font-black"
+                    className="w-full mt-6 border-0 rounded-full p-2 bg-slate-900 text-white font-black uppercase"
                     children={'Submit'}
                 />
-            </form>
+
         </div>
     </>)
 }

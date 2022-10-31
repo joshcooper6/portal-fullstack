@@ -50,7 +50,8 @@ export default function SearchItem(props: any) {
             }
         };
 
-        alert('You have confirmed.');
+        alert('You have confirmed the change in rotation.');
+        console.log(cfg.data);
 
         axios(cfg)
         .then((res) => {
@@ -71,9 +72,9 @@ export default function SearchItem(props: any) {
         {daysVisible && <>
 
             <div className="flex gap-2 pb-4">
-                <span className="uppercase font-light tracking-wide">Rotating:</span>
-                <input type="checkbox" value={rotating} checked={rotating} onChange={(e) => {
-                    if (!window.confirm(`Confirm rotating item status for ${item.name}?`)) return;
+                <span className="uppercase font-light tracking-wide self-center">Rotating:</span>
+                <input type="checkbox" value={rotating} checked={rotating} className="self-center" onChange={(e) => {
+                    if (!window.confirm(`Is it ${e.target.checked} that ${item.name} is rotating?`)) return;
 
                     updateItem(e);
                     setRotating(e.target.checked);
