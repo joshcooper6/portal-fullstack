@@ -81,7 +81,7 @@ export default function SearchItem(props: any) {
                 }} />
             </div>
 
-            <div className={`flex flex-col justify-center items-center gap-1 h-11/12 overflow-scroll`}>
+            <div className={`flex flex-col justify-center items-center gap-1 h-11/12`}>
                 {weekdays.map((day) => { return <SearchCheckbox key={`${item.id}/${day}`} item={item} dayOfWeek={day} /> })}
             </div>
 

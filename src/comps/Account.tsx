@@ -7,7 +7,7 @@ export default function Account(props: any) {
       return (
         <div className="flex container flex-col min-h-screen min-w-screen align-center text-center justify-center ">
           <LoginForm />
-          { cookies.get('session-token') && <Navigate to="/dashboard" /> }
+          { cookies.get('session-token') ? <Navigate to="/dashboard" /> : null }
         </div>
       );
 }

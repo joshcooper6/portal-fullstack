@@ -3,9 +3,6 @@ import { Navigate, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import NumsContext from "../context/NumsContext";
 import { PATH } from "../confgs";
-import logo from '../assets/logo.png';
-import search from '../assets/search.svg';
-import Fuse from 'fuse.js';
 import { Header, LogoutButton, CreateFoodItem, Spinner, Broadcast, RotatingItem, Search, NumCounter, UpdRotating, Reports, TeaInventory } from './';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
@@ -52,9 +49,12 @@ export default function Dashboard(props: any) {
             },
         };
 
+        setLoading(true);
+
         axios(configuration)
             .then((result) => {
                 setUser(result.data.user);
+                setLoading(false);
                 getAll().then(() => console.log('food loaded'));
             })
             .catch((error) => {
@@ -90,10 +90,11 @@ return(<>
                 </div>
                 
                 { loading ? <Spinner /> : <NumCounter /> }
-                {/* <NumCounter /> */}
-                <CreateFoodItem />
-                {/* <Reports /> */}
-                {user?.role === 'Admin' && <TeaInventory /> }
+
+                {user?.role === 'Admin' && <>
+                    <CreateFoodItem />
+                    <TeaInventory />
+                </>}
 
                 {/* <div className="self-center w-full flex flex-col items-center justify-center">
                     {rotatingNums.map((item: any) => {

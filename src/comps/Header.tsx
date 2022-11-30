@@ -9,7 +9,7 @@ export default function Header(props: any) {
     const { user, showSearch, setShowSearch } = useContext(NumsContext);
 
     return(<>
-                <div className="bg-gray-900 drop-shadow-xl p-6 justify-between self-center text-center w-screen flex flex-row-reverse">
+                <div className="bg-slate-900 drop-shadow-xl p-6 justify-between self-center text-center w-screen flex flex-row-reverse">
                     <div id="HEADER_TEXT" className="self-center flex flex-col">
                         <h2 className="text-teal self-end flex lg:text-4xl text-xl font-black uppercase">Welcome {user?.firstName} <span className="md:flex text-teal hidden font-thin">/{user?.username}</span></h2>
                         <div className="flex flex-col self-end">
