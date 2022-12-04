@@ -72,6 +72,10 @@ const FoodSchema = new Mongoose.Schema({
             afternoon: false
         }
     },
+    "currentTotal": {
+        type: Number,
+        default: 0
+    },
 }, {
     timestamps: true
 });

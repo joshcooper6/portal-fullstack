@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react"
-import NumsContext from "../context/NumsContext"
+import { useEffect, useState } from "react"
 import axios from 'axios';
 import OpenApp from 'react-open-app';
 import Button from "./Button";
@@ -8,7 +7,6 @@ import { Spinner } from '../comps';
 
 export default function TeaInventory(props) {
     
-    const { user } = useContext(NumsContext);
     const [tea, setTea] = useState([]);
     const [loading, setLoading] = useState(false);
     const [input, setInput] = useState([]);
@@ -86,7 +84,7 @@ export default function TeaInventory(props) {
 
         setInput((prev) => {
             if (prev.includes(e.target.textContent)) {
-                let filter = prev.filter((x) => x != e.target.textContent);
+                let filter = prev.filter((x) => x !== e.target.textContent);
                 setInput(filter)
             } else {
                 return [
@@ -110,7 +108,7 @@ export default function TeaInventory(props) {
 
         setInput((prev) => {
             if (prev.includes(e.target.textContent)) {
-                let filter = prev.filter((x) => x != e.target.textContent);
+                let filter = prev.filter((x) => x !== e.target.textContent);
                 setInput(filter)
             } else {
                 return [

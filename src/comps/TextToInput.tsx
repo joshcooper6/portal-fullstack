@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import NumsContext from '../context/NumsContext';
 
 
 export default function TextToInput(props: any) {
@@ -13,7 +14,8 @@ export default function TextToInput(props: any) {
     const total = (eval(`${counted.front} + ${counted.back} + ${counted.counterTally}`));
 
     const [showManual, setShowManual] = useState(false);
-    const { setNumsNeeded, numsNeeded, user } = props;
+    const { setNumsNeeded, numsNeeded, user, setFoodDB } = props;
+    // const {foodDB, setFoodDB} = useContext(NumsContext)
 
     const handleClick = () => {
         setShowInp(!showInp)
@@ -24,7 +26,7 @@ export default function TextToInput(props: any) {
     };
 
     useEffect(() => {
-        setNumsNeeded((prev:any) => 
+        setFoodDB((prev:any) => 
         prev.map((object:any) => {
             if(object.id === props.id) {
                 return {...object, name: val }
@@ -33,11 +35,11 @@ export default function TextToInput(props: any) {
             return object;
         })
     );
-    }, [val]);
+    }, [val, props.id, setNumsNeeded]);
 
 
     useEffect(() => {
-        setNumsNeeded((prev:any) => 
+        setFoodDB((prev:any) => 
             prev.map((object:any) => {
                 if(object.id === props.id) {
                     return {...object, currentTotal: total }
@@ -46,7 +48,7 @@ export default function TextToInput(props: any) {
                 return object;
             })
         );
-    }, [counted]);
+    }, [counted, props.id, setNumsNeeded, total]);
 
     const tw = {
         styles: `

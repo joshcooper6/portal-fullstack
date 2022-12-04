@@ -62,6 +62,10 @@ export default function Dashboard(props: any) {
             });
     }, []);    
 
+    // useEffect(() => {
+    //     foodDB.forEach((num: any) => { num.currentTotal = 0 })
+    // }, [foodDB]);
+
     const provVals = {
         getAll,
         user,

@@ -14,10 +14,8 @@ import numInOrder from '../funcs/numInOrder';
 
 export default function NumCounter(props) {
 
-    const { user, foodDB, getAll } = useContext(NumsContext);
+    const { user, foodDB, getAll, setFoodDB } = useContext(NumsContext);
     const [repNums, setRepNums] = useState(false);
-    const [numsNeeded, setNumsNeeded] = useState([]);
-    const sortedNumbers = numInOrder(numsNeeded);
 
     const filterDB = (string, timeOfDay) => {
         return foodDB.filter((num) => {
@@ -27,6 +25,10 @@ export default function NumCounter(props) {
 
     const [currentDay, setCurrentDay] = useState(dayString());
     const [currentTime, setCurrentTime] = useState('afternoon');
+
+    const numsNeeded = filterDB(currentDay, currentTime);
+    const sortedNumbers = numInOrder(numsNeeded);
+
 
     // const postNums = () => {
     //     const date = new Date();
@@ -58,16 +60,9 @@ export default function NumCounter(props) {
     // };
 
     // useEffect(() => {
-    //     returnDate()
-    // }, [])
+    //     if (repNums) { setNumsNeeded( filterDB(currentDay, currentTime) ); console.log(`food nums loaded for ${currentDay} ${currentTime}`) };
+    // });
 
-    useEffect(() => {
-        if (repNums) { setNumsNeeded( filterDB(currentDay, currentTime) ); console.log(`food nums loaded for ${currentDay} ${currentTime}`) };
-    }, [repNums, currentTime, currentDay]);
-
-    useEffect(() => {
-        foodDB.forEach((num) => { num.currentTotal = 0 })
-    }, [foodDB]);
 
     // useEffect(() => {
     //     copy(resultInOrder(numsNeeded))
@@ -115,19 +110,20 @@ export default function NumCounter(props) {
                    
                     </> : <>
 
-                        {sortedNumbers.map((obj) => {
-                            if (obj.name === undefined) return;
-                            return (<TextToInput
-                                        key={obj._id} 
-                                        setNumsNeeded={setNumsNeeded} 
-                                        numsNeeded={numsNeeded}
+                        { sortedNumbers.map((obj) => {
+                            if (obj.name === undefined) return null;
+                            return ( <TextToInput
+                                        key={`${obj.id}/${obj._id}`} 
+                                        // setNumsNeeded={setNumsNeeded} 
+                                        // numsNeeded={numsNeeded}
+                                        setFoodDB={setFoodDB}
                                         id={obj.id}
                                         value={obj.name} 
                                         user={user}
-                                    />)
-                        })}
+                                    /> )
+                        }) }
 
-                    </>}
+                    </> }
                     
 
                 </div>

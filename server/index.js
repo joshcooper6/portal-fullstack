@@ -332,7 +332,8 @@ app.post('/createFood', async (req, res) => {
         friday: data.friday,
         saturday: data.saturday,
         positions: data.positions,
-        rotating: data.rotating
+        rotating: data.rotating,
+        currentTotal: 0
     }).then(() => {
       res.send({success: true, message: 'Food has been added to DB!'})
     }).catch((err) => {
