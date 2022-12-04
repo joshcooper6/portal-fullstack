@@ -12,7 +12,7 @@ export default function CreateFoodItem() {
     const [showForm, setShowForm] = useState(false);
     const [confirmDays, setConfirmDays] = useState(false);
 
-    const opts = ['artisan', 'misc', 'squash', 'glutenFree', 'quiche', 'empanadas'];
+    const opts = ['artisan', 'misc', 'crafted', 'squash', 'glutenFree', 'quiche', 'empanadas'];
     const vendors = ['macrina', 'crafted', 'catapult', 'marialuisa', 'rila', 'finales'];
 
     const foodForm = {
